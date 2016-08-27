@@ -17,7 +17,6 @@
 #include <QDebug>
 #include <QLibrary>
 
-//Дефайны
 #define DLLEXPORT extern "C" __cdecl
 #define PRINT_FUNC_INFO qInfo("Call: %s", Q_FUNC_INFO);
 #define PRINT_RESULT(X) qInfo().noquote() << "Return:" << X;
@@ -26,6 +25,14 @@
 static QLibrary codegen;
 static SceneModel *sceneModel1 = nullptr;
 static SceneModel *sceneModel2 = nullptr;
+TBuildGetParamsProc buildGetParamsProc = nullptr;
+TBuildMakePrj buildMakePrj = nullptr;
+TBuildCompliteProc buildCompliteProc = nullptr;
+TBuildRunProc buildRunProc = nullptr;
+TBuildStopProc buildStopProc = nullptr;
+TBuildPrepareProc buildPrepareProcLib = nullptr;
+TBuildProcessProc buildProcessProcLib = nullptr;
+TCheckVersionProc checkVersionProcLib = nullptr;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 {
