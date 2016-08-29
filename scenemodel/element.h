@@ -139,11 +139,11 @@ public:
 
     //Property
     int getCountProps() const;
-    PProperty getPropertyByIndex(int index) const;
-    PProperty getIdPropertyByIndex(int index) const;
-    PProperty getPropertyById(PProperty id_prop) const;
-    PProperty getPropertyByName(const QString &name) const;
-    PProperty getIdPropertyByName(const QString &name) const;
-    PProperty addProperty(PProperty property);
+    Property * getPropertyByIndex(int index) const;
+    Property * getIdPropertyByIndex(int index) const;
+    Property * getPropertyById(Property * id_prop) const;
+    Property * getPropertyByName(const QString &name) const;
+    Property * getIdPropertyByName(const QString &name) const;
+    Property * addProperty(Property * property);
     void removeProperty(int index);
 };

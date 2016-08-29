@@ -64,7 +64,7 @@ EXPORT int elGetPropCount(int id_element)
 }
 
 //ru Возвращает id свойства элемента по индексу, с порядковым номером из INI.
-EXPORT PProperty elGetProperty(int id_element, int index)
+EXPORT Property *elGetProperty(int id_element, int index)
 {
     const PElement e = m_model->getElementById(id_element);
     if (!e)
@@ -80,7 +80,7 @@ EXPORT bool elIsDefProp(int id_element, int index)
     if (!e)
         return false;
 
-    PProperty p = e->getPropertyByIndex(index);
+    Property *p = e->getPropertyByIndex(index);
     if (!p)
         return false;
 
@@ -139,7 +139,7 @@ EXPORT int elGetPtCount(int id_element)
 }
 
 //ru Возвращает ID точки по её индексу.
-EXPORT Point * elGetPt(int id_element, int index)
+EXPORT Point *elGetPt(int id_element, int index)
 {
     const PElement e = m_model->getElementById(id_element);
     if (!e)
@@ -149,7 +149,7 @@ EXPORT Point * elGetPt(int id_element, int index)
 }
 
 //ru Возвращает ID точки по её имени.
-EXPORT Point * elGetPtName(int id_element, const char *name)
+EXPORT Point *elGetPtName(int id_element, const char *name)
 {
     const PElement e = m_model->getElementById(id_element);
     if (!e)
@@ -241,7 +241,7 @@ EXPORT int elGetEID(int id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем ID точки с которой соединена указанная.
 //TODO ЧТО ДЕЛАТЬ???
-EXPORT Point * ptGetLinkPoint(Point * id_point)
+EXPORT Point *ptGetLinkPoint(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -251,7 +251,7 @@ EXPORT Point * ptGetLinkPoint(Point * id_point)
 
 //ru Получаем ID точки с которой соединена указанная,
 //ru без учета точек разрыва и хабов.
-EXPORT Point * ptGetRLinkPoint(Point * id_point)
+EXPORT Point *ptGetRLinkPoint(Point *id_point)
 {
     Q_CHECK_PTR(id_point);
 
@@ -259,14 +259,14 @@ EXPORT Point * ptGetRLinkPoint(Point * id_point)
 }
 
 //ru Получаем тип точки.
-EXPORT PointType ptGetType(Point * id_point)
+EXPORT PointType ptGetType(Point *id_point)
 {
     Q_CHECK_PTR(id_point);
     return id_point->getType();
 }
 
 //ru Возвращает имя точки.
-EXPORT const char *ptGetName(Point * id_point)
+EXPORT const char *ptGetName(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -275,7 +275,7 @@ EXPORT const char *ptGetName(Point * id_point)
 }
 
 //ru Получаем ID родителя (элемент) точки.
-EXPORT int ptGetParent(Point * id_point)
+EXPORT int ptGetParent(Point *id_point)
 {
     if (!id_point)
         return 0;
@@ -286,7 +286,7 @@ EXPORT int ptGetParent(Point * id_point)
 }
 
 //ru Получаем индекс точки относительно точек того же типа.
-EXPORT int ptGetIndex(Point * id_point)
+EXPORT int ptGetIndex(Point *id_point)
 {
     if (!id_point)
         return 0;
@@ -295,7 +295,7 @@ EXPORT int ptGetIndex(Point * id_point)
 }
 
 //ru Возвращает базовую часть имени динамической точки(для CI_DPElement).
-EXPORT const char *pt_dpeGetName(Point * id_point)
+EXPORT const char *pt_dpeGetName(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -305,7 +305,7 @@ EXPORT const char *pt_dpeGetName(Point * id_point)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает тип свойства.
-EXPORT DataType propGetType(PProperty prop)
+EXPORT DataType propGetType(Property *prop)
 {
     if (!prop)
         return data_null;
@@ -314,7 +314,7 @@ EXPORT DataType propGetType(PProperty prop)
 }
 
 //ru Возвращает имя свойства.
-EXPORT const char *propGetName(PProperty prop)
+EXPORT const char *propGetName(Property *prop)
 {
     if (!prop)
         return nullptr;
@@ -323,7 +323,7 @@ EXPORT const char *propGetName(PProperty prop)
 }
 
 //ru Возвращает значение свойства в виде указателя на данные.
-EXPORT PValue propGetValue(PProperty prop)
+EXPORT PValue propGetValue(Property *prop)
 {
     if (!prop)
         return nullptr;
@@ -336,7 +336,7 @@ EXPORT PValue propGetValue(PProperty prop)
 }
 
 //ru Возвращает значение свойства в формате uchar.
-EXPORT uchar propToByte(PProperty prop)
+EXPORT uchar propToByte(Property *prop)
 {
     if (!prop)
         return 0;
@@ -345,7 +345,7 @@ EXPORT uchar propToByte(PProperty prop)
 }
 
 //ru Возвращает значение свойства в формате int.
-EXPORT int propToInteger(PProperty prop)
+EXPORT int propToInteger(Property *prop)
 {
     if (!prop)
         return 0;
@@ -354,7 +354,7 @@ EXPORT int propToInteger(PProperty prop)
 }
 
 //ru Возвращает значение свойства в формате float.
-EXPORT qreal propToReal(PProperty prop)
+EXPORT qreal propToReal(Property *prop)
 {
     if (!prop)
         return 0;
@@ -363,7 +363,7 @@ EXPORT qreal propToReal(PProperty prop)
 }
 
 //ru Возвращает значение свойства в виде C строки.
-EXPORT const char *propToString(PProperty prop)
+EXPORT const char *propToString(Property *prop)
 {
     if (!prop)
         return 0;
@@ -382,7 +382,7 @@ EXPORT int resAddFile(const char *filePath)
 
 //ru Добавляет иконку в ресурсы и в список временных файлов,
 //ru и возвращают имя временного файла.
-EXPORT const char *resAddIcon(PProperty id_prop)
+EXPORT const char *resAddIcon(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
@@ -398,7 +398,7 @@ EXPORT const char *resAddStr(const char *string)
 //ru и возвращает имя временного файла.
 //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
 //ru работы с библиотекой.
-EXPORT const char *resAddStream(PProperty id_prop)
+EXPORT const char *resAddStream(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
@@ -407,7 +407,7 @@ EXPORT const char *resAddStream(PProperty id_prop)
 //ru и возвращает имя временного файла.
 //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
 //ru работы с библиотекой.
-EXPORT const char *resAddWave(PProperty id_prop)
+EXPORT const char *resAddWave(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
@@ -416,7 +416,7 @@ EXPORT const char *resAddWave(PProperty id_prop)
 //ru и возвращает имя временного файла.
 //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
 //ru работы с библиотекой.
-EXPORT const char *resAddBitmap(PProperty id_prop)
+EXPORT const char *resAddBitmap(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
@@ -488,14 +488,14 @@ EXPORT int arrItemData(int id_array, int index)
 //ru Получаем элемент массива в виде свойства (id_prop) Оо,
 //ru для дальнейшей работы с ним cgt::prop* функциями.
 //TODO Утечка
-EXPORT PProperty arrGetItem(PValue array, int index)
+EXPORT Property *arrGetItem(PValue array, int index)
 {
     if (!array)
         return nullptr;
 
     const PValue arrValue = array->getArrayItemByIndex(index);
     if (arrValue) {
-        const PProperty prop = new Property(arrValue->getType(), arrValue->getValue(), arrValue->getName());
+        Property *prop = new Property(arrValue->getType(), arrValue->getValue(), arrValue->getName());
 
         return prop;
     }
@@ -641,7 +641,7 @@ EXPORT void elSetData(int id_element, int data)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает тип данных точки.
-EXPORT DataType ptGetDataType(Point * id_point)
+EXPORT DataType ptGetDataType(Point *id_point)
 {
     if (!id_point)
         return data_null;
@@ -727,7 +727,7 @@ EXPORT int plGetOwner(int id_prop)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает описание точки.
 //[deprecated]
-EXPORT const char *ptGetInfo(Point * id_point)
+EXPORT const char *ptGetInfo(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -743,7 +743,7 @@ EXPORT int propGetLinkedElement(int id_element, const char *propName)
     if (!e)
         return 0;
 
-    PProperty p = e->getPropertyByName(QString::fromLocal8Bit(propName));
+    Property *p = e->getPropertyByName(QString::fromLocal8Bit(propName));
     if (!p)
         return 0;
 
@@ -769,13 +769,13 @@ EXPORT int propIsTranslate(int id_element, int id_prop)
      * Например в строке из INI: FormFastening=Форма для привязки позиции|20|(empty)|ControlManager
      * ControlManager - является той самой информацией передаваемой нам в buf.
      */
-EXPORT int propGetLinkedElementInfo(int id_element, PProperty id_prop, char *buf)
+EXPORT int propGetLinkedElementInfo(int id_element, Property *id_prop, char *buf)
 {
     const PElement e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
-    PProperty p = e->getPropertyById(id_prop);
+    Property *p = e->getPropertyById(id_prop);
     if (!p)
         return 0;
 
@@ -897,7 +897,7 @@ EXPORT int elGetGroup(int id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Сохраняет данные свойства в файл.
 //[deprecated]
-EXPORT int propSaveToFile(PProperty id_prop, const char *fileName)
+EXPORT int propSaveToFile(Property *id_prop, const char *fileName)
 {
     Q_UNUSED(id_prop)
     Q_UNUSED(fileName)

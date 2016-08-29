@@ -161,7 +161,7 @@ void Property::collectingData(int idProp)
     }
 }
 
-QVariantMap Property::serialize()
+QVariantMap Property::serialize() const
 {
     QVariantMap data;
     data.insert("name", m_name);

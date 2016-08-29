@@ -14,7 +14,7 @@ Value::Value(DataType type, const QVariant &value, const QString &name, DataType
 {
 }
 
-QVariantMap Value::serialize()
+QVariantMap Value::serialize() const
 {
     QVariantMap data;
     data.insert("name", m_name);

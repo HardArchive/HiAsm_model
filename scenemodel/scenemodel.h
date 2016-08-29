@@ -94,7 +94,7 @@ public:
     qintptr getIdElementFromSDKByIndex(qintptr id_sdk, int index) const;
 
     //Resource
-    const char *addStreamRes(PProperty id_prop);
+    const char *addStreamRes(Property * id_prop);
     const char *addStringRes(const QString &str);
     void deleteResources();
     void compileResources();

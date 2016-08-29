@@ -45,7 +45,7 @@ private:
 
 public:
     //Serialize
-    QVariantMap serialize();
+    QVariantMap serialize() const;
 
     //Self
     void setName(const QString &name);

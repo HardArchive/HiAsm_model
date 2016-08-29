@@ -24,7 +24,7 @@ public:
 
 public:
     //Serialize
-    QVariantMap serialize();
+    QVariantMap serialize() const;
 
     //Self
     void setType(DataType type);

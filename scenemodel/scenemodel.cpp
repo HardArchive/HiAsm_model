@@ -218,7 +218,7 @@ qintptr SceneModel::getIdElementFromSDKByIndex(qintptr id_sdk, int index) const
     return c->getIdElementByIndex(index);
 }
 
-const char *SceneModel::addStreamRes(PProperty id_prop)
+const char *SceneModel::addStreamRes(Property * id_prop)
 {
     QString ret;
     if (!id_prop)

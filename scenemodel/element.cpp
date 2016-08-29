@@ -125,7 +125,7 @@ QVariantMap Element::serialize()
     }
 
     QVariantList properties;
-    for (const PProperty p : m_properties) {
+    for (const Property *p : m_properties) {
         properties.append(p->serialize());
     }
 
@@ -429,29 +429,25 @@ int Element::getCountProps() const
     return m_properties.size();
 }
 
-PProperty Element::getPropertyByIndex(int index) const
+Property *Element::getPropertyByIndex(int index) const
 {
     if (index < m_properties.size())
         return m_properties[index];
-    else
-        return PProperty();
+
+    return nullptr;
 }
 
-PProperty Element::getIdPropertyByIndex(int index) const
+Property *Element::getIdPropertyByIndex(int index) const
 {
-    const PProperty e = getPropertyByIndex(index);
-    if (!e)
-        return nullptr;
-
-    return e;
+    return getPropertyByIndex(index);
 }
 
-PProperty Element::getPropertyById(PProperty id_prop) const
+Property *Element::getPropertyById(Property *id_prop) const
 {
     if (!id_prop)
         return nullptr;
 
-    for (const PProperty p : m_properties) {
+    for (Property *p : m_properties) {
         if (p == id_prop) {
             return p;
         }
@@ -460,27 +456,27 @@ PProperty Element::getPropertyById(PProperty id_prop) const
     return nullptr;
 }
 
-PProperty Element::getPropertyByName(const QString &name) const
+Property *Element::getPropertyByName(const QString &name) const
 {
-    for (PProperty p : m_properties) {
+    for (Property *p : m_properties) {
         if (QString::compare(p->getName(), name, Qt::CaseInsensitive) == 0) {
             return p;
         }
     }
 
-    return PProperty();
+    return nullptr;
 }
 
-PProperty Element::getIdPropertyByName(const QString &name) const
+Property *Element::getIdPropertyByName(const QString &name) const
 {
-    PProperty p = getPropertyByName(name);
+    Property *p = getPropertyByName(name);
     if (!p)
         return nullptr;
 
     return p;
 }
 
-PProperty Element::addProperty(PProperty property)
+Property *Element::addProperty(Property *property)
 {
     m_properties.append(property);
     return property;
