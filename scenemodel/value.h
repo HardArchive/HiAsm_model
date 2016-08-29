@@ -9,6 +9,9 @@
 #include <QObject>
 #include <QVariant>
 
+class Value;
+typedef QVector<Value *> Values;
+
 class Value {
 
 private:
@@ -57,7 +60,7 @@ public:
 
     //Array
     int getArraySize() const;
-    Value * getArrayItemByIndex(uint index) const;
+    Value *getArrayItemByIndex(uint index) const;
     QString getArrayItemName(uint index) const;
 
     //Font

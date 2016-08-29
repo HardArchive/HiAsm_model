@@ -1,8 +1,8 @@
 #pragma once
 
 //Project
-#include "types.h"
 #include "cgt/CGTShare.h"
+#include "element.h"
 
 //STL
 

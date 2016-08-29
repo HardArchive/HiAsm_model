@@ -1,7 +1,6 @@
 #pragma once
 
 //Project
-#include "types.h"
 #include "value.h"
 #include "valuetypes.h"
 #include "cgt/CGTShare.h"
@@ -12,6 +11,8 @@
 #include <QObject>
 
 class SceneModel;
+class Property;
+typedef QVector<Property *> Properties;
 
 class Property : public QObject {
     Q_OBJECT
@@ -27,13 +28,13 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    SceneModel * m_model{};
+    SceneModel *m_model{};
 
     //Value
     Value m_value;
 
 private:
-    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(SceneModel *model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -65,7 +66,7 @@ public:
         const QString &name = QString(),
         DataType arrayType = data_null);
 
-    Value * getValue();
+    Value *getValue();
     uchar toByte() const;
     int toInt() const;
     qreal toReal() const;
@@ -76,5 +77,5 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    SceneModel * getModel();
+    SceneModel *getModel();
 };

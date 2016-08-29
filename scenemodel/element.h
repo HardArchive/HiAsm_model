@@ -1,7 +1,6 @@
 #pragma once
 
 //Project
-#include "types.h"
 #include "cgt/CGTShare.h"
 
 //STL
@@ -11,6 +10,11 @@
 #include <QString>
 
 class SceneModel;
+class Container;
+class Element;
+class Point;
+class Property;
+typedef QVector<Element *> Elements;
 
 class Element : public QObject {
     Q_OBJECT
@@ -39,19 +43,19 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    SceneModel * m_model{};
+    SceneModel *m_model{};
 
     //Container
-    Containers m_containers;
+    QVector<Container *> m_containers;
 
     //Point
-    Points m_points;
+    QVector<Point *> m_points;
 
     //Property
-    Properties m_properties;
+    QVector<Property *> m_properties;
 
 private:
-    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(SceneModel *model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -67,7 +71,7 @@ public:
 
     //Self
     int getId() const;
-    Container * getParent() const;
+    Container *getParent() const;
 
     void setUserData(int userData);
     qintptr getUserData() const;
@@ -118,34 +122,34 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    SceneModel * getModel();
+    SceneModel *getModel();
 
     //Container
     int getCountContainers() const;
-    Container * getContainer() const;
+    Container *getContainer() const;
     int getIdContainer() const;
-    Container * getContainerByIndex(int index) const;
+    Container *getContainerByIndex(int index) const;
     int getIdContainerByIndex(int index) const;
-    Container * addContainer(Container * container);
+    Container *addContainer(Container *container);
     void removeContainer(int index);
 
     //Point
     int getCountPoints() const;
     int getPointIndexOfType(const Point *id_point) const;
-    Point * getPointByIndex(int index) const;
-    Point * getIdPointByIndex(int index) const;
-    Point * getPointByName(const QString &name) const;
-    Point * getIdPointByName(const QString &name) const;
-    Point * addPoint(Point * point);
+    Point *getPointByIndex(int index) const;
+    Point *getIdPointByIndex(int index) const;
+    Point *getPointByName(const QString &name) const;
+    Point *getIdPointByName(const QString &name) const;
+    Point *addPoint(Point *point);
     void removePoint(int index);
 
     //Property
     int getCountProps() const;
-    Property * getPropertyByIndex(int index) const;
-    Property * getIdPropertyByIndex(int index) const;
-    Property * getPropertyById(Property * id_prop) const;
-    Property * getPropertyByName(const QString &name) const;
-    Property * getIdPropertyByName(const QString &name) const;
-    Property * addProperty(Property * property);
+    Property *getPropertyByIndex(int index) const;
+    Property *getIdPropertyByIndex(int index) const;
+    Property *getPropertyById(Property *id_prop) const;
+    Property *getPropertyByName(const QString &name) const;
+    Property *getIdPropertyByName(const QString &name) const;
+    Property *addProperty(Property *property);
     void removeProperty(int index);
 };

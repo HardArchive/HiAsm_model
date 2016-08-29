@@ -3,14 +3,16 @@
 //Project
 #include "cgt/CGTShare.h"
 #include "package/packagemanager.h"
-#include "types.h"
-#include "value.h"
+#include "property.h"
 
 //STL
 
 //Qt
 #include <QObject>
 #include <QSet>
+
+class Container;
+class Element;
 
 class SceneModel : public QObject {
     Q_OBJECT
@@ -25,11 +27,11 @@ private:
     PPackageManager m_packageManager{};
 
     //Map
-    MapContainers m_mapContainers;
-    MapElements m_mapElements;
+    QMap<qintptr, Container *> m_mapContainers;
+    QMap<qintptr, Element *> m_mapElements;
 
     //Container
-    Container * m_container{};
+    Container *m_container{};
 
     //Resource
     const QString m_resourcesDir = "resources";
@@ -53,7 +55,7 @@ private:
 
 private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
-    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(SceneModel *model READ getModel)
 
 public:
     explicit SceneModel(PPackageManager package, QObject *parent = 0);
@@ -70,7 +72,7 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    SceneModel * getModel();
+    SceneModel *getModel();
     void initFromCgt(PCodeGenTools cgt, qintptr idMainSDK);
     bool saveModel(const QString &filePath);
 
@@ -80,21 +82,21 @@ public:
     bool loadPackage(const QString &name);
 
     //Map
-    void addContainerToMap(Container * id_sdk);
-    void addElementToMap(Element * id_element);
+    void addContainerToMap(Container *id_sdk);
+    void addElementToMap(Element *id_element);
 
     //Container
-    Container * getContainerById(qintptr id_sdk) const;
+    Container *getContainerById(qintptr id_sdk) const;
     int getCountElementsInContainer(qintptr id_sdk) const;
     qintptr getIdRootContainer() const;
 
     //Element
-    Element * getElementById(qintptr id_element) const;
-    Element * getElementFromSDKByIndex(qintptr id_sdk, int index) const;
+    Element *getElementById(qintptr id_element) const;
+    Element *getElementFromSDKByIndex(qintptr id_sdk, int index) const;
     qintptr getIdElementFromSDKByIndex(qintptr id_sdk, int index) const;
 
     //Resource
-    const char *addStreamRes(Property * id_prop);
+    const char *addStreamRes(Property *id_prop);
     const char *addStringRes(const QString &str);
     void deleteResources();
     void compileResources();

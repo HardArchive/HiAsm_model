@@ -1,7 +1,6 @@
 ﻿#pragma once
 //Project
 #include "cgt/CGTShare.h"
-#include "types.h"
 
 //STL
 

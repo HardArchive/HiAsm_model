@@ -115,7 +115,7 @@ QVariantMap Element::serialize() const
     data.insert("infSub", m_infSub);
 
     QVariantList containers;
-    for (const Container * c : m_containers) {
+    for (const Container *c : m_containers) {
         containers.append(c->serialize());
     }
 
@@ -147,7 +147,7 @@ int Element::getId() const
     return m_id;
 }
 
-Container * Element::getParent() const
+Container *Element::getParent() const
 {
     return qobject_cast<Container *>(parent());
 }
@@ -307,7 +307,7 @@ PCodeGenTools Element::getCgt()
     return m_cgt;
 }
 
-SceneModel * Element::getModel()
+SceneModel *Element::getModel()
 {
     return m_model;
 }
@@ -317,7 +317,7 @@ int Element::getCountContainers() const
     return m_containers.size();
 }
 
-Container * Element::getContainer() const
+Container *Element::getContainer() const
 {
     if (m_containers.isEmpty())
         return nullptr;
@@ -327,14 +327,14 @@ Container * Element::getContainer() const
 
 int Element::getIdContainer() const
 {
-    const Container * c = getContainer();
+    const Container *c = getContainer();
     if (!c)
         return 0;
 
     return c->getId();
 }
 
-Container * Element::getContainerByIndex(int index) const
+Container *Element::getContainerByIndex(int index) const
 {
     if (index < m_containers.size())
         return m_containers[index];
@@ -344,14 +344,14 @@ Container * Element::getContainerByIndex(int index) const
 
 int Element::getIdContainerByIndex(int index) const
 {
-    const Container * c = getContainerByIndex(index);
+    const Container *c = getContainerByIndex(index);
     if (!c)
         return 0;
 
     return c->getId();
 }
 
-Container * Element::addContainer(Container * container)
+Container *Element::addContainer(Container *container)
 {
     m_containers.append(container);
     return container;
