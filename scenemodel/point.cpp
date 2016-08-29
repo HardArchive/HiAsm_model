@@ -32,7 +32,7 @@ void Point::collectingData(int id_point)
     }
 }
 
-QVariantMap Point::serialize()
+QVariantMap Point::serialize() const
 {
     QVariantMap data;
     data.insert("type", m_type);
@@ -104,12 +104,12 @@ QString Point::getInfo() const
     return m_info;
 }
 
-PPoint Point::getLinkPoint() const
+Point * Point::getLinkPoint() const
 {
     return nullptr; //TODO доработать
 }
 
-PPoint Point::getRLinkPoint() const
+Point * Point::getRLinkPoint() const
 {
     if (m_connectPoint.element) {
         auto e = m_model->getElementById(m_connectPoint.element);

@@ -130,11 +130,11 @@ public:
     //Point
     int getCountPoints() const;
     int getPointIndexOfType(const Point *id_point) const;
-    PPoint getPointByIndex(int index) const;
-    PPoint getIdPointByIndex(int index) const;
-    PPoint getPointByName(const QString &name) const;
-    PPoint getIdPointByName(const QString &name) const;
-    PPoint addPoint(PPoint point);
+    Point * getPointByIndex(int index) const;
+    Point * getIdPointByIndex(int index) const;
+    Point * getPointByName(const QString &name) const;
+    Point * getIdPointByName(const QString &name) const;
+    Point * addPoint(Point * point);
     void removePoint(int index);
 
     //Property

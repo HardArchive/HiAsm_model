@@ -19,9 +19,8 @@ typedef QMap<qintptr, PProperty> MapProperties;
 typedef QVector<PProperty> Properties;
 
 class Point;
-typedef Point *PPoint;
-typedef QVector<PPoint> Points;
-typedef QMap<qintptr, PPoint> MapPoints;
+typedef QVector<Point *> Points;
+typedef QMap<qintptr, Point *> MapPoints;
 
 class Element;
 typedef Element *PElement;

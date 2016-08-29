@@ -139,7 +139,7 @@ EXPORT int elGetPtCount(int id_element)
 }
 
 //ru Возвращает ID точки по её индексу.
-EXPORT PPoint elGetPt(int id_element, int index)
+EXPORT Point * elGetPt(int id_element, int index)
 {
     const PElement e = m_model->getElementById(id_element);
     if (!e)
@@ -149,7 +149,7 @@ EXPORT PPoint elGetPt(int id_element, int index)
 }
 
 //ru Возвращает ID точки по её имени.
-EXPORT PPoint elGetPtName(int id_element, const char *name)
+EXPORT Point * elGetPtName(int id_element, const char *name)
 {
     const PElement e = m_model->getElementById(id_element);
     if (!e)
@@ -241,7 +241,7 @@ EXPORT int elGetEID(int id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем ID точки с которой соединена указанная.
 //TODO ЧТО ДЕЛАТЬ???
-EXPORT PPoint ptGetLinkPoint(PPoint id_point)
+EXPORT Point * ptGetLinkPoint(Point * id_point)
 {
     if (!id_point)
         return nullptr;
@@ -251,7 +251,7 @@ EXPORT PPoint ptGetLinkPoint(PPoint id_point)
 
 //ru Получаем ID точки с которой соединена указанная,
 //ru без учета точек разрыва и хабов.
-EXPORT PPoint ptGetRLinkPoint(PPoint id_point)
+EXPORT Point * ptGetRLinkPoint(Point * id_point)
 {
     Q_CHECK_PTR(id_point);
 
@@ -259,14 +259,14 @@ EXPORT PPoint ptGetRLinkPoint(PPoint id_point)
 }
 
 //ru Получаем тип точки.
-EXPORT PointType ptGetType(PPoint id_point)
+EXPORT PointType ptGetType(Point * id_point)
 {
     Q_CHECK_PTR(id_point);
     return id_point->getType();
 }
 
 //ru Возвращает имя точки.
-EXPORT const char *ptGetName(PPoint id_point)
+EXPORT const char *ptGetName(Point * id_point)
 {
     if (!id_point)
         return nullptr;
@@ -275,7 +275,7 @@ EXPORT const char *ptGetName(PPoint id_point)
 }
 
 //ru Получаем ID родителя (элемент) точки.
-EXPORT int ptGetParent(PPoint id_point)
+EXPORT int ptGetParent(Point * id_point)
 {
     if (!id_point)
         return 0;
@@ -286,7 +286,7 @@ EXPORT int ptGetParent(PPoint id_point)
 }
 
 //ru Получаем индекс точки относительно точек того же типа.
-EXPORT int ptGetIndex(PPoint id_point)
+EXPORT int ptGetIndex(Point * id_point)
 {
     if (!id_point)
         return 0;
@@ -295,7 +295,7 @@ EXPORT int ptGetIndex(PPoint id_point)
 }
 
 //ru Возвращает базовую часть имени динамической точки(для CI_DPElement).
-EXPORT const char *pt_dpeGetName(PPoint id_point)
+EXPORT const char *pt_dpeGetName(Point * id_point)
 {
     if (!id_point)
         return nullptr;
@@ -641,7 +641,7 @@ EXPORT void elSetData(int id_element, int data)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает тип данных точки.
-EXPORT DataType ptGetDataType(PPoint id_point)
+EXPORT DataType ptGetDataType(Point * id_point)
 {
     if (!id_point)
         return data_null;
@@ -727,7 +727,7 @@ EXPORT int plGetOwner(int id_prop)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает описание точки.
 //[deprecated]
-EXPORT const char *ptGetInfo(PPoint id_point)
+EXPORT const char *ptGetInfo(Point * id_point)
 {
     if (!id_point)
         return nullptr;

@@ -120,7 +120,7 @@ QVariantMap Element::serialize()
     }
 
     QVariantList points;
-    for (const PPoint p : m_points) {
+    for (const Point *p : m_points) {
         points.append(p->serialize());
     }
 
@@ -373,7 +373,7 @@ int Element::getPointIndexOfType(const Point *id_point) const
         return -1;
 
     uint idx = 0;
-    for (const PPoint p : m_points) {
+    for (const Point *p : m_points) {
         if (p == id_point) {
             return idx;
         } else if (id_point->getType() == p->getType()) {
@@ -384,7 +384,7 @@ int Element::getPointIndexOfType(const Point *id_point) const
     return -1;
 }
 
-PPoint Element::getPointByIndex(int index) const
+Point *Element::getPointByIndex(int index) const
 {
     if (index < m_points.size())
         return m_points[index];
@@ -392,18 +392,14 @@ PPoint Element::getPointByIndex(int index) const
         return nullptr;
 }
 
-PPoint Element::getIdPointByIndex(int index) const
+Point *Element::getIdPointByIndex(int index) const
 {
-    const PPoint p = getPointByIndex(index);
-    if (!p)
-        return 0;
-
-    return p;
+    return getPointByIndex(index);
 }
 
-PPoint Element::getPointByName(const QString &name) const
+Point *Element::getPointByName(const QString &name) const
 {
-    for (const PPoint p : m_points) {
+    for (Point *p : m_points) {
         if (QString::compare(p->getName(), name, Qt::CaseInsensitive) == 0) {
             return p;
         }
@@ -412,16 +408,12 @@ PPoint Element::getPointByName(const QString &name) const
     return nullptr;
 }
 
-PPoint Element::getIdPointByName(const QString &name) const
+Point *Element::getIdPointByName(const QString &name) const
 {
-    const PPoint p = getPointByName(name);
-    if (!p)
-        return 0;
-
-    return p;
+    return getPointByName(name);
 }
 
-PPoint Element::addPoint(PPoint point)
+Point *Element::addPoint(Point *point)
 {
     m_points.append(point);
     return point;

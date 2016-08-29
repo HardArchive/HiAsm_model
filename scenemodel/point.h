@@ -44,7 +44,7 @@ private:
 
 public:
     //Serialize
-    QVariantMap serialize();
+    QVariantMap serialize() const;
 
     //Self
     PElement getParent() const;
@@ -66,8 +66,8 @@ public:
     void setInfo(const QString &info);
     QString getInfo() const;
 
-    PPoint getLinkPoint() const;
-    PPoint getRLinkPoint() const;
+    Point * getLinkPoint() const;
+    Point * getRLinkPoint() const;
 
     //CGT
     PCodeGenTools getCgt();
