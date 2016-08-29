@@ -11,8 +11,6 @@
 
 class SceneModel;
 class Element;
-class Point;
-typedef QVector<Point *> Points;
 
 class Point : public QObject {
     Q_OBJECT

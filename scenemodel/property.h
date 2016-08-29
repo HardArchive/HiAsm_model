@@ -11,8 +11,6 @@
 #include <QObject>
 
 class SceneModel;
-class Property;
-typedef QVector<Property *> Properties;
 
 class Property : public QObject {
     Q_OBJECT
