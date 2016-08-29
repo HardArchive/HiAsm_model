@@ -9,9 +9,8 @@
 #include <QMap>
 
 class Value;
-typedef Value *PValue;
-typedef QMap<qintptr, PValue> MapValues;
-typedef QVector<PValue> Values;
+typedef QMap<qintptr, Value *> MapValues;
+typedef QVector<Value *> Values;
 
 class Property;
 typedef QMap<qintptr, Property *> MapProperties;

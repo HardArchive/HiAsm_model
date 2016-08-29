@@ -227,7 +227,7 @@ const char *SceneModel::addStreamRes(Property * id_prop)
     QString nameTypeRes;
     QString fileName;
     QString ext;
-    const PValue v = id_prop->getValue();
+    const Value * v = id_prop->getValue();
     switch (id_prop->getType()) {
     case data_icon: {
         if (v->getValue().isNull())

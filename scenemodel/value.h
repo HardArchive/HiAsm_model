@@ -57,7 +57,7 @@ public:
 
     //Array
     int getArraySize() const;
-    PValue getArrayItemByIndex(uint index) const;
+    Value * getArrayItemByIndex(uint index) const;
     QString getArrayItemName(uint index) const;
 
     //Font

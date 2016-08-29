@@ -323,12 +323,12 @@ EXPORT const char *propGetName(Property *prop)
 }
 
 //ru Возвращает значение свойства в виде указателя на данные.
-EXPORT PValue propGetValue(Property *prop)
+EXPORT Value * propGetValue(Property *prop)
 {
     if (!prop)
         return nullptr;
 
-    const PValue v = prop->getValue();
+    Value * v = prop->getValue();
     if (!v)
         return nullptr;
 
@@ -450,7 +450,7 @@ EXPORT int GetParam(CgtParams index, void *value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ массив ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем количество элементов в массиве.
-EXPORT int arrCount(PValue id_array)
+EXPORT int arrCount(Value * id_array)
 {
     if (!id_array)
         return 0;
@@ -459,7 +459,7 @@ EXPORT int arrCount(PValue id_array)
 }
 
 //ru Получаем тип элементов в массиве.
-EXPORT DataType arrType(PValue id_array)
+EXPORT DataType arrType(Value * id_array)
 {
     if (!id_array)
         return data_null;
@@ -468,7 +468,7 @@ EXPORT DataType arrType(PValue id_array)
 }
 
 //ru Получаем имя элемента по индексу.
-EXPORT const char *arrItemName(PValue id_array, int index)
+EXPORT const char *arrItemName(Value * id_array, int index)
 {
     if (!id_array)
         return nullptr;
@@ -488,12 +488,12 @@ EXPORT int arrItemData(int id_array, int index)
 //ru Получаем элемент массива в виде свойства (id_prop) Оо,
 //ru для дальнейшей работы с ним cgt::prop* функциями.
 //TODO Утечка
-EXPORT Property *arrGetItem(PValue array, int index)
+EXPORT Property *arrGetItem(Value * array, int index)
 {
     if (!array)
         return nullptr;
 
-    const PValue arrValue = array->getArrayItemByIndex(index);
+    const Value * arrValue = array->getArrayItemByIndex(index);
     if (arrValue) {
         Property *prop = new Property(arrValue->getType(), arrValue->getValue(), arrValue->getName());
 
@@ -515,7 +515,7 @@ EXPORT int isDebug(int id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ работа с данными ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //ru Возвращает тип данных.
-EXPORT DataType dtType(PValue id_value)
+EXPORT DataType dtType(Value * id_value)
 {
     if (!id_value)
         return data_null;
@@ -524,7 +524,7 @@ EXPORT DataType dtType(PValue id_value)
 }
 
 //ru Возвращает данные в формате: строка в стиле C.
-EXPORT const char *dtStr(PValue id_value)
+EXPORT const char *dtStr(Value * id_value)
 {
     if (!id_value)
         return nullptr;
@@ -533,7 +533,7 @@ EXPORT const char *dtStr(PValue id_value)
 }
 
 //ru Возвращает данные в формате: целое число.
-EXPORT int dtInt(PValue id_value)
+EXPORT int dtInt(Value * id_value)
 {
     if (!id_value)
         return 0;
@@ -542,7 +542,7 @@ EXPORT int dtInt(PValue id_value)
 }
 
 //ru Возвращает данные в формате: число с плавающей запятой.
-EXPORT qreal dtReal(PValue id_value)
+EXPORT qreal dtReal(Value * id_value)
 {
     if (!id_value)
         return 0.0;
@@ -552,7 +552,7 @@ EXPORT qreal dtReal(PValue id_value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ шрифт ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает название шрифта.
-EXPORT const char *fntName(PValue id_font)
+EXPORT const char *fntName(Value * id_font)
 {
     if (!id_font)
         return nullptr;
@@ -564,7 +564,7 @@ EXPORT const char *fntName(PValue id_font)
     return fcgt::strToCString(font->name);
 }
 //ru Возвращает размер шрифта.
-EXPORT int fntSize(PValue id_font)
+EXPORT int fntSize(Value * id_font)
 {
     if (!id_font)
         return 0;
@@ -576,7 +576,7 @@ EXPORT int fntSize(PValue id_font)
     return font->size;
 }
 //ru Возвращает стиль шрифта.
-EXPORT uchar fntStyle(PValue id_font)
+EXPORT uchar fntStyle(Value * id_font)
 {
     if (!id_font)
         return 0;
@@ -588,7 +588,7 @@ EXPORT uchar fntStyle(PValue id_font)
     return font->style;
 }
 //ru Возвращает цвет шрифта.
-EXPORT uint fntColor(PValue id_font)
+EXPORT uint fntColor(Value * id_font)
 {
     if (!id_font)
         return 0;
@@ -600,7 +600,7 @@ EXPORT uint fntColor(PValue id_font)
     return font->color;
 }
 //ru Возвращает кодировку шрифта.
-EXPORT uchar fntCharSet(PValue id_font)
+EXPORT uchar fntCharSet(Value * id_font)
 {
     if (!id_font)
         return 0;

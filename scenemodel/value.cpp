@@ -46,7 +46,7 @@ QVariantMap Value::serialize() const
     }
     case data_array: {
         QVariantList array;
-        for (const PValue v : m_value.value<Values>()) {
+        for (const Value * v : m_value.value<Values>()) {
             array.append(v->serialize());
         }
 
@@ -167,7 +167,7 @@ DataType Value::getSubType() const
     return m_subType;
 }
 
-PValue Value::getArrayItemByIndex(uint index) const
+Value * Value::getArrayItemByIndex(uint index) const
 {
     if (!m_value.canConvert<Values>())
         return nullptr;
@@ -181,7 +181,7 @@ PValue Value::getArrayItemByIndex(uint index) const
 
 QString Value::getArrayItemName(uint index) const
 {
-    const PValue arrValue = getArrayItemByIndex(index);
+    const Value * arrValue = getArrayItemByIndex(index);
     if (!arrValue)
         return QString();
 

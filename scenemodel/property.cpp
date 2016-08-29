@@ -210,7 +210,7 @@ void Property::setValue(DataType type, const QVariant &data, const QString &name
     m_value.setSubType(arrayType);
 }
 
-PValue Property::getValue()
+Value * Property::getValue()
 {
     return &m_value;
 }

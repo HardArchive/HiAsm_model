@@ -63,7 +63,7 @@ public:
         const QString &name = QString(),
         DataType arrayType = data_null);
 
-    PValue getValue();
+    Value * getValue();
     uchar toByte() const;
     int toInt() const;
     qreal toReal() const;
