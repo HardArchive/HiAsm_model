@@ -142,7 +142,7 @@ QVariantMap Element::serialize()
     return element;
 }
 
-qintptr Element::getId() const
+int Element::getId() const
 {
     return m_id;
 }
@@ -152,7 +152,7 @@ PContainer Element::getParent() const
     return qobject_cast<PContainer>(parent());
 }
 
-void Element::setUserData(qintptr userData)
+void Element::setUserData(int userData)
 {
     m_userData = userData;
 }
@@ -325,7 +325,7 @@ PContainer Element::getContainer() const
     return m_containers[0];
 }
 
-qintptr Element::getIdContainer() const
+int Element::getIdContainer() const
 {
     const PContainer c = getContainer();
     if (!c)
@@ -334,15 +334,15 @@ qintptr Element::getIdContainer() const
     return c->getId();
 }
 
-PContainer Element::getContainerByIndex(uint index)
+PContainer Element::getContainerByIndex(int index)
 {
-    if (index < uint(m_containers.size()))
+    if (index < m_containers.size())
         return m_containers[index];
     else
         return nullptr;
 }
 
-qintptr Element::getIdContainerByIndex(uint index)
+int Element::getIdContainerByIndex(int index)
 {
     const PContainer c = getContainerByIndex(index);
     if (!c)
@@ -357,7 +357,7 @@ PContainer Element::addContainer(PContainer container)
     return container;
 }
 
-void Element::removeContainer(uint index)
+void Element::removeContainer(int index)
 {
     m_containers.remove(index);
 }
@@ -367,15 +367,32 @@ int Element::getCountPoints() const
     return m_points.size();
 }
 
-PPoint Element::getPointByIndex(uint index) const
+int Element::getPointIndexOfType(const Point *id_point) const
 {
-    if (index < uint(m_points.size()))
+    if (!id_point)
+        return -1;
+
+    uint idx = 0;
+    for (const PPoint p : m_points) {
+        if (p == id_point) {
+            return idx;
+        } else if (id_point->getType() == p->getType()) {
+            ++idx;
+        }
+    }
+
+    return -1;
+}
+
+PPoint Element::getPointByIndex(int index) const
+{
+    if (index < m_points.size())
         return m_points[index];
     else
         return nullptr;
 }
 
-PPoint Element::getIdPointByIndex(uint index) const
+PPoint Element::getIdPointByIndex(int index) const
 {
     const PPoint p = getPointByIndex(index);
     if (!p)
@@ -410,7 +427,7 @@ PPoint Element::addPoint(PPoint point)
     return point;
 }
 
-void Element::removePoint(uint index)
+void Element::removePoint(int index)
 {
     m_points.remove(index);
 }
@@ -420,15 +437,15 @@ int Element::getCountProps() const
     return m_properties.size();
 }
 
-PProperty Element::getPropertyByIndex(uint index) const
+PProperty Element::getPropertyByIndex(int index) const
 {
-    if (index < uint(m_properties.size()))
+    if (index < m_properties.size())
         return m_properties[index];
     else
         return PProperty();
 }
 
-PProperty Element::getIdPropertyByIndex(uint index) const
+PProperty Element::getIdPropertyByIndex(int index) const
 {
     const PProperty e = getPropertyByIndex(index);
     if (!e)
@@ -477,7 +494,7 @@ PProperty Element::addProperty(PProperty property)
     return property;
 }
 
-void Element::removeProperty(uint index)
+void Element::removeProperty(int index)
 {
     m_points.remove(index);
 }

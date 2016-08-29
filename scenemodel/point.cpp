@@ -21,15 +21,14 @@ void Point::collectingData(int id_point)
 {
     m_type = m_cgt->ptGetType(id_point);
     m_dataType = m_cgt->ptGetDataType(id_point);
-    m_index = m_cgt->ptGetIndex(id_point);
     m_name = QString::fromLocal8Bit(m_cgt->ptGetName(id_point));
     m_dpeName = QString::fromLocal8Bit(m_cgt->pt_dpeGetName(id_point));
     m_info = QString::fromLocal8Bit(m_cgt->ptGetInfo(id_point));
 
     auto pId = m_cgt->ptGetRLinkPoint(id_point);
     if (pId) {
-        m_RLinkPoint.element = m_cgt->ptGetParent(pId);
-        m_RLinkPoint.point = QString::fromLocal8Bit(m_cgt->ptGetName(pId));
+        m_connectPoint.element = m_cgt->ptGetParent(pId);
+        m_connectPoint.point = QString::fromLocal8Bit(m_cgt->ptGetName(pId));
     }
 }
 
@@ -38,7 +37,6 @@ QVariantMap Point::serialize()
     QVariantMap data;
     data.insert("type", m_type);
     data.insert("dataType", m_dataType);
-    data.insert("index", m_index);
     data.insert("name", m_name);
     data.insert("dpeName", m_dpeName);
     data.insert("info", m_info);
@@ -71,14 +69,9 @@ DataType Point::getDataType() const
     return m_dataType;
 }
 
-void Point::setIndex(uint index)
+int Point::getIndex() const
 {
-    m_index = index;
-}
-
-uint Point::getIndex() const
-{
-    return m_index;
+    return getParent()->getPointIndexOfType(this);
 }
 
 void Point::setName(const QString &name)
@@ -118,9 +111,9 @@ PPoint Point::getLinkPoint() const
 
 PPoint Point::getRLinkPoint() const
 {
-    if (m_RLinkPoint.element) {
-        auto e = m_model->getElementById(m_RLinkPoint.element);
-        return e->getPointByName(m_RLinkPoint.point);
+    if (m_connectPoint.element) {
+        auto e = m_model->getElementById(m_connectPoint.element);
+        return e->getPointByName(m_connectPoint.point);
     }
 
     return nullptr;

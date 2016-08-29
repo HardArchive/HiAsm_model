@@ -10,11 +10,6 @@
 #include <QObject>
 #include <QDebug>
 
-struct RLinkPoint {
-    qintptr element{};
-    QString point;
-};
-
 class Point : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Point)
@@ -23,11 +18,13 @@ private:
     //Self
     PointType m_type{};
     DataType m_dataType{};
-    uint m_index{};
     QString m_name;
     QString m_dpeName;
     QString m_info;
-    RLinkPoint m_RLinkPoint;
+    struct {
+        int element{};
+        QString point;
+    } m_connectPoint;
 
     //CGT
     PCodeGenTools m_cgt{};
@@ -58,8 +55,7 @@ public:
     void setDataType(DataType dataType);
     DataType getDataType() const;
 
-    void setIndex(uint index);
-    uint getIndex() const;
+    int getIndex() const;
 
     void setName(const QString &name);
     QString getName() const;

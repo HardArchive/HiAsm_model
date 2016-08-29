@@ -10,8 +10,7 @@
 #include <QObject>
 #include <QString>
 
-class Element: public QObject
-{
+class Element : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Element)
 
@@ -54,7 +53,7 @@ private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Element(const QString &name, qintptr id_element, int X, int Y,  QObject *parent);
+    explicit Element(const QString &name, qintptr id_element, int X, int Y, QObject *parent);
     explicit Element(qintptr id_element, QObject *parent);
 
 private:
@@ -65,10 +64,10 @@ public:
     QVariantMap serialize();
 
     //Self
-    qintptr getId() const;
+    int getId() const;
     PContainer getParent() const;
 
-    void setUserData(qintptr userData);
+    void setUserData(int userData);
     qintptr getUserData() const;
 
     void setClassIndex(ElementClass classIndex);
@@ -122,28 +121,29 @@ public:
     //Container
     int getCountContainers() const;
     PContainer getContainer() const;
-    qintptr getIdContainer() const;
-    PContainer getContainerByIndex(uint index);
-    qintptr getIdContainerByIndex(uint index);
+    int getIdContainer() const;
+    PContainer getContainerByIndex(int index);
+    int getIdContainerByIndex(int index);
     PContainer addContainer(PContainer container);
-    void removeContainer(uint index);
+    void removeContainer(int index);
 
     //Point
     int getCountPoints() const;
-    PPoint getPointByIndex(uint index) const;
-    PPoint getIdPointByIndex(uint index) const;
+    int getPointIndexOfType(const Point *id_point) const;
+    PPoint getPointByIndex(int index) const;
+    PPoint getIdPointByIndex(int index) const;
     PPoint getPointByName(const QString &name) const;
     PPoint getIdPointByName(const QString &name) const;
     PPoint addPoint(PPoint point);
-    void removePoint(uint index);
+    void removePoint(int index);
 
     //Property
     int getCountProps() const;
-    PProperty getPropertyByIndex(uint index) const;
-    PProperty getIdPropertyByIndex(uint index) const;
+    PProperty getPropertyByIndex(int index) const;
+    PProperty getIdPropertyByIndex(int index) const;
     PProperty getPropertyById(PProperty id_prop) const;
     PProperty getPropertyByName(const QString &name) const;
     PProperty getIdPropertyByName(const QString &name) const;
     PProperty addProperty(PProperty property);
-    void removeProperty(uint index);
+    void removeProperty(int index);
 };
