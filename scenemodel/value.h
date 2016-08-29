@@ -68,14 +68,14 @@ public:
 
     //Array
     int getArraySize() const;
-    SharedValue getArrayItemByIndex(uint index) const;
+    PValue getArrayItemByIndex(uint index) const;
     QString getArrayItemName(uint index) const;
 
     //Font
-    SharedValueFont toFont() const;
+    PValueFont toFont() const;
 
     //LinkedElementInfo
-    const SharedLinkedElementInfo toLinkedElementInfo() const;
+    const PLinkedElementInfo toLinkedElementInfo() const;
 };
 
 Q_DECLARE_METATYPE(Values)

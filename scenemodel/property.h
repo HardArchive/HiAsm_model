@@ -76,7 +76,7 @@ public:
     int toInt() const;
     qreal toReal() const;
     QString toString() const;
-    const SharedLinkedElementInfo toLinkedElementInfo() const;
+    const PLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
     PCodeGenTools getCgt();

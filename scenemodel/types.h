@@ -12,8 +12,7 @@
 class Value;
 typedef Value *PValue;
 typedef QMap<quintptr, PValue> MapValues;
-typedef QSharedPointer<Value> SharedValue;
-typedef QVector<SharedValue> Values;
+typedef QVector<PValue> Values;
 
 class Property;
 typedef Property *PProperty;

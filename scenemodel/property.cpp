@@ -130,17 +130,18 @@ void Property::collectingData()
             case data_real:
                 data = m_cgt->propToReal(id_prop);
                 break;
-            default: break;
+            default:
+                break;
             }
 
-            arrayItems.append(SharedValue::create(1, arrItemType, data, name));
+            arrayItems.append(new Value(1, arrItemType, data, name));
         }
 
         setValue(id_value, m_type, QVariant::fromValue(arrayItems), QString(), arrItemType);
         break;
     }
     case data_font: {
-        SharedValueFont font = SharedValueFont::create();
+        PValueFont font = new ValueFont();
         font->name = QString::fromLocal8Bit(m_cgt->fntName(id_value));
         font->size = m_cgt->fntSize(id_value);
         font->style = m_cgt->fntStyle(id_value);
@@ -158,7 +159,7 @@ void Property::collectingData()
         char buf[PATH_MAX];
         quintptr linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), m_id, buf);
         if (linkedElement) {
-            SharedLinkedElementInfo elementInfo = SharedLinkedElementInfo::create();
+            PLinkedElementInfo elementInfo = new LinkedElementInfo();
             elementInfo->id = linkedElement;
             elementInfo->interface = QString::fromLocal8Bit(buf);
 
@@ -166,7 +167,8 @@ void Property::collectingData()
         }
         break;
     }
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -264,7 +266,7 @@ QString Property::toString() const
     return m_value.toString();
 }
 
-const SharedLinkedElementInfo Property::toLinkedElementInfo() const
+const PLinkedElementInfo Property::toLinkedElementInfo() const
 {
     return m_value.toLinkedElementInfo();
 }

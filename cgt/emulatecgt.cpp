@@ -510,7 +510,7 @@ EXPORT quintptr arrGetItem(quintptr id_array, int index)
     if (!v)
         return 0;
 
-    const SharedValue arrValue = v->getArrayItemByIndex(index);
+    const PValue arrValue = v->getArrayItemByIndex(index);
     if (arrValue) {
         delete m_model->getPropertyById(1);
 
@@ -582,7 +582,7 @@ EXPORT const char *fntName(quintptr id_font)
     if (!v)
         return nullptr;
 
-    SharedValueFont font = v->toFont();
+    PValueFont font = v->toFont();
     if (!font)
         return nullptr;
 
@@ -595,7 +595,7 @@ EXPORT int fntSize(quintptr id_font)
     if (!v)
         return 0;
 
-    SharedValueFont font = v->toFont();
+    PValueFont font = v->toFont();
     if (!font)
         return 0;
 
@@ -608,7 +608,7 @@ EXPORT uchar fntStyle(quintptr id_font)
     if (!v)
         return 0;
 
-    SharedValueFont font = v->toFont();
+    PValueFont font = v->toFont();
     if (!font)
         return 0;
 
@@ -621,7 +621,7 @@ EXPORT uint fntColor(quintptr id_font)
     if (!v)
         return 0;
 
-    SharedValueFont font = v->toFont();
+    PValueFont font = v->toFont();
     if (!font)
         return 0;
 
@@ -634,7 +634,7 @@ EXPORT uchar fntCharSet(quintptr id_font)
     if (!v)
         return 0;
 
-    SharedValueFont font = v->toFont();
+    PValueFont font = v->toFont();
     if (!font)
         return 0;
 
@@ -778,7 +778,7 @@ EXPORT quintptr propGetLinkedElement(quintptr id_element, const char *propName)
     if (!p)
         return 0;
 
-    const SharedLinkedElementInfo info = p->toLinkedElementInfo();
+    const PLinkedElementInfo info = p->toLinkedElementInfo();
     if (!info)
         return 0;
 
@@ -810,7 +810,7 @@ EXPORT quintptr propGetLinkedElementInfo(quintptr id_element, quintptr id_prop, 
     if (!p)
         return 0;
 
-    const SharedLinkedElementInfo info = p->toLinkedElementInfo();
+    const PLinkedElementInfo info = p->toLinkedElementInfo();
     if (!info)
         return 0;
 
