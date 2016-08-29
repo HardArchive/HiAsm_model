@@ -32,10 +32,10 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    SceneModel * m_model{};
+    SceneModel *m_model{};
 
 private:
-    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(SceneModel *model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -49,7 +49,7 @@ public:
     QVariantMap serialize() const;
 
     //Self
-    Element * getParent() const;
+    Element *getParent() const;
 
     void setType(PointType type);
     PointType getType() const;
@@ -68,12 +68,12 @@ public:
     void setInfo(const QString &info);
     QString getInfo() const;
 
-    Point * getLinkPoint() const;
-    Point * getRLinkPoint() const;
+    Point *getLinkPoint() const;
+    Point *getRLinkPoint() const;
 
     //CGT
     PCodeGenTools getCgt();
 
     //Model
-    SceneModel * getModel();
+    SceneModel *getModel();
 };

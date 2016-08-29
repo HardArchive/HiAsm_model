@@ -2,7 +2,6 @@
 
 //Project
 #include "cgt/CGTShare.h"
-#include "element.h"
 
 //STL
 
@@ -10,6 +9,7 @@
 #include <QObject>
 
 class SceneModel;
+class Element;
 
 class Container : public QObject {
     Q_OBJECT
@@ -27,7 +27,7 @@ private:
     SceneModel *m_model{};
 
     //Element
-    Elements m_elements;
+    QVector<Element *> m_elements;
 
 private:
     Q_PROPERTY(SceneModel *model READ getModel)
