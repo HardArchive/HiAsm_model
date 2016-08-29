@@ -24,7 +24,6 @@
 //Служебные переменные
 static QLibrary codegen;
 static SceneModel *sceneModel1 = nullptr;
-static SceneModel *sceneModel2 = nullptr;
 TBuildGetParamsProc buildGetParamsProc = nullptr;
 TBuildMakePrj buildMakePrj = nullptr;
 TBuildCompliteProc buildCompliteProc = nullptr;
@@ -76,7 +75,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
         qInfo() << "CODEGEN_PROCESS_DETACH";
 
         delete sceneModel1;
-        delete sceneModel2;
         codegen.unload();
         break;
     }
@@ -104,10 +102,8 @@ DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
     sceneModel1->initFromCgt(params.cgt, params.sdk);
     sceneModel1->saveModel("test.json");
 
-    sceneModel2 = new SceneModel(manager);
-    sceneModel2->loadModel("test.json");
 
-    EmulateCgt::setSceneModel(sceneModel2);
+    EmulateCgt::setSceneModel(sceneModel1);
     params.cgt = EmulateCgt::getCgt();
 #endif
 

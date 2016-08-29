@@ -25,8 +25,8 @@ Property::Property(qintptr id_prop, QObject *parent)
 Property::Property(qintptr id, DataType type, const QVariant &data, const QString &name)
 {
     m_id = id;
-    m_type = type;
     m_name = name;
+    m_type = type;
     m_value.setType(type);
     m_value.setValue(data);
     m_value.setName(name);
