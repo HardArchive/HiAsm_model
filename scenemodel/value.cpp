@@ -14,11 +14,6 @@ Value::Value(DataType type, const QVariant &value, const QString &name, DataType
 {
 }
 
-Value::Value(const QJsonObject &object)
-{
-    deserialize(object);
-}
-
 QVariantMap Value::serialize()
 {
     QVariantMap data;
@@ -85,106 +80,6 @@ QVariantMap Value::serialize()
     }
 
     return data;
-}
-
-void Value::deserialize(const QJsonObject &object)
-{
-    m_type = DataType(object["type"].toInt());
-    m_name = object["name"].toString();
-    m_subType = DataType(object["subType"].toInt());
-
-    switch (m_type) {
-    case data_int:
-    case data_color:
-    case data_flags: {
-        m_value = object["value"].toInt();
-        break;
-    }
-    case data_real: {
-        m_value = object["value"].toVariant().toReal();
-        break;
-    }
-    case data_data: {
-        const QVariant var = object["value"].toVariant();
-        switch (m_subType) {
-        case data_int:
-            m_value = var.toInt();
-            break;
-        case data_str:
-            m_value = var.toString();
-            break;
-        case data_real:
-            m_value = var.toReal();
-            break;
-        default:
-            m_value = var;
-            break;
-        }
-        break;
-    }
-    case data_icon:
-    case data_stream:
-    case data_bitmap:
-    case data_jpeg:
-    case data_wave: {
-        m_value = QByteArray::fromHex(object["value"].toVariant().toByteArray());
-        break;
-    }
-    case data_array: {
-        QJsonArray array = object["ArrayValues"].toArray();
-        Values arrayItem;
-
-        int arrCount = array.size();
-        for (int i = 0; i < arrCount; ++i) {
-            const QJsonObject item = array[i].toObject();
-
-            QString name = item["name"].toString();
-            QVariant data;
-            switch (m_subType) {
-            case data_int:
-                data = item["value"].toInt();
-                break;
-            case data_str:
-                data = item["value"].toString();
-                break;
-            case data_real:
-                data = item["value"].toVariant().toReal();
-                break;
-            default:
-                break;
-            }
-
-            arrayItem.append(new Value(m_subType, data, name));
-        }
-
-        m_value = QVariant::fromValue(arrayItem);
-        break;
-    }
-    case data_font: {
-        QJsonObject value = object["value"].toObject();
-        PValueFont font = new ValueFont();
-        font->name = value["name"].toString();
-        font->size = value["size"].toVariant().toUInt();
-        font->style = value["style"].toVariant().value<uchar>();
-        font->color = value["color"].toVariant().toUInt();
-        font->charset = value["charset"].toVariant().value<uchar>();
-
-        m_value = QVariant::fromValue(font);
-        break;
-    }
-    case data_element: {
-        QJsonObject value = object["value"].toObject();
-        PLinkedElementInfo elementInfo = new LinkedElementInfo();
-        elementInfo->id = value["id"].toVariant().toUInt();
-        elementInfo->interface = value["id"].toString();
-
-        m_value = QVariant::fromValue(elementInfo);
-        break;
-    }
-    default: {
-        m_value = object["value"].toVariant();
-    }
-    }
 }
 
 void Value::setType(DataType type)

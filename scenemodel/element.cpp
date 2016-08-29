@@ -33,13 +33,6 @@ Element::Element(qintptr id_element, QObject *parent)
     collectingData();
 }
 
-Element::Element(const QJsonObject &object, QObject *parent)
-    : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
-{
-    deserialize(object);
-}
-
 void Element::collectingData()
 {
     m_classIndex = m_cgt->elGetClassIndex(m_id);
@@ -145,43 +138,6 @@ QVariantMap Element::serialize()
         element.insert("Properties", properties);
 
     return element;
-}
-
-void Element::deserialize(const QJsonObject &object)
-{
-    const auto data = object["Data"].toObject();
-    const auto containers = object["Containers"].toArray();
-    const auto properties = object["Properties"].toArray();
-    const auto points = object["Points"].toArray();
-
-    m_id = data["id"].toVariant().value<qintptr>();
-    m_model->addElementToMap(this);
-
-    //m_userData = data["userData"].toVariant().toUInt();
-    m_classIndex = ElementClass(data["classIndex"].toInt());
-    m_flags = ElementFlgs(data["flags"].toInt());
-    m_group = data["group"].toInt();
-    m_linkIs = data["linkIs"].toBool();
-    m_linkMain = data["linkMain"].toVariant().value<qintptr>();
-    m_posX = data["posX"].toInt();
-    m_posY = data["posY"].toInt();
-    m_sizeW = data["sizeW"].toInt();
-    m_sizeH = data["sizeH"].toInt();
-    m_className = data["className"].toString();
-    m_codeName = data["codeName"].toString();
-    m_interface = data["interface"].toString();
-    m_inherit = data["inherit"].toString();
-    m_infSub = data["infSub"].toString();
-
-    for (const auto c : containers) {
-        addContainer(new Container(c.toObject(), this));
-    }
-    for (const auto p : properties) {
-        addProperty(new Property(p.toObject(), this));
-    }
-    for (const auto p : points) {
-        addPoint(new Point(p.toObject(), this));
-    }
 }
 
 qintptr Element::getId() const

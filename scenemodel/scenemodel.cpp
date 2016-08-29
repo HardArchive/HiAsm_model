@@ -72,11 +72,11 @@ void SceneModel::collectingData(qintptr id_sdk)
     m_cgt->GetParam(PARAM_PROJECT_NAME, buf.data());
     m_projectName = QString::fromLocal8Bit(buf);
 
-    qintptr tmpW[1] = { reinterpret_cast<qintptr>(id_element) };
+    int tmpW[1] = { reinterpret_cast<int>(id_element) };
     m_cgt->GetParam(PARAM_SDE_WIDTH, tmpW);
     m_sdeWidth = tmpW[0];
 
-    qintptr tmpH[1] = { reinterpret_cast<qintptr>(id_element) };
+    int tmpH[1] = { reinterpret_cast<int>(id_element) };
     m_cgt->GetParam(PARAM_SDE_HEIGHT, tmpH);
     m_sdeHeight = tmpH[0];
 
@@ -114,48 +114,6 @@ PCodeGenTools SceneModel::getCgt()
     return m_cgt;
 }
 
-void SceneModel::deserialize(const QJsonDocument &doc)
-{
-    const QJsonObject model = doc.object();
-    const QJsonObject cgtParams = model["CGTParams"].toObject();
-    m_codePath = cgtParams["CODE_PATH"].toString();
-    m_debugMode = cgtParams["DEBUG_MODE"].toInt();
-    m_debugServerPort = cgtParams["DEBUG_SERVER_PORT"].toInt();
-    m_debugClientPort = cgtParams["DEBUG_CLIENT_PORT"].toInt();
-    m_projectPath = cgtParams["PROJECT_PATH"].toString();
-    m_hiasmVersion = cgtParams["HIASM_VERSION"].toString();
-    m_userName = cgtParams["USER_NAME"].toString();
-    m_userMail = cgtParams["USER_MAIL"].toString();
-    m_projectName = cgtParams["PROJECT_NAME"].toString();
-    m_sdeWidth = cgtParams["SDE_WIDTH"].toInt();
-    m_sdeHeight = cgtParams["SDE_HEIGHT"].toInt();
-    m_compiler = cgtParams["COMPILER"].toString();
-
-    QJsonObject container = model["Container"].toObject();
-    m_container = new Container(container, this);
-}
-
-qintptr SceneModel::genId()
-{
-    while (true) {
-        ++m_genId;
-        if (m_mapContainers.contains(m_genId))
-            continue;
-        if (m_mapElements.contains(m_genId))
-            continue;
-        if (m_mapProperties.contains(m_genId))
-            continue;
-        if (m_mapPoints.contains(m_genId))
-            continue;
-        if (m_mapValues.contains(m_genId))
-            continue;
-
-        break;
-    }
-
-    return m_genId;
-}
-
 PSceneModel SceneModel::getModel()
 {
     return this;
@@ -181,32 +139,6 @@ bool SceneModel::saveModel(const QString &filePath)
 
     file.write(doc.toJson());
     file.close();
-    return true;
-}
-
-bool SceneModel::loadModel(const QString &filePath)
-{
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly))
-        return false;
-
-    deserialize(QJsonDocument::fromJson(file.readAll()));
-    return true;
-}
-
-bool SceneModel::loadFromSha(const QString &filePath)
-{
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly))
-        return false;
-
-    //file.readAll();
-
-    loadPackage("delphi");
-
-    m_container = new Container(this);
-    m_container->addElement(new Element("MainForm", 2953706, 21, 105, m_container));
-
     return true;
 }
 

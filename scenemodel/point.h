@@ -39,7 +39,6 @@ private:
 
 public:
     explicit Point(qintptr id_point, QObject *parent);
-    explicit Point(const QJsonObject &object, QObject *parent);
 
 private:
     void collectingData();
@@ -47,7 +46,6 @@ private:
 public:
     //Serialize
     QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
 
     //Self
     qintptr getId() const;

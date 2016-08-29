@@ -71,18 +71,14 @@ private:
 public:
     //Serialization
     QJsonDocument serialize();
-    void deserialize(const QJsonDocument &doc);
 
     //CGT
     PCodeGenTools getCgt();
 
     //Model
-    qintptr genId();
     PSceneModel getModel();
     void initFromCgt(PCodeGenTools cgt, qintptr idMainSDK);
     bool saveModel(const QString &filePath);
-    bool loadModel(const QString &filePath);
-    bool loadFromSha(const QString &filePath);
 
     //Package
     void setPackage(PPackage package);

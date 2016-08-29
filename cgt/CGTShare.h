@@ -334,10 +334,6 @@ typedef CgResult (*TBuildPrepareProc)(void *params);
 typedef CgResult (*TBuildProcessProc)(TBuildProcessRec &params);
 typedef CgResult (*TCheckVersionProc)(const THiAsmVersion &params);
 
-extern TBuildPrepareProc buildPrepareProcLib;
-extern TBuildProcessProc buildProcessProcLib;
-extern TCheckVersionProc checkVersionProcLib;
-
 struct TCodeGenTools {
 #define CALLBACK __stdcall
 

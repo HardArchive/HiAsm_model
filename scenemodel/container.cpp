@@ -8,14 +8,6 @@
 
 //Qt
 
-Container::Container(QObject *parent)
-    : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
-{
-    m_id = m_model->genId();
-    m_model->addContainerToMap(this);
-}
-
 Container::Container(qintptr id_sdk, QObject *parent)
     : QObject(parent)
     , m_id(id_sdk)
@@ -24,13 +16,6 @@ Container::Container(qintptr id_sdk, QObject *parent)
 {
     m_model->addContainerToMap(this);
     collectingData();
-}
-
-Container::Container(const QJsonObject &object, QObject *parent)
-    : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
-{
-    deserialize(object);
 }
 
 void Container::collectingData()
@@ -62,19 +47,6 @@ QVariantMap Container::serialize()
         container.insert("Elements", elements);
 
     return container;
-}
-
-void Container::deserialize(const QJsonObject &object)
-{
-    const auto data = object["Data"].toObject();
-    m_id = data["id"].toVariant().value<qintptr>();
-    m_model->addContainerToMap(this);
-    m_name = data["name"].toString();
-
-    const auto elements = object["Elements"].toArray();
-    for (const auto e : elements) {
-        addElement(new Element(e.toObject(), this));
-    }
 }
 
 qintptr Container::getId() const

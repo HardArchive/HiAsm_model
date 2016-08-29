@@ -11,8 +11,7 @@
 //Qt
 #include <QObject>
 
-class Property: public QObject
-{
+class Property : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Property)
 
@@ -38,11 +37,10 @@ private:
 
 public:
     explicit Property(qintptr id_prop, QObject *parent);
-    explicit Property(const QJsonObject &object, QObject *parent);
     explicit Property(qintptr id = 0,
-                      DataType type = data_null,
-                      const QVariant &data = QVariant(),
-                      const QString &name = QString());
+        DataType type = data_null,
+        const QVariant &data = QVariant(),
+        const QString &name = QString());
 
 private:
     void collectingData();
@@ -50,7 +48,6 @@ private:
 public:
     //Serialize
     QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
 
     //Self
     qintptr getId() const;
@@ -66,9 +63,9 @@ public:
 
     //Value
     void setValue(qintptr id, DataType type = data_null,
-                  const QVariant &data = QVariant(),
-                  const QString &name = QString(),
-                  DataType arrayType = data_null);
+        const QVariant &data = QVariant(),
+        const QString &name = QString(),
+        DataType arrayType = data_null);
 
     PValue getValue();
     uchar toByte() const;

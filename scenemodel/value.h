@@ -22,12 +22,9 @@ public:
     explicit Value(DataType type = data_null, const QVariant &value = QVariant(),
         const QString &name = QString(), DataType subType = data_null);
 
-    explicit Value(const QJsonObject &object);
-
 public:
     //Serialize
     QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
 
     //Self
     void setType(DataType type);

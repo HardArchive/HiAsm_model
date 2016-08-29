@@ -56,7 +56,6 @@ private:
 public:
     explicit Element(const QString &name, qintptr id_element, int X, int Y,  QObject *parent);
     explicit Element(qintptr id_element, QObject *parent);
-    explicit Element(const QJsonObject &object, QObject *parent);
 
 private:
     void collectingData();
@@ -64,7 +63,6 @@ private:
 public:
     //Serialize
     QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
 
     //Self
     qintptr getId() const;

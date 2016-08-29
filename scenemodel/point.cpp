@@ -5,7 +5,6 @@
 #include "scenemodel.h"
 #include "cgt/cgt.h"
 
-
 //STL
 
 //Qt
@@ -18,13 +17,6 @@ Point::Point(qintptr id_point, QObject *parent)
 {
     m_model->addPointToMap(this);
     collectingData();
-}
-
-Point::Point(const QJsonObject &object, QObject *parent)
-    : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
-{
-    deserialize(object);
 }
 
 void Point::collectingData()
@@ -42,7 +34,6 @@ void Point::collectingData()
 QVariantMap Point::serialize()
 {
     QVariantMap data;
-    data.insert("id", m_id);
     data.insert("type", m_type);
     data.insert("dataType", m_dataType);
     data.insert("index", m_index);
@@ -53,21 +44,6 @@ QVariantMap Point::serialize()
     data.insert("RLinkPoint", m_RLinkPoint);
 
     return data;
-}
-
-void Point::deserialize(const QJsonObject &object)
-{
-    m_id = object["id"].toVariant().value<qintptr>();
-    m_model->addPointToMap(this);
-
-    m_type = PointType(object["type"].toInt());
-    m_dataType = DataType(object["dataType"].toInt());
-    m_index = object["index"].toVariant().toUInt();
-    m_name = object["name"].toString();
-    m_dpeName = object["dpeName"].toString();
-    m_info = object["info"].toString();
-    m_linkPoint = object["linkPoint"].toVariant().value<qintptr>();
-    m_RLinkPoint = object["RLinkPoint"].toVariant().value<qintptr>();
 }
 
 qintptr Point::getId() const
