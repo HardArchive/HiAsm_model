@@ -9,9 +9,6 @@
 #include <QObject>
 #include <QVariant>
 
-class Value;
-typedef QVector<Value *> Values;
-
 class Value {
 
 private:
@@ -70,4 +67,4 @@ public:
     PLinkedElementInfo toLinkedElementInfo() const;
 };
 
-Q_DECLARE_METATYPE(Values)
+Q_DECLARE_METATYPE(QVector<Value *>)

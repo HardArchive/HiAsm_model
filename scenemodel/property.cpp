@@ -102,7 +102,7 @@ void Property::collectingData(int idProp)
     case data_array: {
         int arrCount = m_cgt->arrCount(id_value);
         DataType arrItemType = m_cgt->arrType(id_value);
-        Values arrayItems;
+        QVector<Value *> arrayItems;
 
         for (int i = 0; i < arrCount; ++i) {
             const qintptr id_prop = m_cgt->arrGetItem(id_value, i);
