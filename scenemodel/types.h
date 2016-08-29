@@ -7,7 +7,6 @@
 //Qt
 #include <QVector>
 #include <QMap>
-#include <QMetaType>
 
 class Value;
 typedef Value *PValue;

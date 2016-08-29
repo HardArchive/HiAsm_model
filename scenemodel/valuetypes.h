@@ -17,7 +17,6 @@ struct LinkedElementInfo {
 };
 typedef LinkedElementInfo *PLinkedElementInfo;
 Q_DECLARE_METATYPE(PLinkedElementInfo)
-Q_DECLARE_METATYPE(LinkedElementInfo)
 
 struct ValueFont { //-V802
     QString name;
@@ -28,4 +27,3 @@ struct ValueFont { //-V802
 };
 typedef ValueFont *PValueFont;
 Q_DECLARE_METATYPE(PValueFont)
-Q_DECLARE_METATYPE(ValueFont)

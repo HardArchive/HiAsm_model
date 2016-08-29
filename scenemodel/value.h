@@ -19,10 +19,8 @@ private:
     DataType m_subType = data_null;
 
 public:
-    explicit Value(DataType type = data_null,
-        const QVariant &value = QVariant(),
-        const QString &name = QString(),
-        DataType subType = data_null);
+    explicit Value(DataType type = data_null, const QVariant &value = QVariant(),
+        const QString &name = QString(), DataType subType = data_null);
 
     explicit Value(const QJsonObject &object);
 

@@ -841,7 +841,7 @@ namespace ProxyCgt
         return res;
     }
 
-    static uintptr_t proxyCgt[] {
+    static qintptr proxyCgt[] {
         reinterpret_cast<qintptr>(sdkGetCount),
         reinterpret_cast<qintptr>(sdkGetElement),
         reinterpret_cast<qintptr>(sdkGetElementName),
