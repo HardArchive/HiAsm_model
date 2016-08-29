@@ -12,19 +12,16 @@
 #include <QDebug>
 #include <QUuid>
 
-Property::Property(qintptr id_prop, QObject *parent)
+Property::Property(int id, QObject *parent)
     : QObject(parent)
-    , m_id(id_prop)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<PSceneModel>())
 {
-    m_model->addPropertyToMap(this);
-    collectingData();
+    collectingData(id);
 }
 
-Property::Property(qintptr id, DataType type, const QVariant &data, const QString &name)
+Property::Property(DataType type, const QVariant &data, const QString &name)
 {
-    m_id = id;
     m_name = name;
     m_type = type;
     m_value.setType(type);
@@ -32,21 +29,21 @@ Property::Property(qintptr id, DataType type, const QVariant &data, const QStrin
     m_value.setName(name);
 }
 
-void Property::collectingData()
+void Property::collectingData(int idProp)
 {
-    m_name = QString::fromLocal8Bit(m_cgt->propGetName(m_id));
-    m_type = m_cgt->propGetType(m_id);
-    qintptr id_value = m_cgt->propGetValue(m_id);
+    m_name = QString::fromLocal8Bit(m_cgt->propGetName(idProp));
+    m_type = m_cgt->propGetType(idProp);
+    qintptr id_value = m_cgt->propGetValue(idProp);
 
     switch (m_type) {
     case data_int:
     case data_color:
     case data_flags: {
-        setValue(id_value, m_type, m_cgt->propToInteger(m_id));
+        setValue(m_type, m_cgt->propToInteger(idProp));
         break;
     }
     case data_real: {
-        setValue(id_value, m_type, m_cgt->propToReal(m_id));
+        setValue(m_type, m_cgt->propToReal(idProp));
         break;
     }
     case data_str:
@@ -54,33 +51,33 @@ void Property::collectingData()
     case data_list:
     case data_script:
     case data_code: {
-        setValue(id_value, m_type, QString::fromLocal8Bit(m_cgt->propToString(m_id)));
+        setValue(m_type, QString::fromLocal8Bit(m_cgt->propToString(idProp)));
         break;
     }
     case data_data: {
         const DataType dataType = m_cgt->dtType(id_value);
         switch (dataType) {
         case data_int:
-            setValue(id_value, m_type, m_cgt->dtInt(id_value), QString(), dataType);
+            setValue(m_type, m_cgt->dtInt(id_value), QString(), dataType);
             break;
         case data_str:
-            setValue(id_value, m_type, m_cgt->dtStr(id_value), QString(), dataType);
+            setValue(m_type, m_cgt->dtStr(id_value), QString(), dataType);
             break;
         case data_real:
-            setValue(id_value, m_type, m_cgt->dtReal(id_value), QString(), dataType);
+            setValue(m_type, m_cgt->dtReal(id_value), QString(), dataType);
             break;
         default:
-            setValue(id_value, m_type);
+            setValue(m_type);
             break;
         }
         break;
     }
     case data_combo: {
-        setValue(id_value, m_type, m_cgt->propToByte(m_id));
+        setValue(m_type, m_cgt->propToByte(idProp));
         break;
     }
     case data_icon: {
-        if (!strcmp(m_cgt->resAddIcon(m_id), "ASMA")) {
+        if (!strcmp(m_cgt->resAddIcon(idProp), "ASMA")) {
             break;
         }
     }
@@ -91,11 +88,11 @@ void Property::collectingData()
         static QString nameRandom = QUuid::createUuid().toString() + ".wtf";
         static QString filePath = QDir::toNativeSeparators(QDir::tempPath() + QDir::separator() + nameRandom);
 
-        m_cgt->propSaveToFile(m_id, filePath.toStdString().data());
+        m_cgt->propSaveToFile(idProp, filePath.toStdString().data());
         QFile file(filePath);
         if (file.size()) {
             file.open(QIODevice::ReadOnly);
-            setValue(id_value, m_type, file.readAll());
+            setValue(m_type, file.readAll());
             file.close();
         }
         file.remove();
@@ -129,7 +126,7 @@ void Property::collectingData()
             arrayItems.append(new Value(arrItemType, data, name));
         }
 
-        setValue(id_value, m_type, QVariant::fromValue(arrayItems), QString(), arrItemType);
+        setValue(m_type, QVariant::fromValue(arrayItems), QString(), arrItemType);
         break;
     }
     case data_font: {
@@ -140,7 +137,7 @@ void Property::collectingData()
         font->color = m_cgt->fntColor(id_value);
         font->charset = m_cgt->fntCharSet(id_value);
 
-        setValue(id_value, m_type, QVariant::fromValue(font));
+        setValue(m_type, QVariant::fromValue(font));
         break;
     }
     case data_element: {
@@ -149,13 +146,13 @@ void Property::collectingData()
             return;
 
         char buf[PATH_MAX];
-        qintptr linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), m_id, buf);
+        qintptr linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), idProp, buf);
         if (linkedElement) {
             PLinkedElementInfo elementInfo = new LinkedElementInfo();
             elementInfo->id = linkedElement;
             elementInfo->interface = QString::fromLocal8Bit(buf);
 
-            setValue(id_value, m_type, QVariant::fromValue(elementInfo));
+            setValue(m_type, QVariant::fromValue(elementInfo));
         }
         break;
     }
@@ -173,11 +170,6 @@ QVariantMap Property::serialize()
     data.insert("value", m_value.serialize());
 
     return data;
-}
-
-qintptr Property::getId() const
-{
-    return m_id;
 }
 
 void Property::setName(const QString &name)
@@ -210,13 +202,12 @@ bool Property::getIsDefProp() const
     return m_isDefProp;
 }
 
-void Property::setValue(qintptr id, DataType type, const QVariant &data, const QString &name, DataType arrayType)
+void Property::setValue(DataType type, const QVariant &data, const QString &name, DataType arrayType)
 {
     m_value.setType(type);
     m_value.setValue(data);
     m_value.setName(name);
     m_value.setSubType(arrayType);
-    m_model->addValueToMap(id, &m_value);
 }
 
 PValue Property::getValue()

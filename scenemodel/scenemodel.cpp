@@ -175,24 +175,6 @@ void SceneModel::addElementToMap(PElement id_element)
         m_mapElements.insert(id_element->getId(), id_element);
 }
 
-void SceneModel::addPropertyToMap(PProperty id_prop)
-{
-    if (id_prop)
-        m_mapProperties.insert(id_prop->getId(), id_prop);
-}
-
-void SceneModel::addPointToMap(PPoint id_point)
-{
-    if (id_point)
-        m_mapPoints.insert(id_point->getId(), id_point);
-}
-
-void SceneModel::addValueToMap(qintptr id, PValue value)
-{
-    if (value)
-        m_mapValues.insert(id, value);
-}
-
 PContainer SceneModel::getContainerById(qintptr id_sdk) const
 {
     return m_mapContainers[id_sdk];
@@ -236,33 +218,17 @@ qintptr SceneModel::getIdElementFromSDKByIndex(qintptr id_sdk, int index) const
     return c->getIdElementByIndex(index);
 }
 
-PProperty SceneModel::getPropertyById(qintptr id_prop) const
-{
-    return m_mapProperties[id_prop];
-}
-
-PPoint SceneModel::getPointById(qintptr id_point) const
-{
-    return m_mapPoints[id_point];
-}
-
-PValue SceneModel::getValueById(qintptr id_value) const
-{
-    return m_mapValues[id_value];
-}
-
-const char *SceneModel::addStreamRes(qintptr id_prop)
+const char *SceneModel::addStreamRes(PProperty id_prop)
 {
     QString ret;
-    PProperty p = getPropertyById(id_prop);
-    if (!p)
+    if (!id_prop)
         return nullptr;
 
     QString nameTypeRes;
     QString fileName;
     QString ext;
-    const PValue v = p->getValue();
-    switch (p->getType()) {
+    const PValue v = id_prop->getValue();
+    switch (id_prop->getType()) {
     case data_icon: {
         if (v->getValue().isNull())
             return fcgt::strToCString("ASMA");

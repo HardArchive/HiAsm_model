@@ -60,7 +60,9 @@ void Element::collectingData()
     for (int i = 0; i < propCount; ++i) {
         qintptr propId = m_cgt->elGetProperty(m_id, i);
         bool defProp = m_cgt->elIsDefProp(m_id, i);
-        addProperty(new Property(propId, this))->setIsDefProp(defProp);
+        auto prop = new Property(propId, this);
+        prop->setIsDefProp(defProp);
+        addProperty(prop);
     }
 
     if (fcgt::isLink(m_flags))
@@ -373,13 +375,13 @@ PPoint Element::getPointByIndex(uint index) const
         return nullptr;
 }
 
-qintptr Element::getIdPointByIndex(uint index) const
+PPoint Element::getIdPointByIndex(uint index) const
 {
     const PPoint p = getPointByIndex(index);
     if (!p)
         return 0;
 
-    return p->getId();
+    return p;
 }
 
 PPoint Element::getPointByName(const QString &name) const
@@ -393,13 +395,13 @@ PPoint Element::getPointByName(const QString &name) const
     return nullptr;
 }
 
-qintptr Element::getIdPointByName(const QString &name) const
+PPoint Element::getIdPointByName(const QString &name) const
 {
     const PPoint p = getPointByName(name);
     if (!p)
         return 0;
 
-    return p->getId();
+    return p;
 }
 
 PPoint Element::addPoint(PPoint point)
@@ -426,27 +428,27 @@ PProperty Element::getPropertyByIndex(uint index) const
         return PProperty();
 }
 
-qintptr Element::getIdPropertyByIndex(uint index) const
+PProperty Element::getIdPropertyByIndex(uint index) const
 {
     const PProperty e = getPropertyByIndex(index);
     if (!e)
-        return 0;
+        return nullptr;
 
-    return e->getId();
+    return e;
 }
 
-PProperty Element::getPropertyById(qintptr id_prop) const
+PProperty Element::getPropertyById(PProperty id_prop) const
 {
     if (!id_prop)
-        return PProperty();
+        return nullptr;
 
-    for (PProperty p : m_properties) {
-        if (p->getId() == id_prop) {
+    for (const PProperty p : m_properties) {
+        if (p == id_prop) {
             return p;
         }
     }
 
-    return PProperty();
+    return nullptr;
 }
 
 PProperty Element::getPropertyByName(const QString &name) const
@@ -460,13 +462,13 @@ PProperty Element::getPropertyByName(const QString &name) const
     return PProperty();
 }
 
-qintptr Element::getIdPropertyByName(const QString &name) const
+PProperty Element::getIdPropertyByName(const QString &name) const
 {
     PProperty p = getPropertyByName(name);
     if (!p)
-        return 0;
+        return nullptr;
 
-    return p->getId();
+    return p;
 }
 
 PProperty Element::addProperty(PProperty property)

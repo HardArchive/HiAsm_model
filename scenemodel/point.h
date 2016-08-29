@@ -10,22 +10,24 @@
 #include <QObject>
 #include <QDebug>
 
-class Point: public QObject
-{
+struct RLinkPoint {
+    qintptr element{};
+    QString point;
+};
+
+class Point : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Point)
 
 private:
     //Self
-    qintptr m_id{};
     PointType m_type{};
     DataType m_dataType{};
     uint m_index{};
     QString m_name;
     QString m_dpeName;
     QString m_info;
-    qintptr m_linkPoint{};
-    qintptr m_RLinkPoint{};
+    RLinkPoint m_RLinkPoint;
 
     //CGT
     PCodeGenTools m_cgt{};
@@ -38,17 +40,16 @@ private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Point(qintptr id_point, QObject *parent);
+    explicit Point(int id_point, QObject *parent);
 
 private:
-    void collectingData();
+    void collectingData(int id_point);
 
 public:
     //Serialize
     QVariantMap serialize();
 
     //Self
-    qintptr getId() const;
     PElement getParent() const;
 
     void setType(PointType type);
@@ -69,11 +70,8 @@ public:
     void setInfo(const QString &info);
     QString getInfo() const;
 
-    void setLinkPoint(qintptr linkPoint);
-    qintptr getLinkPoint() const;
-
-    void setRLinkPoint(qintptr RLinkPoint);
-    qintptr getRLinkPoint() const;
+    PPoint getLinkPoint() const;
+    PPoint getRLinkPoint() const;
 
     //CGT
     PCodeGenTools getCgt();

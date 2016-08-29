@@ -17,7 +17,6 @@ class Property : public QObject {
 
 private:
     //Self
-    qintptr m_id{};
     QString m_name;
     DataType m_type{};
     bool m_isDefProp{};
@@ -36,22 +35,19 @@ private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Property(qintptr id_prop, QObject *parent);
-    explicit Property(qintptr id = 0,
-        DataType type = data_null,
+    explicit Property(int id, QObject *parent);
+    explicit Property(DataType type = data_null,
         const QVariant &data = QVariant(),
         const QString &name = QString());
 
 private:
-    void collectingData();
+    void collectingData(int idProp);
 
 public:
     //Serialize
     QVariantMap serialize();
 
     //Self
-    qintptr getId() const;
-
     void setName(const QString &name);
     QString getName() const;
 
@@ -62,7 +58,7 @@ public:
     bool getIsDefProp() const;
 
     //Value
-    void setValue(qintptr id, DataType type = data_null,
+    void setValue(DataType type = data_null,
         const QVariant &data = QVariant(),
         const QString &name = QString(),
         DataType arrayType = data_null);

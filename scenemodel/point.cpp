@@ -9,26 +9,28 @@
 
 //Qt
 
-Point::Point(qintptr id_point, QObject *parent)
+Point::Point(int id_point, QObject *parent)
     : QObject(parent)
-    , m_id(id_point)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<PSceneModel>())
 {
-    m_model->addPointToMap(this);
-    collectingData();
+    collectingData(id_point);
 }
 
-void Point::collectingData()
+void Point::collectingData(int id_point)
 {
-    m_type = m_cgt->ptGetType(m_id);
-    m_dataType = m_cgt->ptGetDataType(m_id);
-    m_index = m_cgt->ptGetIndex(m_id);
-    m_name = QString::fromLocal8Bit(m_cgt->ptGetName(m_id));
-    m_dpeName = QString::fromLocal8Bit(m_cgt->pt_dpeGetName(m_id));
-    m_info = QString::fromLocal8Bit(m_cgt->ptGetInfo(m_id));
-    m_linkPoint = m_cgt->ptGetLinkPoint(m_id);
-    m_RLinkPoint = m_cgt->ptGetRLinkPoint(m_id);
+    m_type = m_cgt->ptGetType(id_point);
+    m_dataType = m_cgt->ptGetDataType(id_point);
+    m_index = m_cgt->ptGetIndex(id_point);
+    m_name = QString::fromLocal8Bit(m_cgt->ptGetName(id_point));
+    m_dpeName = QString::fromLocal8Bit(m_cgt->pt_dpeGetName(id_point));
+    m_info = QString::fromLocal8Bit(m_cgt->ptGetInfo(id_point));
+
+    auto pId = m_cgt->ptGetRLinkPoint(id_point);
+    if (pId) {
+        m_RLinkPoint.element = m_cgt->ptGetParent(pId);
+        m_RLinkPoint.point = QString::fromLocal8Bit(m_cgt->ptGetName(pId));
+    }
 }
 
 QVariantMap Point::serialize()
@@ -40,15 +42,8 @@ QVariantMap Point::serialize()
     data.insert("name", m_name);
     data.insert("dpeName", m_dpeName);
     data.insert("info", m_info);
-    data.insert("linkPoint", m_linkPoint);
-    data.insert("RLinkPoint", m_RLinkPoint);
 
     return data;
-}
-
-qintptr Point::getId() const
-{
-    return m_id;
 }
 
 PElement Point::getParent() const
@@ -116,24 +111,19 @@ QString Point::getInfo() const
     return m_info;
 }
 
-void Point::setLinkPoint(qintptr linkPoint)
+PPoint Point::getLinkPoint() const
 {
-    m_linkPoint = linkPoint;
+    return nullptr; //TODO доработать
 }
 
-qintptr Point::getLinkPoint() const
+PPoint Point::getRLinkPoint() const
 {
-    return m_linkPoint;
-}
+    if (m_RLinkPoint.element) {
+        auto e = m_model->getElementById(m_RLinkPoint.element);
+        return e->getPointByName(m_RLinkPoint.point);
+    }
 
-void Point::setRLinkPoint(qintptr RLinkPoint)
-{
-    m_RLinkPoint = RLinkPoint;
-}
-
-qintptr Point::getRLinkPoint() const
-{
-    return m_RLinkPoint;
+    return nullptr;
 }
 
 PCodeGenTools Point::getCgt()

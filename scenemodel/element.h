@@ -131,19 +131,19 @@ public:
     //Point
     int getCountPoints() const;
     PPoint getPointByIndex(uint index) const;
-    qintptr getIdPointByIndex(uint index) const;
+    PPoint getIdPointByIndex(uint index) const;
     PPoint getPointByName(const QString &name) const;
-    qintptr getIdPointByName(const QString &name) const;
+    PPoint getIdPointByName(const QString &name) const;
     PPoint addPoint(PPoint point);
     void removePoint(uint index);
 
     //Property
     int getCountProps() const;
     PProperty getPropertyByIndex(uint index) const;
-    qintptr getIdPropertyByIndex(uint index) const;
-    PProperty getPropertyById(qintptr id_prop) const;
+    PProperty getIdPropertyByIndex(uint index) const;
+    PProperty getPropertyById(PProperty id_prop) const;
     PProperty getPropertyByName(const QString &name) const;
-    qintptr getIdPropertyByName(const QString &name) const;
+    PProperty getIdPropertyByName(const QString &name) const;
     PProperty addProperty(PProperty property);
     void removeProperty(uint index);
 };
