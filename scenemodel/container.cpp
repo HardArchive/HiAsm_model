@@ -16,7 +16,7 @@ Container::Container(QObject *parent)
     m_model->addContainerToMap(this);
 }
 
-Container::Container(quintptr id_sdk, QObject *parent)
+Container::Container(qintptr id_sdk, QObject *parent)
     : QObject(parent)
     , m_id(id_sdk)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
@@ -37,7 +37,7 @@ void Container::collectingData()
 {
     int countElements = m_cgt->sdkGetCount(m_id);
     for (int i = 0; i < countElements; ++i) {
-        quintptr id_element = m_cgt->sdkGetElement(m_id, i);
+        qintptr id_element = m_cgt->sdkGetElement(m_id, i);
 
         //ru Добавляем элемент в контейнер
         addElement(new Element(id_element, this));
@@ -67,7 +67,7 @@ QVariantMap Container::serialize()
 void Container::deserialize(const QJsonObject &object)
 {
     const auto data = object["Data"].toObject();
-    m_id = data["id"].toVariant().value<quintptr>();
+    m_id = data["id"].toVariant().value<qintptr>();
     m_model->addContainerToMap(this);
     m_name = data["name"].toString();
 
@@ -77,7 +77,7 @@ void Container::deserialize(const QJsonObject &object)
     }
 }
 
-quintptr Container::getId() const
+qintptr Container::getId() const
 {
     return m_id;
 }
@@ -120,7 +120,7 @@ PElement Container::getElementByIndex(uint index) const
     return nullptr;
 }
 
-quintptr Container::getIdElementByIndex(uint index) const
+qintptr Container::getIdElementByIndex(uint index) const
 {
     const PElement e = getElementByIndex(index);
     if (!e)
@@ -140,7 +140,7 @@ PElement Container::getElementByName(const QString &name) const
     return 0;
 }
 
-quintptr Container::getIdElementByName(const QString &name) const
+qintptr Container::getIdElementByName(const QString &name) const
 {
     PElement e = getElementByName(name);
     if (e)

@@ -18,7 +18,7 @@ class Property: public QObject
 
 private:
     //Self
-    quintptr m_id{};
+    qintptr m_id{};
     QString m_name;
     DataType m_type{};
     bool m_isDefProp{};
@@ -37,9 +37,9 @@ private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Property(quintptr id_prop, QObject *parent);
+    explicit Property(qintptr id_prop, QObject *parent);
     explicit Property(const QJsonObject &object, QObject *parent);
-    explicit Property(quintptr id = 0,
+    explicit Property(qintptr id = 0,
                       DataType type = data_null,
                       const QVariant &data = QVariant(),
                       const QString &name = QString());
@@ -53,7 +53,7 @@ public:
     void deserialize(const QJsonObject &object);
 
     //Self
-    quintptr getId() const;
+    qintptr getId() const;
 
     void setName(const QString &name);
     QString getName() const;
@@ -65,8 +65,7 @@ public:
     bool getIsDefProp() const;
 
     //Value
-    void setValue(quintptr id = 0,
-                  DataType type = data_null,
+    void setValue(qintptr id, DataType type = data_null,
                   const QVariant &data = QVariant(),
                   const QString &name = QString(),
                   DataType arrayType = data_null);
@@ -76,7 +75,7 @@ public:
     int toInt() const;
     qreal toReal() const;
     QString toString() const;
-    const PLinkedElementInfo toLinkedElementInfo() const;
+    PLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
     PCodeGenTools getCgt();

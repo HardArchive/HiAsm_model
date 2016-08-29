@@ -10,7 +10,7 @@
 
 //Qt
 
-Element::Element(const QString &name, quintptr id_element, int X, int Y, QObject *parent)
+Element::Element(const QString &name, qintptr id_element, int X, int Y, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
     , m_posX(X)
@@ -23,7 +23,7 @@ Element::Element(const QString &name, quintptr id_element, int X, int Y, QObject
     const SharedConfElement conf = package->getElementByName(name);
 }
 
-Element::Element(quintptr id_element, QObject *parent)
+Element::Element(qintptr id_element, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
@@ -59,13 +59,13 @@ void Element::collectingData()
 
     //ru Получаем информацию о точках
     for (int i = 0; i < ptCount; ++i) {
-        quintptr pointId = m_cgt->elGetPt(m_id, i);
+        qintptr pointId = m_cgt->elGetPt(m_id, i);
         addPoint(new Point(pointId, this));
     }
 
     //ru Получаем информацию о свойствах
     for (int i = 0; i < propCount; ++i) {
-        quintptr propId = m_cgt->elGetProperty(m_id, i);
+        qintptr propId = m_cgt->elGetProperty(m_id, i);
         bool defProp = m_cgt->elIsDefProp(m_id, i);
         addProperty(new Property(propId, this))->setIsDefProp(defProp);
     }
@@ -82,7 +82,7 @@ void Element::collectingData()
 
             for (int i = 0; i < countContainers; ++i) {
                 //ru Получаем ID контейнера
-                quintptr id_sdk = m_cgt->elGetSDKByIndex(m_id, i);
+                qintptr id_sdk = m_cgt->elGetSDKByIndex(m_id, i);
                 QString name = QString::fromLocal8Bit(m_cgt->elGetSDKName(id_sdk, i));
 
                 //ru Добавляем контейнер в элемент
@@ -91,7 +91,7 @@ void Element::collectingData()
         } else { //ru Элемент содержит обычный контейнер
 
             //ru Получаем ID контейнера элемента
-            quintptr id_sdk = m_cgt->elGetSDK(m_id);
+            qintptr id_sdk = m_cgt->elGetSDK(m_id);
 
             //ru Добавляем контейнер в элемент
             addContainer(new Container(id_sdk, this));
@@ -154,7 +154,7 @@ void Element::deserialize(const QJsonObject &object)
     const auto properties = object["Properties"].toArray();
     const auto points = object["Points"].toArray();
 
-    m_id = data["id"].toVariant().value<quintptr>();
+    m_id = data["id"].toVariant().value<qintptr>();
     m_model->addElementToMap(this);
 
     //m_userData = data["userData"].toVariant().toUInt();
@@ -162,7 +162,7 @@ void Element::deserialize(const QJsonObject &object)
     m_flags = ElementFlgs(data["flags"].toInt());
     m_group = data["group"].toInt();
     m_linkIs = data["linkIs"].toBool();
-    m_linkMain = data["linkMain"].toVariant().value<quintptr>();
+    m_linkMain = data["linkMain"].toVariant().value<qintptr>();
     m_posX = data["posX"].toInt();
     m_posY = data["posY"].toInt();
     m_sizeW = data["sizeW"].toInt();
@@ -184,7 +184,7 @@ void Element::deserialize(const QJsonObject &object)
     }
 }
 
-quintptr Element::getId() const
+qintptr Element::getId() const
 {
     return m_id;
 }
@@ -194,12 +194,12 @@ PContainer Element::getParent() const
     return qobject_cast<PContainer>(parent());
 }
 
-void Element::setUserData(quintptr userData)
+void Element::setUserData(qintptr userData)
 {
     m_userData = userData;
 }
 
-quintptr Element::getUserData() const
+qintptr Element::getUserData() const
 {
     return m_userData;
 }
@@ -244,12 +244,12 @@ bool Element::getLinkIs() const
     return m_linkIs;
 }
 
-void Element::setLinkMain(quintptr linkMain)
+void Element::setLinkMain(qintptr linkMain)
 {
     m_linkMain = linkMain;
 }
 
-quintptr Element::getLinkMain() const
+qintptr Element::getLinkMain() const
 {
     return m_linkMain;
 }
@@ -367,7 +367,7 @@ PContainer Element::getContainer() const
     return m_containers[0];
 }
 
-quintptr Element::getIdContainer() const
+qintptr Element::getIdContainer() const
 {
     const PContainer c = getContainer();
     if (!c)
@@ -384,7 +384,7 @@ PContainer Element::getContainerByIndex(uint index)
         return nullptr;
 }
 
-quintptr Element::getIdContainerByIndex(uint index)
+qintptr Element::getIdContainerByIndex(uint index)
 {
     const PContainer c = getContainerByIndex(index);
     if (!c)
@@ -417,7 +417,7 @@ PPoint Element::getPointByIndex(uint index) const
         return nullptr;
 }
 
-quintptr Element::getIdPointByIndex(uint index) const
+qintptr Element::getIdPointByIndex(uint index) const
 {
     const PPoint p = getPointByIndex(index);
     if (!p)
@@ -437,7 +437,7 @@ PPoint Element::getPointByName(const QString &name) const
     return nullptr;
 }
 
-quintptr Element::getIdPointByName(const QString &name) const
+qintptr Element::getIdPointByName(const QString &name) const
 {
     const PPoint p = getPointByName(name);
     if (!p)
@@ -470,7 +470,7 @@ PProperty Element::getPropertyByIndex(uint index) const
         return PProperty();
 }
 
-quintptr Element::getIdPropertyByIndex(uint index) const
+qintptr Element::getIdPropertyByIndex(uint index) const
 {
     const PProperty e = getPropertyByIndex(index);
     if (!e)
@@ -479,7 +479,7 @@ quintptr Element::getIdPropertyByIndex(uint index) const
     return e->getId();
 }
 
-PProperty Element::getPropertyById(quintptr id_prop) const
+PProperty Element::getPropertyById(qintptr id_prop) const
 {
     if (!id_prop)
         return PProperty();
@@ -504,7 +504,7 @@ PProperty Element::getPropertyByName(const QString &name) const
     return PProperty();
 }
 
-quintptr Element::getIdPropertyByName(const QString &name) const
+qintptr Element::getIdPropertyByName(const QString &name) const
 {
     PProperty p = getPropertyByName(name);
     if (!p)

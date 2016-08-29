@@ -17,13 +17,13 @@ class Element: public QObject
 
 private:
     //Self
-    quintptr m_id{};
-    quintptr m_userData{};
+    qintptr m_id{};
+    qintptr m_userData{};
     ElementClass m_classIndex{};
     ElementFlgs m_flags{};
     int m_group{};
     bool m_linkIs{};
-    quintptr m_linkMain{};
+    qintptr m_linkMain{};
     int m_posX{};
     int m_posY{};
     int m_sizeW{};
@@ -54,8 +54,8 @@ private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Element(const QString &name, quintptr id_element, int X, int Y,  QObject *parent);
-    explicit Element(quintptr id_element, QObject *parent);
+    explicit Element(const QString &name, qintptr id_element, int X, int Y,  QObject *parent);
+    explicit Element(qintptr id_element, QObject *parent);
     explicit Element(const QJsonObject &object, QObject *parent);
 
 private:
@@ -67,11 +67,11 @@ public:
     void deserialize(const QJsonObject &object);
 
     //Self
-    quintptr getId() const;
+    qintptr getId() const;
     PContainer getParent() const;
 
-    void setUserData(quintptr userData);
-    quintptr getUserData() const;
+    void setUserData(qintptr userData);
+    qintptr getUserData() const;
 
     void setClassIndex(ElementClass classIndex);
     ElementClass getClassIndex();
@@ -85,8 +85,8 @@ public:
     void setLinkIs(bool linkIs);
     bool getLinkIs() const;
 
-    void setLinkMain(quintptr linkMain);
-    quintptr getLinkMain() const;
+    void setLinkMain(qintptr linkMain);
+    qintptr getLinkMain() const;
 
     void setPosX(int posX);
     int getPosX() const;
@@ -124,28 +124,28 @@ public:
     //Container
     int getCountContainers() const;
     PContainer getContainer() const;
-    quintptr getIdContainer() const;
+    qintptr getIdContainer() const;
     PContainer getContainerByIndex(uint index);
-    quintptr getIdContainerByIndex(uint index);
+    qintptr getIdContainerByIndex(uint index);
     PContainer addContainer(PContainer container);
     void removeContainer(uint index);
 
     //Point
     int getCountPoints() const;
     PPoint getPointByIndex(uint index) const;
-    quintptr getIdPointByIndex(uint index) const;
+    qintptr getIdPointByIndex(uint index) const;
     PPoint getPointByName(const QString &name) const;
-    quintptr getIdPointByName(const QString &name) const;
+    qintptr getIdPointByName(const QString &name) const;
     PPoint addPoint(PPoint point);
     void removePoint(uint index);
 
     //Property
     int getCountProps() const;
     PProperty getPropertyByIndex(uint index) const;
-    quintptr getIdPropertyByIndex(uint index) const;
-    PProperty getPropertyById(quintptr id_prop) const;
+    qintptr getIdPropertyByIndex(uint index) const;
+    PProperty getPropertyById(qintptr id_prop) const;
     PProperty getPropertyByName(const QString &name) const;
-    quintptr getIdPropertyByName(const QString &name) const;
+    qintptr getIdPropertyByName(const QString &name) const;
     PProperty addProperty(PProperty property);
     void removeProperty(uint index);
 };

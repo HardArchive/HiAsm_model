@@ -17,15 +17,15 @@ class Point: public QObject
 
 private:
     //Self
-    quintptr m_id{};
+    qintptr m_id{};
     PointType m_type{};
     DataType m_dataType{};
     uint m_index{};
     QString m_name;
     QString m_dpeName;
     QString m_info;
-    quintptr m_linkPoint{};
-    quintptr m_RLinkPoint{};
+    qintptr m_linkPoint{};
+    qintptr m_RLinkPoint{};
 
     //CGT
     PCodeGenTools m_cgt{};
@@ -38,7 +38,7 @@ private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Point(quintptr id_point, QObject *parent);
+    explicit Point(qintptr id_point, QObject *parent);
     explicit Point(const QJsonObject &object, QObject *parent);
 
 private:
@@ -50,7 +50,7 @@ public:
     void deserialize(const QJsonObject &object);
 
     //Self
-    quintptr getId() const;
+    qintptr getId() const;
     PElement getParent() const;
 
     void setType(PointType type);
@@ -71,11 +71,11 @@ public:
     void setInfo(const QString &info);
     QString getInfo() const;
 
-    void setLinkPoint(quintptr linkPoint);
-    quintptr getLinkPoint() const;
+    void setLinkPoint(qintptr linkPoint);
+    qintptr getLinkPoint() const;
 
-    void setRLinkPoint(quintptr RLinkPoint);
-    quintptr getRLinkPoint() const;
+    void setRLinkPoint(qintptr RLinkPoint);
+    qintptr getRLinkPoint() const;
 
     //CGT
     PCodeGenTools getCgt();

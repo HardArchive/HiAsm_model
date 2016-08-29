@@ -16,7 +16,7 @@ class Container: public QObject
 
 private:
     //Self
-    quintptr m_id{};
+    qintptr m_id{};
     QString m_name;
 
     //CGT
@@ -34,7 +34,7 @@ private:
 
 public:
     explicit Container(QObject *parent);
-    explicit Container(quintptr id_sdk, QObject *parent);
+    explicit Container(qintptr id_sdk, QObject *parent);
     explicit Container(const QJsonObject &object, QObject *parent);
 
 private:
@@ -46,7 +46,7 @@ public:
     void deserialize(const QJsonObject &object);
 
     //Self
-    quintptr getId() const;
+    qintptr getId() const;
     PElement getParent() const;
     void setName(const QString &name);
     QString getName() const;
@@ -60,9 +60,9 @@ public:
     //Element
     int getCountElements() const;
     PElement getElementByIndex(uint index) const;
-    quintptr getIdElementByIndex(uint index) const;
+    qintptr getIdElementByIndex(uint index) const;
     PElement getElementByName(const QString &name) const;
-    quintptr getIdElementByName(const QString &name) const;
+    qintptr getIdElementByName(const QString &name) const;
     PElement addElement(PElement element);
     void removeElement(uint index);
 };
