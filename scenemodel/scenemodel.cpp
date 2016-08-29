@@ -163,26 +163,26 @@ bool SceneModel::loadPackage(const QString &name)
     return true;
 }
 
-void SceneModel::addContainerToMap(PContainer id_sdk)
+void SceneModel::addContainerToMap(Container * id_sdk)
 {
     if (id_sdk)
         m_mapContainers.insert(id_sdk->getId(), id_sdk);
 }
 
-void SceneModel::addElementToMap(PElement id_element)
+void SceneModel::addElementToMap(Element * id_element)
 {
     if (id_element)
         m_mapElements.insert(id_element->getId(), id_element);
 }
 
-PContainer SceneModel::getContainerById(qintptr id_sdk) const
+Container * SceneModel::getContainerById(qintptr id_sdk) const
 {
     return m_mapContainers[id_sdk];
 }
 
 int SceneModel::getCountElementsInContainer(qintptr id_sdk) const
 {
-    const PContainer c = getContainerById(id_sdk);
+    const Container * c = getContainerById(id_sdk);
     if (!c)
         return 0;
 
@@ -197,14 +197,14 @@ qintptr SceneModel::getIdRootContainer() const
     return m_container->getId();
 }
 
-PElement SceneModel::getElementById(qintptr id_element) const
+Element * SceneModel::getElementById(qintptr id_element) const
 {
     return m_mapElements[id_element];
 }
 
-PElement SceneModel::getElementFromSDKByIndex(qintptr id_sdk, int index) const
+Element * SceneModel::getElementFromSDKByIndex(qintptr id_sdk, int index) const
 {
-    const PContainer c = getContainerById(id_sdk);
+    const Container * c = getContainerById(id_sdk);
     if (!c)
         return nullptr;
     return c->getElementByIndex(index);
@@ -212,7 +212,7 @@ PElement SceneModel::getElementFromSDKByIndex(qintptr id_sdk, int index) const
 
 qintptr SceneModel::getIdElementFromSDKByIndex(qintptr id_sdk, int index) const
 {
-    const PContainer c = getContainerById(id_sdk);
+    const Container * c = getContainerById(id_sdk);
     if (!c)
         return 0;
     return c->getIdElementByIndex(index);

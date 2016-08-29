@@ -47,7 +47,7 @@ public:
     QVariantMap serialize() const;
 
     //Self
-    PElement getParent() const;
+    Element * getParent() const;
 
     void setType(PointType type);
     PointType getType() const;

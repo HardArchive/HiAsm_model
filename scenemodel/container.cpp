@@ -29,14 +29,14 @@ void Container::collectingData()
     }
 }
 
-QVariantMap Container::serialize()
+QVariantMap Container::serialize() const
 {
     QVariantMap data;
     data.insert("id", m_id);
     data.insert("name", m_name);
 
     QVariantList elements;
-    for (const PElement e : m_elements) {
+    for (const Element *e : m_elements) {
         elements.append(e->serialize());
     }
 
@@ -54,9 +54,9 @@ qintptr Container::getId() const
     return m_id;
 }
 
-PElement Container::getParent() const
+Element *Container::getParent() const
 {
-    return qobject_cast<PElement>(parent());
+    return qobject_cast<Element *>(parent());
 }
 
 QString Container::getName() const
@@ -84,7 +84,7 @@ int Container::getCountElements() const
     return m_elements.size();
 }
 
-PElement Container::getElementByIndex(uint index) const
+Element *Container::getElementByIndex(uint index) const
 {
     if (index < uint(m_elements.size()))
         return m_elements[index];
@@ -94,16 +94,16 @@ PElement Container::getElementByIndex(uint index) const
 
 qintptr Container::getIdElementByIndex(uint index) const
 {
-    const PElement e = getElementByIndex(index);
+    const Element *e = getElementByIndex(index);
     if (!e)
         return 0;
 
     return e->getId();
 }
 
-PElement Container::getElementByName(const QString &name) const
+Element *Container::getElementByName(const QString &name) const
 {
-    for (PElement e : m_elements) {
+    for (Element *e : m_elements) {
         if (QString::compare(e->getClassName(), name, Qt::CaseInsensitive) == 0) {
             return e;
         }
@@ -114,14 +114,14 @@ PElement Container::getElementByName(const QString &name) const
 
 qintptr Container::getIdElementByName(const QString &name) const
 {
-    PElement e = getElementByName(name);
+    Element *e = getElementByName(name);
     if (e)
         return e->getId();
 
     return 0;
 }
 
-PElement Container::addElement(PElement element)
+Element *Container::addElement(Element *element)
 {
     m_elements.append(element);
     return element;

@@ -29,7 +29,7 @@ private:
     MapElements m_mapElements;
 
     //Container
-    PContainer m_container{};
+    Container * m_container{};
 
     //Resource
     const QString m_resourcesDir = "resources";
@@ -80,17 +80,17 @@ public:
     bool loadPackage(const QString &name);
 
     //Map
-    void addContainerToMap(PContainer id_sdk);
-    void addElementToMap(PElement id_element);
+    void addContainerToMap(Container * id_sdk);
+    void addElementToMap(Element * id_element);
 
     //Container
-    PContainer getContainerById(qintptr id_sdk) const;
+    Container * getContainerById(qintptr id_sdk) const;
     int getCountElementsInContainer(qintptr id_sdk) const;
     qintptr getIdRootContainer() const;
 
     //Element
-    PElement getElementById(qintptr id_element) const;
-    PElement getElementFromSDKByIndex(qintptr id_sdk, int index) const;
+    Element * getElementById(qintptr id_element) const;
+    Element * getElementFromSDKByIndex(qintptr id_sdk, int index) const;
     qintptr getIdElementFromSDKByIndex(qintptr id_sdk, int index) const;
 
     //Resource

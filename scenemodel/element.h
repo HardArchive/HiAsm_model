@@ -61,11 +61,11 @@ private:
 
 public:
     //Serialize
-    QVariantMap serialize();
+    QVariantMap serialize() const;
 
     //Self
     int getId() const;
-    PContainer getParent() const;
+    Container * getParent() const;
 
     void setUserData(int userData);
     qintptr getUserData() const;
@@ -120,11 +120,11 @@ public:
 
     //Container
     int getCountContainers() const;
-    PContainer getContainer() const;
+    Container * getContainer() const;
     int getIdContainer() const;
-    PContainer getContainerByIndex(int index);
-    int getIdContainerByIndex(int index);
-    PContainer addContainer(PContainer container);
+    Container * getContainerByIndex(int index) const;
+    int getIdContainerByIndex(int index) const;
+    Container * addContainer(Container * container);
     void removeContainer(int index);
 
     //Point

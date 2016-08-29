@@ -35,7 +35,7 @@ EXPORT int sdkGetElement(int id_sdk, int index)
 //ru Возвращает ID элемента по имени элемента.
 EXPORT int sdkGetElementName(int id_sdk, char *name)
 {
-    const PContainer c = m_model->getContainerById(id_sdk);
+    const Container * c = m_model->getContainerById(id_sdk);
     if (!c)
         return 0;
 
@@ -46,7 +46,7 @@ EXPORT int sdkGetElementName(int id_sdk, char *name)
 //ru Возвращает флаги элемента.
 EXPORT ElementFlags elGetFlag(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return ELEMENT_FLG_IS_FREEZE;
 
@@ -56,7 +56,7 @@ EXPORT ElementFlags elGetFlag(int id_element)
 //ru Возвращает количество свойств элемента.
 EXPORT int elGetPropCount(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -66,7 +66,7 @@ EXPORT int elGetPropCount(int id_element)
 //ru Возвращает id свойства элемента по индексу, с порядковым номером из INI.
 EXPORT Property *elGetProperty(int id_element, int index)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
@@ -76,7 +76,7 @@ EXPORT Property *elGetProperty(int id_element, int index)
 //ru Возвращает True, если значение свойства совпадает с заданным в INI файле, иначе False.
 EXPORT bool elIsDefProp(int id_element, int index)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return false;
 
@@ -90,7 +90,7 @@ EXPORT bool elIsDefProp(int id_element, int index)
 //ru Присваиваем элементу уникальное имя и возвращаем ID этого элемента.
 EXPORT int elSetCodeName(int id_element, const char *name)
 {
-    const PElement e = m_model->getElementById(id_element);
+    Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -101,7 +101,7 @@ EXPORT int elSetCodeName(int id_element, const char *name)
 //ru Возвращает уникальное имя элемента
 EXPORT const char *elGetCodeName(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
@@ -111,7 +111,7 @@ EXPORT const char *elGetCodeName(int id_element)
 //ru Возвращает имя класса элемента
 EXPORT const char *elGetClassName(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
@@ -121,7 +121,7 @@ EXPORT const char *elGetClassName(int id_element)
 //ru Возвращает водержимое поля Sub из конфигурационного INI-файла элемента.
 EXPORT const char *elGetInfSub(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -131,7 +131,7 @@ EXPORT const char *elGetInfSub(int id_element)
 //ru Возвращает общее количество видимых точек у элемента.
 EXPORT int elGetPtCount(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -141,7 +141,7 @@ EXPORT int elGetPtCount(int id_element)
 //ru Возвращает ID точки по её индексу.
 EXPORT Point *elGetPt(int id_element, int index)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
@@ -151,7 +151,7 @@ EXPORT Point *elGetPt(int id_element, int index)
 //ru Возвращает ID точки по её имени.
 EXPORT Point *elGetPtName(int id_element, const char *name)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
@@ -161,7 +161,7 @@ EXPORT Point *elGetPtName(int id_element, const char *name)
 //ru Возвращает индекс класса элемента.
 EXPORT ElementClass elGetClassIndex(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    Element *e = m_model->getElementById(id_element);
     if (!e)
         return CI_Element;
 
@@ -172,15 +172,15 @@ EXPORT ElementClass elGetClassIndex(int id_element)
 //ru Если элемент не содержит контейнеры, возвращаем ID элемента родителя текущего контейнера.
 EXPORT int elGetSDK(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
-    const PContainer c = e->getContainer();
+    const Container * c = e->getContainer();
     if (c)
         return c->getId();
 
-    const PElement p = qobject_cast<PElement>(e->parent()->parent());
+    const Element *p = qobject_cast<Element *>(e->parent()->parent());
     if (p) {
         return p->getId();
     }
@@ -191,7 +191,7 @@ EXPORT int elGetSDK(int id_element)
 //ru Возвращает True, если данный элемент является ссылкой, либо на него ссылаются.
 EXPORT bool elLinkIs(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return false;
 
@@ -201,7 +201,7 @@ EXPORT bool elLinkIs(int id_element)
 //ru Возвращает ID главного элемента(тот, на который ссылаются другие).
 EXPORT int elLinkMain(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -211,7 +211,7 @@ EXPORT int elLinkMain(int id_element)
 //ru Помещает в переменные "X" и "Y", позицию элемента в редакторе схем.
 EXPORT void elGetPos(int id_element, int &X, int &Y)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return;
 
@@ -222,7 +222,7 @@ EXPORT void elGetPos(int id_element, int &X, int &Y)
 //ru Помещает в переменные "w" и "h", размеры элемента.
 EXPORT void elGetSize(int id_element, int &W, int &H)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return;
 
@@ -280,7 +280,7 @@ EXPORT int ptGetParent(Point *id_point)
     if (!id_point)
         return 0;
 
-    const PElement e = qobject_cast<PElement>(id_point->parent());
+    const Element *e = qobject_cast<Element *>(id_point->parent());
 
     return e->getId();
 }
@@ -323,12 +323,12 @@ EXPORT const char *propGetName(Property *prop)
 }
 
 //ru Возвращает значение свойства в виде указателя на данные.
-EXPORT Value * propGetValue(Property *prop)
+EXPORT Value *propGetValue(Property *prop)
 {
     if (!prop)
         return nullptr;
 
-    Value * v = prop->getValue();
+    Value *v = prop->getValue();
     if (!v)
         return nullptr;
 
@@ -450,7 +450,7 @@ EXPORT int GetParam(CgtParams index, void *value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ массив ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем количество элементов в массиве.
-EXPORT int arrCount(Value * id_array)
+EXPORT int arrCount(Value *id_array)
 {
     if (!id_array)
         return 0;
@@ -459,7 +459,7 @@ EXPORT int arrCount(Value * id_array)
 }
 
 //ru Получаем тип элементов в массиве.
-EXPORT DataType arrType(Value * id_array)
+EXPORT DataType arrType(Value *id_array)
 {
     if (!id_array)
         return data_null;
@@ -468,7 +468,7 @@ EXPORT DataType arrType(Value * id_array)
 }
 
 //ru Получаем имя элемента по индексу.
-EXPORT const char *arrItemName(Value * id_array, int index)
+EXPORT const char *arrItemName(Value *id_array, int index)
 {
     if (!id_array)
         return nullptr;
@@ -488,12 +488,12 @@ EXPORT int arrItemData(int id_array, int index)
 //ru Получаем элемент массива в виде свойства (id_prop) Оо,
 //ru для дальнейшей работы с ним cgt::prop* функциями.
 //TODO Утечка
-EXPORT Property *arrGetItem(Value * array, int index)
+EXPORT Property *arrGetItem(Value *array, int index)
 {
     if (!array)
         return nullptr;
 
-    const Value * arrValue = array->getArrayItemByIndex(index);
+    const Value *arrValue = array->getArrayItemByIndex(index);
     if (arrValue) {
         Property *prop = new Property(arrValue->getType(), arrValue->getValue(), arrValue->getName());
 
@@ -515,7 +515,7 @@ EXPORT int isDebug(int id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ работа с данными ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //ru Возвращает тип данных.
-EXPORT DataType dtType(Value * id_value)
+EXPORT DataType dtType(Value *id_value)
 {
     if (!id_value)
         return data_null;
@@ -524,7 +524,7 @@ EXPORT DataType dtType(Value * id_value)
 }
 
 //ru Возвращает данные в формате: строка в стиле C.
-EXPORT const char *dtStr(Value * id_value)
+EXPORT const char *dtStr(Value *id_value)
 {
     if (!id_value)
         return nullptr;
@@ -533,7 +533,7 @@ EXPORT const char *dtStr(Value * id_value)
 }
 
 //ru Возвращает данные в формате: целое число.
-EXPORT int dtInt(Value * id_value)
+EXPORT int dtInt(Value *id_value)
 {
     if (!id_value)
         return 0;
@@ -542,7 +542,7 @@ EXPORT int dtInt(Value * id_value)
 }
 
 //ru Возвращает данные в формате: число с плавающей запятой.
-EXPORT qreal dtReal(Value * id_value)
+EXPORT qreal dtReal(Value *id_value)
 {
     if (!id_value)
         return 0.0;
@@ -552,7 +552,7 @@ EXPORT qreal dtReal(Value * id_value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ шрифт ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает название шрифта.
-EXPORT const char *fntName(Value * id_font)
+EXPORT const char *fntName(Value *id_font)
 {
     if (!id_font)
         return nullptr;
@@ -564,7 +564,7 @@ EXPORT const char *fntName(Value * id_font)
     return fcgt::strToCString(font->name);
 }
 //ru Возвращает размер шрифта.
-EXPORT int fntSize(Value * id_font)
+EXPORT int fntSize(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -576,7 +576,7 @@ EXPORT int fntSize(Value * id_font)
     return font->size;
 }
 //ru Возвращает стиль шрифта.
-EXPORT uchar fntStyle(Value * id_font)
+EXPORT uchar fntStyle(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -588,7 +588,7 @@ EXPORT uchar fntStyle(Value * id_font)
     return font->style;
 }
 //ru Возвращает цвет шрифта.
-EXPORT uint fntColor(Value * id_font)
+EXPORT uint fntColor(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -600,7 +600,7 @@ EXPORT uint fntColor(Value * id_font)
     return font->color;
 }
 //ru Возвращает кодировку шрифта.
-EXPORT uchar fntCharSet(Value * id_font)
+EXPORT uchar fntCharSet(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -621,7 +621,7 @@ EXPORT uchar fntCharSet(Value * id_font)
 //ru Так же, скорее всего используется для хранения ID элемента
 EXPORT int elGetData(int id_element)
 {
-    PElement e = m_model->getElementById(id_element);
+    Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -634,7 +634,7 @@ EXPORT int elGetData(int id_element)
 //ru Так же, скорее всего используется для хранения ID элемента
 EXPORT void elSetData(int id_element, int data)
 {
-    PElement e = m_model->getElementById(id_element);
+    Element *e = m_model->getElementById(id_element);
     if (e)
         e->setUserData(data);
 }
@@ -653,11 +653,11 @@ EXPORT DataType ptGetDataType(Point *id_point)
 //ru Возвращает ID родительского контейнера элемента.
 EXPORT int elGetParent(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
-    const PContainer c = e->getParent();
+    const Container * c = e->getParent();
     if (!c)
         return 0;
 
@@ -739,7 +739,7 @@ EXPORT const char *ptGetInfo(Point *id_point)
 //ru Возвращает ID элемента, прилинкованного к указанному свойству.
 EXPORT int propGetLinkedElement(int id_element, const char *propName)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -771,7 +771,7 @@ EXPORT int propIsTranslate(int id_element, int id_prop)
      */
 EXPORT int propGetLinkedElementInfo(int id_element, Property *id_prop, char *buf)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -791,7 +791,7 @@ EXPORT int propGetLinkedElementInfo(int id_element, Property *id_prop, char *buf
 //ru Возвращает id_sdk контейнера по его индексу из элемента.
 EXPORT int elGetSDKByIndex(int id_element, int index)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -801,7 +801,7 @@ EXPORT int elGetSDKByIndex(int id_element, int index)
 //ru Возвращает количаство контейнеров полиморфного элемента(CI_PolyMulti).
 EXPORT int elGetSDKCount(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
@@ -811,11 +811,11 @@ EXPORT int elGetSDKCount(int id_element)
 //ru Возвращает имя контейнера по индексу.
 EXPORT const char *elGetSDKName(int id_element, int index)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
-    const PContainer c = e->getContainerByIndex(index);
+    const Container * c = e->getContainerByIndex(index);
     if (!c)
         return nullptr;
 
@@ -827,10 +827,10 @@ EXPORT const char *elGetSDKName(int id_element, int index)
 //ru Возвращает 0, если контейнер не имеет родителя.
 EXPORT int sdkGetParent(int id_sdk)
 {
-    const PContainer c = m_model->getContainerById(id_sdk);
+    const Container * c = m_model->getContainerById(id_sdk);
     Q_CHECK_PTR(c);
 
-    PElement e = c->getParent();
+    Element *e = c->getParent();
     if (!e)
         return 0;
 
@@ -842,7 +842,7 @@ EXPORT int sdkGetParent(int id_sdk)
 //ru Содержимое поля Interfaces= из конфигурации элемента.
 EXPORT const char *elGetInterface(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
@@ -853,7 +853,7 @@ EXPORT const char *elGetInterface(int id_element)
 //ru Содержимое поля Inherit= из конфигурации элемента.
 EXPORT const char *elGetInherit(int id_element)
 {
-    const PElement e = m_model->getElementById(id_element);
+    const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 

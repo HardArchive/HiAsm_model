@@ -44,9 +44,9 @@ QVariantMap Point::serialize() const
     return data;
 }
 
-PElement Point::getParent() const
+Element * Point::getParent() const
 {
-    return qobject_cast<PElement>(parent());
+    return qobject_cast<Element *>(parent());
 }
 
 void Point::setType(PointType type)

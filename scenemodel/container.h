@@ -40,11 +40,11 @@ private:
 
 public:
     //Serialize
-    QVariantMap serialize();
+    QVariantMap serialize() const;
 
     //Self
     qintptr getId() const;
-    PElement getParent() const;
+    Element * getParent() const;
     void setName(const QString &name);
     QString getName() const;
 
@@ -56,10 +56,10 @@ public:
 
     //Element
     int getCountElements() const;
-    PElement getElementByIndex(uint index) const;
+    Element * getElementByIndex(uint index) const;
     qintptr getIdElementByIndex(uint index) const;
-    PElement getElementByName(const QString &name) const;
+    Element * getElementByName(const QString &name) const;
     qintptr getIdElementByName(const QString &name) const;
-    PElement addElement(PElement element);
+    Element * addElement(Element * element);
     void removeElement(uint index);
 };

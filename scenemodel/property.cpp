@@ -141,7 +141,7 @@ void Property::collectingData(int idProp)
         break;
     }
     case data_element: {
-        const PElement e = qobject_cast<PElement>(parent());
+        const Element * e = qobject_cast<Element *>(parent());
         if (!e)
             return;
 

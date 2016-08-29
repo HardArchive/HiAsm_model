@@ -94,7 +94,7 @@ void Element::collectingData()
     }
 }
 
-QVariantMap Element::serialize()
+QVariantMap Element::serialize() const
 {
     QVariantMap data;
     data.insert("id", m_id);
@@ -115,7 +115,7 @@ QVariantMap Element::serialize()
     data.insert("infSub", m_infSub);
 
     QVariantList containers;
-    for (const PContainer c : m_containers) {
+    for (const Container * c : m_containers) {
         containers.append(c->serialize());
     }
 
@@ -147,9 +147,9 @@ int Element::getId() const
     return m_id;
 }
 
-PContainer Element::getParent() const
+Container * Element::getParent() const
 {
-    return qobject_cast<PContainer>(parent());
+    return qobject_cast<Container *>(parent());
 }
 
 void Element::setUserData(int userData)
@@ -317,7 +317,7 @@ int Element::getCountContainers() const
     return m_containers.size();
 }
 
-PContainer Element::getContainer() const
+Container * Element::getContainer() const
 {
     if (m_containers.isEmpty())
         return nullptr;
@@ -327,14 +327,14 @@ PContainer Element::getContainer() const
 
 int Element::getIdContainer() const
 {
-    const PContainer c = getContainer();
+    const Container * c = getContainer();
     if (!c)
         return 0;
 
     return c->getId();
 }
 
-PContainer Element::getContainerByIndex(int index)
+Container * Element::getContainerByIndex(int index) const
 {
     if (index < m_containers.size())
         return m_containers[index];
@@ -342,16 +342,16 @@ PContainer Element::getContainerByIndex(int index)
         return nullptr;
 }
 
-int Element::getIdContainerByIndex(int index)
+int Element::getIdContainerByIndex(int index) const
 {
-    const PContainer c = getContainerByIndex(index);
+    const Container * c = getContainerByIndex(index);
     if (!c)
         return 0;
 
     return c->getId();
 }
 
-PContainer Element::addContainer(PContainer container)
+Container * Element::addContainer(Container * container)
 {
     m_containers.append(container);
     return container;
