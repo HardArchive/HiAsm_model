@@ -12,7 +12,7 @@
 Point::Point(int id_point, QObject *parent)
     : QObject(parent)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id_point);
 }
@@ -124,7 +124,7 @@ PCodeGenTools Point::getCgt()
     return m_cgt;
 }
 
-PSceneModel Point::getModel()
+SceneModel * Point::getModel()
 {
     return m_model;
 }

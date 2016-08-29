@@ -9,8 +9,9 @@
 //Qt
 #include <QObject>
 
-class Container: public QObject
-{
+class SceneModel;
+
+class Container : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Container)
 
@@ -23,13 +24,13 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel *m_model{};
 
     //Element
     Elements m_elements;
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(SceneModel *model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -44,7 +45,7 @@ public:
 
     //Self
     qintptr getId() const;
-    Element * getParent() const;
+    Element *getParent() const;
     void setName(const QString &name);
     QString getName() const;
 
@@ -52,14 +53,14 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    PSceneModel getModel() const;
+    SceneModel *getModel() const;
 
     //Element
     int getCountElements() const;
-    Element * getElementByIndex(uint index) const;
+    Element *getElementByIndex(uint index) const;
     qintptr getIdElementByIndex(uint index) const;
-    Element * getElementByName(const QString &name) const;
+    Element *getElementByName(const QString &name) const;
     qintptr getIdElementByName(const QString &name) const;
-    Element * addElement(Element * element);
+    Element *addElement(Element *element);
     void removeElement(uint index);
 };

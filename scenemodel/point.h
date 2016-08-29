@@ -10,6 +10,8 @@
 #include <QObject>
 #include <QDebug>
 
+class SceneModel;
+
 class Point : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Point)
@@ -30,10 +32,10 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel * m_model{};
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(SceneModel * model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -73,5 +75,5 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    PSceneModel getModel();
+    SceneModel * getModel();
 };

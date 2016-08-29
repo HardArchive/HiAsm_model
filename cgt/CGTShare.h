@@ -299,12 +299,6 @@ typedef int (*TBuildMakePrj)(const TBuildMakePrjRec &params);
 typedef int (*TBuildRunProc)(TBuildRunRec &params);
 typedef int (*TBuildStopProc)(TBuildRunRec &params);
 
-extern TBuildGetParamsProc buildGetParamsProc;
-extern TBuildMakePrj buildMakePrj;
-extern TBuildCompliteProc buildCompliteProc;
-extern TBuildRunProc buildRunProc;
-extern TBuildStopProc buildStopProc;
-
 /*
  * Описание интерфейса библиотеки CodeGen.
  *

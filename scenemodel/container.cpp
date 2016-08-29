@@ -12,7 +12,7 @@ Container::Container(qintptr id_sdk, QObject *parent)
     : QObject(parent)
     , m_id(id_sdk)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addContainerToMap(this);
     collectingData();
@@ -69,7 +69,7 @@ PCodeGenTools Container::getCgt()
     return m_cgt;
 }
 
-PSceneModel Container::getModel() const
+SceneModel * Container::getModel() const
 {
     return m_model;
 }

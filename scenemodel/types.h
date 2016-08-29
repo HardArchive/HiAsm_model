@@ -24,6 +24,3 @@ typedef QMap<qintptr, Element *> MapElements;
 class Container;
 typedef QVector<Container *> Containers;
 typedef QMap<qintptr, Container *> MapContainers;
-
-class SceneModel;
-typedef SceneModel *PSceneModel;

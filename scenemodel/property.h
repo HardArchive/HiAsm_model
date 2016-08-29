@@ -11,6 +11,8 @@
 //Qt
 #include <QObject>
 
+class SceneModel;
+
 class Property : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Property)
@@ -25,13 +27,13 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel * m_model{};
 
     //Value
     Value m_value;
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(SceneModel * model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -74,5 +76,5 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    PSceneModel getModel();
+    SceneModel * getModel();
 };

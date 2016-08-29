@@ -15,7 +15,7 @@
 Property::Property(int id, QObject *parent)
     : QObject(parent)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id);
 }
@@ -245,7 +245,7 @@ PCodeGenTools Property::getCgt()
     return m_cgt;
 }
 
-PSceneModel Property::getModel()
+SceneModel * Property::getModel()
 {
     return m_model;
 }

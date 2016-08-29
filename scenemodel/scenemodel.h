@@ -53,7 +53,7 @@ private:
 
 private:
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
-    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(SceneModel * model READ getModel)
 
 public:
     explicit SceneModel(PPackageManager package, QObject *parent = 0);
@@ -70,7 +70,7 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    PSceneModel getModel();
+    SceneModel * getModel();
     void initFromCgt(PCodeGenTools cgt, qintptr idMainSDK);
     bool saveModel(const QString &filePath);
 
@@ -145,4 +145,4 @@ public:
     void setCompiler(const QString &compiler);
 };
 
-Q_DECLARE_METATYPE(PSceneModel)
+Q_DECLARE_METATYPE(SceneModel *)

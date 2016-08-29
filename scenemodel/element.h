@@ -10,6 +10,8 @@
 #include <QObject>
 #include <QString>
 
+class SceneModel;
+
 class Element : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Element)
@@ -37,7 +39,7 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel * m_model{};
 
     //Container
     Containers m_containers;
@@ -49,7 +51,7 @@ private:
     Properties m_properties;
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(SceneModel * model READ getModel)
     Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
@@ -116,7 +118,7 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    PSceneModel getModel();
+    SceneModel * getModel();
 
     //Container
     int getCountContainers() const;

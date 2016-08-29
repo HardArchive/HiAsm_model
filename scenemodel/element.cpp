@@ -15,7 +15,7 @@ Element::Element(const QString &name, qintptr id_element, int X, int Y, QObject 
     , m_id(id_element)
     , m_posX(X)
     , m_posY(Y)
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addElementToMap(this);
 
@@ -27,7 +27,7 @@ Element::Element(qintptr id_element, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addElementToMap(this);
     collectingData();
@@ -307,7 +307,7 @@ PCodeGenTools Element::getCgt()
     return m_cgt;
 }
 
-PSceneModel Element::getModel()
+SceneModel * Element::getModel()
 {
     return m_model;
 }

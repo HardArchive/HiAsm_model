@@ -114,7 +114,7 @@ PCodeGenTools SceneModel::getCgt()
     return m_cgt;
 }
 
-PSceneModel SceneModel::getModel()
+SceneModel * SceneModel::getModel()
 {
     return this;
 }
