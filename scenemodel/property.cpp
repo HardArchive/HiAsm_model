@@ -102,7 +102,7 @@ void Property::collectingData(qint32 idProp)
     case data_array: {
         qint32 arrCount = m_cgt->arrCount(id_value);
         DataType arrItemType = m_cgt->arrType(id_value);
-        QVector<Value *> arrayItems;
+        Values arrayItems;
 
         for (qint32 i = 0; i < arrCount; ++i) {
             const qintptr id_prop = m_cgt->arrGetItem(id_value, i);
@@ -130,7 +130,7 @@ void Property::collectingData(qint32 idProp)
         break;
     }
     case data_font: {
-        const PValueFont font = new ValueFont();
+        const SharedValueFont font = SharedValueFont::create();
         font->name = QString::fromLocal8Bit(m_cgt->fntName(id_value));
         font->size = m_cgt->fntSize(id_value);
         font->style = m_cgt->fntStyle(id_value);
@@ -141,7 +141,7 @@ void Property::collectingData(qint32 idProp)
         break;
     }
     case data_element: {
-        const Element *e = qobject_cast<Element *>(parent());
+        const Element *e = getParent();
         if (!e)
             return;
 
@@ -180,6 +180,11 @@ void Property::setName(const QString &name)
 QString Property::getName() const
 {
     return m_name;
+}
+
+Element *Property::getParent() const
+{
+    return qobject_cast<Element *>(parent());
 }
 
 void Property::setType(DataType type)

@@ -11,6 +11,7 @@
 #include <QObject>
 
 class SceneModel;
+class Element;
 
 class Property : public QObject {
     Q_OBJECT
@@ -51,6 +52,7 @@ public:
     //Self
     void setName(const QString &name);
     QString getName() const;
+    Element *getParent() const;
 
     void setType(DataType type);
     DataType getType() const;

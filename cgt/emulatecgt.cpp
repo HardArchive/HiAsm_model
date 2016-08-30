@@ -557,7 +557,7 @@ EXPORT const char *fntName(Value *id_font)
     if (!id_font)
         return nullptr;
 
-    PValueFont font = id_font->toFont();
+    SharedValueFont font = id_font->toFont();
     if (!font)
         return nullptr;
 
@@ -569,7 +569,7 @@ EXPORT qint32 fntSize(Value *id_font)
     if (!id_font)
         return 0;
 
-    PValueFont font = id_font->toFont();
+    SharedValueFont font = id_font->toFont();
     if (!font)
         return 0;
 
@@ -581,7 +581,7 @@ EXPORT uchar fntStyle(Value *id_font)
     if (!id_font)
         return 0;
 
-    PValueFont font = id_font->toFont();
+    SharedValueFont font = id_font->toFont();
     if (!font)
         return 0;
 
@@ -593,7 +593,7 @@ EXPORT uint fntColor(Value *id_font)
     if (!id_font)
         return 0;
 
-    PValueFont font = id_font->toFont();
+    SharedValueFont font = id_font->toFont();
     if (!font)
         return 0;
 
@@ -605,7 +605,7 @@ EXPORT uchar fntCharSet(Value *id_font)
     if (!id_font)
         return 0;
 
-    PValueFont font = id_font->toFont();
+    SharedValueFont font = id_font->toFont();
     if (!font)
         return 0;
 

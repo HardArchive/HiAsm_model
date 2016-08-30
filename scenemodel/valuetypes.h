@@ -1,14 +1,11 @@
 ﻿#pragma once
 //Project
-#include "cgt/CGTShare.h"
 
 //STL
 
 //Qt
 #include <QObject>
-#include <QVariant>
 #include <QSharedPointer>
-#include <QList>
 
 struct LinkedElementInfo {
     qint32 id{};
@@ -24,5 +21,5 @@ struct ValueFont { //-V802
     uint color{};
     uchar charset{};
 };
-typedef ValueFont *PValueFont;
-Q_DECLARE_METATYPE(PValueFont)
+typedef QSharedPointer<ValueFont> SharedValueFont;
+Q_DECLARE_METATYPE(SharedValueFont)

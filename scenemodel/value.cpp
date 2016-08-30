@@ -46,7 +46,7 @@ QVariantMap Value::serialize() const
     }
     case data_array: {
         QVariantList array;
-        for (const Value *v : m_value.value<QVector<Value *> >()) {
+        for (const Value *v : m_value.value<Values>()) {
             array.append(v->serialize());
         }
 
@@ -54,7 +54,7 @@ QVariantMap Value::serialize() const
         break;
     }
     case data_font: {
-        const PValueFont font = m_value.value<PValueFont>();
+        const SharedValueFont font = m_value.value<SharedValueFont>();
         QVariantMap fontMap;
         fontMap.insert("name", font->name);
         fontMap.insert("size", font->size);
@@ -151,10 +151,10 @@ DataType Value::getDataType() const
 
 qint32 Value::getArraySize() const
 {
-    if (!m_value.canConvert<QVector<Value *> >())
+    if (!m_value.canConvert<Values>())
         return 0;
 
-    return m_value.value<QVector<Value *> >().size();
+    return m_value.value<Values>().size();
 }
 
 void Value::setSubType(DataType type)
@@ -169,10 +169,10 @@ DataType Value::getSubType() const
 
 Value *Value::getArrayItemByIndex(uint index) const
 {
-    if (!m_value.canConvert<QVector<Value *> >())
+    if (!m_value.canConvert<Values>())
         return nullptr;
 
-    const QVector<Value *> arrayValues = m_value.value<QVector<Value *> >();
+    const Values arrayValues = m_value.value<Values>();
     if (index < uint(arrayValues.size()))
         return arrayValues[index];
 
@@ -188,12 +188,12 @@ QString Value::getArrayItemName(uint index) const
     return arrValue->getName();
 }
 
-PValueFont Value::toFont() const
+SharedValueFont Value::toFont() const
 {
-    if (!m_value.canConvert<PValueFont>())
-        return PValueFont();
+    if (!m_value.canConvert<SharedValueFont>())
+        return SharedValueFont();
 
-    return m_value.value<PValueFont>();
+    return m_value.value<SharedValueFont>();
 }
 
 SharedLinkedElementInfo Value::toLinkedElementInfo() const

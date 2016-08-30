@@ -61,10 +61,11 @@ public:
     QString getArrayItemName(uint index) const;
 
     //Font
-    PValueFont toFont() const;
+    SharedValueFont toFont() const;
 
     //LinkedElementInfo
     SharedLinkedElementInfo toLinkedElementInfo() const;
 };
 
-Q_DECLARE_METATYPE(QVector<Value *>)
+typedef QVector<Value *> Values;
+Q_DECLARE_METATYPE(Values)
