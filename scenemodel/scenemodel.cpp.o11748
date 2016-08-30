@@ -30,7 +30,7 @@ void SceneModel::collectingData(qintptr id_sdk)
     qintptr id_element = m_cgt->sdkGetElement(id_sdk, 0);
 
     //ru Тут мощная магия, однако;D
-    qint32 iBuf{};
+    int iBuf{};
     QByteArray buf("", 512);
 
     buf.fill('\0');
@@ -72,11 +72,11 @@ void SceneModel::collectingData(qintptr id_sdk)
     m_cgt->GetParam(PARAM_PROJECT_NAME, buf.data());
     m_projectName = QString::fromLocal8Bit(buf);
 
-    qint32 tmpW[1] = { reinterpret_cast<qint32>(id_element) };
+    int tmpW[1] = { reinterpret_cast<int>(id_element) };
     m_cgt->GetParam(PARAM_SDE_WIDTH, tmpW);
     m_sdeWidth = tmpW[0];
 
-    qint32 tmpH[1] = { reinterpret_cast<qint32>(id_element) };
+    int tmpH[1] = { reinterpret_cast<int>(id_element) };
     m_cgt->GetParam(PARAM_SDE_HEIGHT, tmpH);
     m_sdeHeight = tmpH[0];
 
@@ -119,7 +119,7 @@ SceneModel *SceneModel::getModel()
     return this;
 }
 
-void SceneModel::initFromCgt(TCodeGenTools *cgt, qintptr idMainSDK)
+void SceneModel::initFromCgt(PCodeGenTools cgt, qintptr idMainSDK)
 {
     m_cgt = cgt;
 
@@ -180,7 +180,7 @@ Container *SceneModel::getContainerById(qintptr id_sdk) const
     return m_mapContainers[id_sdk];
 }
 
-qint32 SceneModel::getCountElementsInContainer(qintptr id_sdk) const
+int SceneModel::getCountElementsInContainer(qintptr id_sdk) const
 {
     const Container *c = getContainerById(id_sdk);
     if (!c)
@@ -202,7 +202,7 @@ Element *SceneModel::getElementById(qintptr id_element) const
     return m_mapElements[id_element];
 }
 
-Element *SceneModel::getElementFromSDKByIndex(qintptr id_sdk, qint32 index) const
+Element *SceneModel::getElementFromSDKByIndex(qintptr id_sdk, int index) const
 {
     const Container *c = getContainerById(id_sdk);
     if (!c)
@@ -210,7 +210,7 @@ Element *SceneModel::getElementFromSDKByIndex(qintptr id_sdk, qint32 index) cons
     return c->getElementByIndex(index);
 }
 
-qintptr SceneModel::getIdElementFromSDKByIndex(qintptr id_sdk, qint32 index) const
+qintptr SceneModel::getIdElementFromSDKByIndex(qintptr id_sdk, int index) const
 {
     const Container *c = getContainerById(id_sdk);
     if (!c)
@@ -345,7 +345,7 @@ void SceneModel::compileResources()
     addResList(resFilePath);
 }
 
-qint32 SceneModel::addResList(const QString &filePath)
+int SceneModel::addResList(const QString &filePath)
 {
     m_resourcesToDelete.insert(filePath);
     return 0;
@@ -361,8 +361,8 @@ void SceneModel::getCgtParam(CgtParams index, void *buf) const
     auto writeString = [buf](const QString &str) {
         strcpy(reinterpret_cast<char *>(buf), str.toStdString().c_str());
     };
-    auto writeInt = [buf](qint32 value) {
-        *reinterpret_cast<qint32 *>(buf) = value; //-V206
+    auto writeInt = [buf](int value) {
+        *reinterpret_cast<int *>(buf) = value; //-V206
     };
 
     switch (index) {
@@ -415,52 +415,52 @@ void SceneModel::setIsDebug(bool isDebug)
     m_isDebug = isDebug;
 }
 
-qint32 SceneModel::getDebugMode() const
+int SceneModel::getDebugMode() const
 {
     return m_debugMode;
 }
 
-void SceneModel::setDebugMode(qint32 debugMode)
+void SceneModel::setDebugMode(int debugMode)
 {
     m_debugMode = debugMode;
 }
 
-qint32 SceneModel::getDebugServerPort() const
+int SceneModel::getDebugServerPort() const
 {
     return m_debugServerPort;
 }
 
-void SceneModel::setDebugServerPort(qint32 debugServerPort)
+void SceneModel::setDebugServerPort(int debugServerPort)
 {
     m_debugServerPort = debugServerPort;
 }
 
-qint32 SceneModel::getDebugClientPort() const
+int SceneModel::getDebugClientPort() const
 {
     return m_debugClientPort;
 }
 
-void SceneModel::setDebugClientPort(qint32 debugClientPort)
+void SceneModel::setDebugClientPort(int debugClientPort)
 {
     m_debugClientPort = debugClientPort;
 }
 
-qint32 SceneModel::getSdeWidth() const
+int SceneModel::getSdeWidth() const
 {
     return m_sdeWidth;
 }
 
-void SceneModel::setSdeWidth(qint32 sdeWidth)
+void SceneModel::setSdeWidth(int sdeWidth)
 {
     m_sdeWidth = sdeWidth;
 }
 
-qint32 SceneModel::getSdeHeight() const
+int SceneModel::getSdeHeight() const
 {
     return m_sdeHeight;
 }
 
-void SceneModel::setSdeHeight(qint32 sdeHeight)
+void SceneModel::setSdeHeight(int sdeHeight)
 {
     m_sdeHeight = sdeHeight;
 }

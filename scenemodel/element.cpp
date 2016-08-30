@@ -10,7 +10,7 @@
 
 //Qt
 
-Element::Element(const QString &name, qintptr id_element, int X, int Y, QObject *parent)
+Element::Element(const QString &name, qintptr id_element, qint32 X, qint32 Y, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
     , m_posX(X)
@@ -26,7 +26,7 @@ Element::Element(const QString &name, qintptr id_element, int X, int Y, QObject 
 Element::Element(qintptr id_element, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
+    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addElementToMap(this);
@@ -47,17 +47,17 @@ void Element::collectingData()
     m_inherit = QString::fromLocal8Bit(m_cgt->elGetInherit(m_id));
     m_interface = QString::fromLocal8Bit(m_cgt->elGetInterface(m_id));
     m_infSub = QString::fromLocal8Bit(m_cgt->elGetInfSub(m_id));
-    int ptCount = m_cgt->elGetPtCount(m_id);
-    int propCount = m_cgt->elGetPropCount(m_id);
+    qint32 ptCount = m_cgt->elGetPtCount(m_id);
+    qint32 propCount = m_cgt->elGetPropCount(m_id);
 
     //ru Получаем информацию о точках
-    for (int i = 0; i < ptCount; ++i) {
+    for (qint32 i = 0; i < ptCount; ++i) {
         qintptr pointId = m_cgt->elGetPt(m_id, i);
         addPoint(new Point(pointId, this));
     }
 
     //ru Получаем информацию о свойствах
-    for (int i = 0; i < propCount; ++i) {
+    for (qint32 i = 0; i < propCount; ++i) {
         qintptr propId = m_cgt->elGetProperty(m_id, i);
         bool defProp = m_cgt->elIsDefProp(m_id, i);
         auto prop = new Property(propId, this);
@@ -73,9 +73,9 @@ void Element::collectingData()
         //ru Элемен содержит полиморфный контейнер
         if (fcgt::isPolyMulti(m_classIndex)) {
             //ru Получаем к-во контейнеров, которое содержит текущий элемент
-            int countContainers = m_cgt->elGetSDKCount(m_id);
+            qint32 countContainers = m_cgt->elGetSDKCount(m_id);
 
-            for (int i = 0; i < countContainers; ++i) {
+            for (qint32 i = 0; i < countContainers; ++i) {
                 //ru Получаем ID контейнера
                 qintptr id_sdk = m_cgt->elGetSDKByIndex(m_id, i);
                 QString name = QString::fromLocal8Bit(m_cgt->elGetSDKName(id_sdk, i));
@@ -100,7 +100,7 @@ QVariantMap Element::serialize() const
     data.insert("id", m_id);
     //data.insert("userData", m_userData);
     data.insert("classIndex", m_classIndex);
-    data.insert("flags", int(m_flags));
+    data.insert("flags", qint32(m_flags));
     data.insert("group", m_group);
     data.insert("linkIs", m_linkIs);
     data.insert("linkMain", m_linkMain);
@@ -142,7 +142,7 @@ QVariantMap Element::serialize() const
     return element;
 }
 
-int Element::getId() const
+qint32 Element::getId() const
 {
     return m_id;
 }
@@ -152,7 +152,7 @@ Container *Element::getParent() const
     return qobject_cast<Container *>(parent());
 }
 
-void Element::setUserData(int userData)
+void Element::setUserData(qint32 userData)
 {
     m_userData = userData;
 }
@@ -179,15 +179,15 @@ void Element::setFlags(const ElementFlgs &flags)
 
 ElementFlags Element::getFlags() const
 {
-    return ElementFlags(int(m_flags));
+    return ElementFlags(qint32(m_flags));
 }
 
-void Element::setGroup(int group)
+void Element::setGroup(qint32 group)
 {
     m_group = group;
 }
 
-int Element::getGroup() const
+qint32 Element::getGroup() const
 {
     return m_group;
 }
@@ -212,42 +212,42 @@ qintptr Element::getLinkMain() const
     return m_linkMain;
 }
 
-void Element::setPosX(int posX)
+void Element::setPosX(qint32 posX)
 {
     m_posX = posX;
 }
 
-int Element::getPosX() const
+qint32 Element::getPosX() const
 {
     return m_posX;
 }
 
-void Element::setPosY(int posY)
+void Element::setPosY(qint32 posY)
 {
     m_posY = posY;
 }
 
-int Element::getPosY() const
+qint32 Element::getPosY() const
 {
     return m_posY;
 }
 
-void Element::setSizeW(int sizeW)
+void Element::setSizeW(qint32 sizeW)
 {
     m_sizeW = sizeW;
 }
 
-int Element::getSizeW() const
+qint32 Element::getSizeW() const
 {
     return m_sizeW;
 }
 
-void Element::setSizeH(int sizeH)
+void Element::setSizeH(qint32 sizeH)
 {
     m_sizeH = sizeH;
 }
 
-int Element::getSizeH() const
+qint32 Element::getSizeH() const
 {
     return m_sizeH;
 }
@@ -302,7 +302,7 @@ QString Element::getInfSub() const
     return m_infSub;
 }
 
-PCodeGenTools Element::getCgt()
+TCodeGenTools * Element::getCgt()
 {
     return m_cgt;
 }
@@ -312,7 +312,7 @@ SceneModel *Element::getModel()
     return m_model;
 }
 
-int Element::getCountContainers() const
+qint32 Element::getCountContainers() const
 {
     return m_containers.size();
 }
@@ -325,7 +325,7 @@ Container *Element::getContainer() const
     return m_containers[0];
 }
 
-int Element::getIdContainer() const
+qint32 Element::getIdContainer() const
 {
     const Container *c = getContainer();
     if (!c)
@@ -334,7 +334,7 @@ int Element::getIdContainer() const
     return c->getId();
 }
 
-Container *Element::getContainerByIndex(int index) const
+Container *Element::getContainerByIndex(qint32 index) const
 {
     if (index < m_containers.size())
         return m_containers[index];
@@ -342,7 +342,7 @@ Container *Element::getContainerByIndex(int index) const
         return nullptr;
 }
 
-int Element::getIdContainerByIndex(int index) const
+qint32 Element::getIdContainerByIndex(qint32 index) const
 {
     const Container *c = getContainerByIndex(index);
     if (!c)
@@ -357,17 +357,17 @@ Container *Element::addContainer(Container *container)
     return container;
 }
 
-void Element::removeContainer(int index)
+void Element::removeContainer(qint32 index)
 {
     m_containers.remove(index);
 }
 
-int Element::getCountPoints() const
+qint32 Element::getCountPoints() const
 {
     return m_points.size();
 }
 
-int Element::getPointIndexOfType(const Point *id_point) const
+qint32 Element::getPointIndexOfType(const Point *id_point) const
 {
     if (!id_point)
         return -1;
@@ -384,7 +384,7 @@ int Element::getPointIndexOfType(const Point *id_point) const
     return -1;
 }
 
-Point *Element::getPointByIndex(int index) const
+Point *Element::getPointByIndex(qint32 index) const
 {
     if (index < m_points.size())
         return m_points[index];
@@ -392,7 +392,7 @@ Point *Element::getPointByIndex(int index) const
         return nullptr;
 }
 
-Point *Element::getIdPointByIndex(int index) const
+Point *Element::getIdPointByIndex(qint32 index) const
 {
     return getPointByIndex(index);
 }
@@ -419,17 +419,17 @@ Point *Element::addPoint(Point *point)
     return point;
 }
 
-void Element::removePoint(int index)
+void Element::removePoint(qint32 index)
 {
     m_points.remove(index);
 }
 
-int Element::getCountProps() const
+qint32 Element::getCountProps() const
 {
     return m_properties.size();
 }
 
-Property *Element::getPropertyByIndex(int index) const
+Property *Element::getPropertyByIndex(qint32 index) const
 {
     if (index < m_properties.size())
         return m_properties[index];
@@ -437,7 +437,7 @@ Property *Element::getPropertyByIndex(int index) const
     return nullptr;
 }
 
-Property *Element::getIdPropertyByIndex(int index) const
+Property *Element::getIdPropertyByIndex(qint32 index) const
 {
     return getPropertyByIndex(index);
 }
@@ -482,7 +482,7 @@ Property *Element::addProperty(Property *property)
     return property;
 }
 
-void Element::removeProperty(int index)
+void Element::removeProperty(qint32 index)
 {
     m_points.remove(index);
 }

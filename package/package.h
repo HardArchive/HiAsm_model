@@ -11,17 +11,15 @@
 //Qt
 #include <QtCore>
 
-namespace PackageInfo
-{
-    static const QString INFO_FILE_NAME = "package";
-    static const QString CONF_DIR = "conf";
-    static const QString ICON_DIR = "icon";
+namespace PackageInfo {
+static const QString INFO_FILE_NAME = "package";
+static const QString CONF_DIR = "conf";
+static const QString ICON_DIR = "icon";
 }
 
-class Package : public QObject
-{
+class Package : public QObject {
     Q_OBJECT
-    
+
 private:
     //Информация о пакете
     QString m_packagePath; //Путь к пакету
@@ -57,5 +55,4 @@ public:
 
     //Element
     SharedConfElement getElementByName(const QString &name);
-
 };

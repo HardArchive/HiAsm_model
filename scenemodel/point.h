@@ -24,25 +24,25 @@ private:
     QString m_dpeName;
     QString m_info;
     struct {
-        int element{};
+        qint32 element{};
         QString point;
     } m_connectPoint;
 
     //CGT
-    PCodeGenTools m_cgt{};
+    TCodeGenTools *m_cgt{};
 
     //Model
     SceneModel *m_model{};
 
 private:
     Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
 
 public:
-    explicit Point(int id_point, QObject *parent);
+    explicit Point(qint32 id_point, QObject *parent);
 
 private:
-    void collectingData(int id_point);
+    void collectingData(qint32 id_point);
 
 public:
     //Serialize
@@ -57,7 +57,7 @@ public:
     void setDataType(DataType dataType);
     DataType getDataType() const;
 
-    int getIndex() const;
+    qint32 getIndex() const;
 
     void setName(const QString &name);
     QString getName() const;
@@ -72,7 +72,7 @@ public:
     Point *getRLinkPoint() const;
 
     //CGT
-    PCodeGenTools getCgt();
+    TCodeGenTools *getCgt();
 
     //Model
     SceneModel *getModel();

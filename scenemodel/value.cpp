@@ -46,7 +46,7 @@ QVariantMap Value::serialize() const
     }
     case data_array: {
         QVariantList array;
-        for (const Value * v : m_value.value<QVector<Value *>>()) {
+        for (const Value *v : m_value.value<QVector<Value *> >()) {
             array.append(v->serialize());
         }
 
@@ -120,12 +120,12 @@ uchar Value::toByte() const
     return m_value.value<uchar>();
 }
 
-int Value::toInt() const
+qint32 Value::toInt() const
 {
-    if (!m_value.canConvert<int>())
-        return int();
+    if (!m_value.canConvert<qint32>())
+        return qint32();
 
-    return m_value.value<int>();
+    return m_value.value<qint32>();
 }
 
 qreal Value::toReal() const
@@ -149,12 +149,12 @@ DataType Value::getDataType() const
     return m_subType;
 }
 
-int Value::getArraySize() const
+qint32 Value::getArraySize() const
 {
-    if (!m_value.canConvert<QVector<Value *>>())
+    if (!m_value.canConvert<QVector<Value *> >())
         return 0;
 
-    return m_value.value<QVector<Value *>>().size();
+    return m_value.value<QVector<Value *> >().size();
 }
 
 void Value::setSubType(DataType type)
@@ -167,12 +167,12 @@ DataType Value::getSubType() const
     return m_subType;
 }
 
-Value * Value::getArrayItemByIndex(uint index) const
+Value *Value::getArrayItemByIndex(uint index) const
 {
-    if (!m_value.canConvert<QVector<Value *>>())
+    if (!m_value.canConvert<QVector<Value *> >())
         return nullptr;
 
-    const QVector<Value *> arrayValues = m_value.value<QVector<Value *>>();
+    const QVector<Value *> arrayValues = m_value.value<QVector<Value *> >();
     if (index < uint(arrayValues.size()))
         return arrayValues[index];
 
@@ -181,7 +181,7 @@ Value * Value::getArrayItemByIndex(uint index) const
 
 QString Value::getArrayItemName(uint index) const
 {
-    const Value * arrValue = getArrayItemByIndex(index);
+    const Value *arrValue = getArrayItemByIndex(index);
     if (!arrValue)
         return QString();
 

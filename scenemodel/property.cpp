@@ -12,9 +12,9 @@
 #include <QDebug>
 #include <QUuid>
 
-Property::Property(int id, QObject *parent)
+Property::Property(qint32 id, QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
+    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id);
@@ -29,7 +29,7 @@ Property::Property(DataType type, const QVariant &data, const QString &name)
     m_value.setName(name);
 }
 
-void Property::collectingData(int idProp)
+void Property::collectingData(qint32 idProp)
 {
     m_name = QString::fromLocal8Bit(m_cgt->propGetName(idProp));
     m_type = m_cgt->propGetType(idProp);
@@ -100,11 +100,11 @@ void Property::collectingData(int idProp)
         break;
     }
     case data_array: {
-        int arrCount = m_cgt->arrCount(id_value);
+        qint32 arrCount = m_cgt->arrCount(id_value);
         DataType arrItemType = m_cgt->arrType(id_value);
         QVector<Value *> arrayItems;
 
-        for (int i = 0; i < arrCount; ++i) {
+        for (qint32 i = 0; i < arrCount; ++i) {
             const qintptr id_prop = m_cgt->arrGetItem(id_value, i);
 
             QString name = QString::fromLocal8Bit(m_cgt->arrItemName(id_value, i));
@@ -130,7 +130,7 @@ void Property::collectingData(int idProp)
         break;
     }
     case data_font: {
-        PValueFont font = new ValueFont();
+        const PValueFont font = new ValueFont();
         font->name = QString::fromLocal8Bit(m_cgt->fntName(id_value));
         font->size = m_cgt->fntSize(id_value);
         font->style = m_cgt->fntStyle(id_value);
@@ -141,7 +141,7 @@ void Property::collectingData(int idProp)
         break;
     }
     case data_element: {
-        const Element * e = qobject_cast<Element *>(parent());
+        const Element *e = qobject_cast<Element *>(parent());
         if (!e)
             return;
 
@@ -210,7 +210,7 @@ void Property::setValue(DataType type, const QVariant &data, const QString &name
     m_value.setSubType(arrayType);
 }
 
-Value * Property::getValue()
+Value *Property::getValue()
 {
     return &m_value;
 }
@@ -220,7 +220,7 @@ uchar Property::toByte() const
     return m_value.toByte();
 }
 
-int Property::toInt() const
+qint32 Property::toInt() const
 {
     return m_value.toInt();
 }
@@ -240,12 +240,12 @@ PLinkedElementInfo Property::toLinkedElementInfo() const
     return m_value.toLinkedElementInfo();
 }
 
-PCodeGenTools Property::getCgt()
+TCodeGenTools *Property::getCgt()
 {
     return m_cgt;
 }
 
-SceneModel * Property::getModel()
+SceneModel *Property::getModel()
 {
     return m_model;
 }

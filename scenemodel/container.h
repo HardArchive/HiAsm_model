@@ -21,7 +21,7 @@ private:
     QString m_name;
 
     //CGT
-    PCodeGenTools m_cgt{};
+    TCodeGenTools *m_cgt{};
 
     //Model
     SceneModel *m_model{};
@@ -31,7 +31,7 @@ private:
 
 private:
     Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
 
 public:
     explicit Container(qintptr id_sdk, QObject *parent);
@@ -44,23 +44,23 @@ public:
     QVariantMap serialize() const;
 
     //Self
-    qintptr getId() const;
+    qint32 getId() const;
     Element *getParent() const;
     void setName(const QString &name);
     QString getName() const;
 
     //CGT
-    PCodeGenTools getCgt();
+    TCodeGenTools *getCgt();
 
     //Model
     SceneModel *getModel() const;
 
     //Element
-    int getCountElements() const;
-    Element *getElementByIndex(uint index) const;
-    qintptr getIdElementByIndex(uint index) const;
+    qint32 getCountElements() const;
+    Element *getElementByIndex(qint32 index) const;
+    qint32 getIdElementByIndex(qint32 index) const;
     Element *getElementByName(const QString &name) const;
-    qintptr getIdElementByName(const QString &name) const;
+    qint32 getIdElementByName(const QString &name) const;
     Element *addElement(Element *element);
-    void removeElement(uint index);
+    void removeElement(qint32 index);
 };

@@ -9,8 +9,7 @@
 //Qt
 #include <QtCore>
 
-class ConfElement
-{
+class ConfElement {
     enum TypeSection {
         ts_undefine,
         ts_abouts,

@@ -23,7 +23,7 @@ private:
     bool m_isDefProp{};
 
     //CGT
-    PCodeGenTools m_cgt{};
+    TCodeGenTools *m_cgt{};
 
     //Model
     SceneModel *m_model{};
@@ -33,16 +33,16 @@ private:
 
 private:
     Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(TCodeGenTools * cgt READ getCgt)
 
 public:
-    explicit Property(int id, QObject *parent);
+    explicit Property(qint32 id, QObject *parent);
     explicit Property(DataType type = data_null,
         const QVariant &data = QVariant(),
         const QString &name = QString());
 
 private:
-    void collectingData(int idProp);
+    void collectingData(qint32 idProp);
 
 public:
     //Serialize
@@ -66,13 +66,13 @@ public:
 
     Value *getValue();
     uchar toByte() const;
-    int toInt() const;
+    qint32 toInt() const;
     qreal toReal() const;
     QString toString() const;
     PLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
-    PCodeGenTools getCgt();
+    TCodeGenTools *getCgt();
 
     //Model
     SceneModel *getModel();

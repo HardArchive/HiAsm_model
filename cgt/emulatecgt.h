@@ -7,8 +7,7 @@
 
 //Qt
 
-namespace EmulateCgt
-{
-    void setSceneModel(SceneModel *collector);
-    PCodeGenTools getCgt();
+namespace EmulateCgt {
+void setSceneModel(SceneModel *collector);
+TCodeGenTools *getCgt();
 }

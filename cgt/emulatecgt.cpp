@@ -21,21 +21,21 @@ static SceneModel *m_model = nullptr;
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ контейнер ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает количество элементов в контейнере.
-EXPORT int sdkGetCount(int id_sdk)
+EXPORT qint32 sdkGetCount(qint32 id_sdk)
 {
     return m_model->getCountElementsInContainer(id_sdk);
 }
 
 //ru Возвращает ID элемента по его Z-положению(индексу) в контейнере.
-EXPORT int sdkGetElement(int id_sdk, int index)
+EXPORT qint32 sdkGetElement(qint32 id_sdk, qint32 index)
 {
     return m_model->getIdElementFromSDKByIndex(id_sdk, index);
 }
 
 //ru Возвращает ID элемента по имени элемента.
-EXPORT int sdkGetElementName(int id_sdk, char *name)
+EXPORT qint32 sdkGetElementName(qint32 id_sdk, char *name)
 {
-    const Container * c = m_model->getContainerById(id_sdk);
+    const Container *c = m_model->getContainerById(id_sdk);
     if (!c)
         return 0;
 
@@ -44,7 +44,7 @@ EXPORT int sdkGetElementName(int id_sdk, char *name)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает флаги элемента.
-EXPORT ElementFlags elGetFlag(int id_element)
+EXPORT ElementFlags elGetFlag(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -54,7 +54,7 @@ EXPORT ElementFlags elGetFlag(int id_element)
 }
 
 //ru Возвращает количество свойств элемента.
-EXPORT int elGetPropCount(int id_element)
+EXPORT qint32 elGetPropCount(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -64,7 +64,7 @@ EXPORT int elGetPropCount(int id_element)
 }
 
 //ru Возвращает id свойства элемента по индексу, с порядковым номером из INI.
-EXPORT Property *elGetProperty(int id_element, int index)
+EXPORT Property *elGetProperty(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -74,7 +74,7 @@ EXPORT Property *elGetProperty(int id_element, int index)
 }
 
 //ru Возвращает True, если значение свойства совпадает с заданным в INI файле, иначе False.
-EXPORT bool elIsDefProp(int id_element, int index)
+EXPORT bool elIsDefProp(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -88,7 +88,7 @@ EXPORT bool elIsDefProp(int id_element, int index)
 }
 
 //ru Присваиваем элементу уникальное имя и возвращаем ID этого элемента.
-EXPORT int elSetCodeName(int id_element, const char *name)
+EXPORT qint32 elSetCodeName(qint32 id_element, const char *name)
 {
     Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -99,7 +99,7 @@ EXPORT int elSetCodeName(int id_element, const char *name)
 }
 
 //ru Возвращает уникальное имя элемента
-EXPORT const char *elGetCodeName(int id_element)
+EXPORT const char *elGetCodeName(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -109,7 +109,7 @@ EXPORT const char *elGetCodeName(int id_element)
 }
 
 //ru Возвращает имя класса элемента
-EXPORT const char *elGetClassName(int id_element)
+EXPORT const char *elGetClassName(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -119,7 +119,7 @@ EXPORT const char *elGetClassName(int id_element)
 }
 
 //ru Возвращает водержимое поля Sub из конфигурационного INI-файла элемента.
-EXPORT const char *elGetInfSub(int id_element)
+EXPORT const char *elGetInfSub(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -129,7 +129,7 @@ EXPORT const char *elGetInfSub(int id_element)
 }
 
 //ru Возвращает общее количество видимых точек у элемента.
-EXPORT int elGetPtCount(int id_element)
+EXPORT qint32 elGetPtCount(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -139,7 +139,7 @@ EXPORT int elGetPtCount(int id_element)
 }
 
 //ru Возвращает ID точки по её индексу.
-EXPORT Point *elGetPt(int id_element, int index)
+EXPORT Point *elGetPt(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -149,7 +149,7 @@ EXPORT Point *elGetPt(int id_element, int index)
 }
 
 //ru Возвращает ID точки по её имени.
-EXPORT Point *elGetPtName(int id_element, const char *name)
+EXPORT Point *elGetPtName(qint32 id_element, const char *name)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -159,7 +159,7 @@ EXPORT Point *elGetPtName(int id_element, const char *name)
 }
 
 //ru Возвращает индекс класса элемента.
-EXPORT ElementClass elGetClassIndex(int id_element)
+EXPORT ElementClass elGetClassIndex(qint32 id_element)
 {
     Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -170,13 +170,13 @@ EXPORT ElementClass elGetClassIndex(int id_element)
 
 //ru Получаем ID контейнера из элемента.
 //ru Если элемент не содержит контейнеры, возвращаем ID элемента родителя текущего контейнера.
-EXPORT int elGetSDK(int id_element)
+EXPORT qint32 elGetSDK(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
-    const Container * c = e->getContainer();
+    const Container *c = e->getContainer();
     if (c)
         return c->getId();
 
@@ -189,7 +189,7 @@ EXPORT int elGetSDK(int id_element)
 }
 
 //ru Возвращает True, если данный элемент является ссылкой, либо на него ссылаются.
-EXPORT bool elLinkIs(int id_element)
+EXPORT bool elLinkIs(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -199,7 +199,7 @@ EXPORT bool elLinkIs(int id_element)
 }
 
 //ru Возвращает ID главного элемента(тот, на который ссылаются другие).
-EXPORT int elLinkMain(int id_element)
+EXPORT qint32 elLinkMain(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -209,7 +209,7 @@ EXPORT int elLinkMain(int id_element)
 }
 
 //ru Помещает в переменные "X" и "Y", позицию элемента в редакторе схем.
-EXPORT void elGetPos(int id_element, int &X, int &Y)
+EXPORT void elGetPos(qint32 id_element, qint32 &X, qint32 &Y)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -220,7 +220,7 @@ EXPORT void elGetPos(int id_element, int &X, int &Y)
 }
 
 //ru Помещает в переменные "w" и "h", размеры элемента.
-EXPORT void elGetSize(int id_element, int &W, int &H)
+EXPORT void elGetSize(qint32 id_element, qint32 &W, qint32 &H)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -232,7 +232,7 @@ EXPORT void elGetSize(int id_element, int &W, int &H)
 
 //ru Возвращает внутренний ID элемента (отличается от внешнего).
 //[deprecated]
-EXPORT int elGetEID(int id_element)
+EXPORT qint32 elGetEID(qint32 id_element)
 {
     Q_UNUSED(id_element)
     return 0;
@@ -275,7 +275,7 @@ EXPORT const char *ptGetName(Point *id_point)
 }
 
 //ru Получаем ID родителя (элемент) точки.
-EXPORT int ptGetParent(Point *id_point)
+EXPORT qint32 ptGetParent(Point *id_point)
 {
     if (!id_point)
         return 0;
@@ -286,7 +286,7 @@ EXPORT int ptGetParent(Point *id_point)
 }
 
 //ru Получаем индекс точки относительно точек того же типа.
-EXPORT int ptGetIndex(Point *id_point)
+EXPORT qint32 ptGetIndex(Point *id_point)
 {
     if (!id_point)
         return 0;
@@ -344,8 +344,8 @@ EXPORT uchar propToByte(Property *prop)
     return prop->toByte();
 }
 
-//ru Возвращает значение свойства в формате int.
-EXPORT int propToInteger(Property *prop)
+//ru Возвращает значение свойства в формате qint32.
+EXPORT qint32 propToInteger(Property *prop)
 {
     if (!prop)
         return 0;
@@ -375,7 +375,7 @@ EXPORT const char *propToString(Property *prop)
 
 //ru Добавляет имя файла в список временных файлов
 //ru для последующего удаления файла.
-EXPORT int resAddFile(const char *filePath)
+EXPORT qint32 resAddFile(const char *filePath)
 {
     return m_model->addResList(QString::fromLocal8Bit(filePath));
 }
@@ -423,7 +423,7 @@ EXPORT const char *resAddBitmap(Property *id_prop)
 
 //ru Добавляет меню в ресурсы и в список временных файлов.
 //[deprecated]
-EXPORT const char *resAddMenu(int id_prop)
+EXPORT const char *resAddMenu(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -432,7 +432,7 @@ EXPORT const char *resAddMenu(int id_prop)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ информационные сообщения ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Выводит строку text в окно Отладка цветом color
 //ru Всего возвращает 0.
-EXPORT int _Debug(const char *text, int color)
+EXPORT qint32 _Debug(const char *text, qint32 color)
 {
     Q_UNUSED(color)
 
@@ -442,7 +442,7 @@ EXPORT int _Debug(const char *text, int color)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ среда ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru На основе индекса параметра, записываем данные в память value
-EXPORT int GetParam(CgtParams index, void *value)
+EXPORT qint32 GetParam(CgtParams index, void *value)
 {
     m_model->getCgtParam(index, value);
     return 0;
@@ -450,7 +450,7 @@ EXPORT int GetParam(CgtParams index, void *value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ массив ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем количество элементов в массиве.
-EXPORT int arrCount(Value *id_array)
+EXPORT qint32 arrCount(Value *id_array)
 {
     if (!id_array)
         return 0;
@@ -468,7 +468,7 @@ EXPORT DataType arrType(Value *id_array)
 }
 
 //ru Получаем имя элемента по индексу.
-EXPORT const char *arrItemName(Value *id_array, int index)
+EXPORT const char *arrItemName(Value *id_array, qint32 index)
 {
     if (!id_array)
         return nullptr;
@@ -478,7 +478,7 @@ EXPORT const char *arrItemName(Value *id_array, int index)
 
 //ru Получаем элемент (id_arrayValue) массива  по индексу.
 //[deprecated]
-EXPORT int arrItemData(int id_array, int index)
+EXPORT qint32 arrItemData(qint32 id_array, qint32 index)
 {
     Q_UNUSED(id_array)
     Q_UNUSED(index)
@@ -488,7 +488,7 @@ EXPORT int arrItemData(int id_array, int index)
 //ru Получаем элемент массива в виде свойства (id_prop) Оо,
 //ru для дальнейшей работы с ним cgt::prop* функциями.
 //TODO Утечка
-EXPORT Property *arrGetItem(Value *array, int index)
+EXPORT Property *arrGetItem(Value *array, qint32 index)
 {
     if (!array)
         return nullptr;
@@ -506,7 +506,7 @@ EXPORT Property *arrGetItem(Value *array, int index)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ среда ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращаем >0, если запускаем схемы в режиме отладки,
 //ru иначе 0.
-EXPORT int isDebug(int id_element)
+EXPORT qint32 isDebug(qint32 id_element)
 {
     Q_UNUSED(id_element)
     return m_model->getIsDebug();
@@ -533,7 +533,7 @@ EXPORT const char *dtStr(Value *id_value)
 }
 
 //ru Возвращает данные в формате: целое число.
-EXPORT int dtInt(Value *id_value)
+EXPORT qint32 dtInt(Value *id_value)
 {
     if (!id_value)
         return 0;
@@ -564,7 +564,7 @@ EXPORT const char *fntName(Value *id_font)
     return fcgt::strToCString(font->name);
 }
 //ru Возвращает размер шрифта.
-EXPORT int fntSize(Value *id_font)
+EXPORT qint32 fntSize(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -619,7 +619,7 @@ EXPORT uchar fntCharSet(Value *id_font)
 //ru Коммент из hiasm5 - user data used in FTCG codegen.
 //ru Судя по всему, данные могут быть любого типа, ибо хранит указатель..
 //ru Так же, скорее всего используется для хранения ID элемента
-EXPORT int elGetData(int id_element)
+EXPORT qint32 elGetData(qint32 id_element)
 {
     Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -632,7 +632,7 @@ EXPORT int elGetData(int id_element)
 //ru Коммент из hiasm5 - user data used in FTCG codegen.
 //ru Судя по всему, данные могут быть любого типа, ибо хранит указатель.
 //ru Так же, скорее всего используется для хранения ID элемента
-EXPORT void elSetData(int id_element, int data)
+EXPORT void elSetData(qint32 id_element, qint32 data)
 {
     Element *e = m_model->getElementById(id_element);
     if (e)
@@ -651,13 +651,13 @@ EXPORT DataType ptGetDataType(Point *id_point)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает ID родительского контейнера элемента.
-EXPORT int elGetParent(int id_element)
+EXPORT qint32 elGetParent(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
         return 0;
 
-    const Container * c = e->getParent();
+    const Container *c = e->getParent();
     if (!c)
         return 0;
 
@@ -666,7 +666,7 @@ EXPORT int elGetParent(int id_element)
 
 //ru Возвращает количество свойств в списке свойств(из панели свойств).
 //[deprecated]
-EXPORT int elGetPropertyListCount(int id_element)
+EXPORT qint32 elGetPropertyListCount(qint32 id_element)
 {
     Q_UNUSED(id_element)
 
@@ -675,7 +675,7 @@ EXPORT int elGetPropertyListCount(int id_element)
 
 //ru Возвращает свойство из списка свойств (PropertyList).
 //[deprecated]
-EXPORT int elGetPropertyListItem(int id_element, int index)
+EXPORT qint32 elGetPropertyListItem(qint32 id_element, qint32 index)
 {
     Q_UNUSED(id_element)
     Q_UNUSED(index)
@@ -686,7 +686,7 @@ EXPORT int elGetPropertyListItem(int id_element, int index)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ список свойств элемента ~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает имя свойства.
 //[deprecated]
-EXPORT const char *plGetName(int id_prop)
+EXPORT const char *plGetName(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -694,7 +694,7 @@ EXPORT const char *plGetName(int id_prop)
 
 //ru Возвращает описание свойства.
 //[deprecated]
-EXPORT const char *plGetInfo(int id_prop)
+EXPORT const char *plGetInfo(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -702,7 +702,7 @@ EXPORT const char *plGetInfo(int id_prop)
 
 //ru Возвращает группу свойсва.
 //[deprecated]
-EXPORT const char *plGetGroup(int id_prop)
+EXPORT const char *plGetGroup(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -710,7 +710,7 @@ EXPORT const char *plGetGroup(int id_prop)
 
 //ru Возвращает указатель на данные свойства.
 //[deprecated]
-EXPORT int plGetProperty(int id_prop)
+EXPORT qint32 plGetProperty(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return 0;
@@ -718,7 +718,7 @@ EXPORT int plGetProperty(int id_prop)
 
 //ru Возвращает ID родительского элемента указанного свойства.
 //[deprecated]
-EXPORT int plGetOwner(int id_prop)
+EXPORT qint32 plGetOwner(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return 0;
@@ -737,7 +737,7 @@ EXPORT const char *ptGetInfo(Point *id_point)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает ID элемента, прилинкованного к указанному свойству.
-EXPORT int propGetLinkedElement(int id_element, const char *propName)
+EXPORT qint32 propGetLinkedElement(qint32 id_element, const char *propName)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -756,7 +756,7 @@ EXPORT int propGetLinkedElement(int id_element, const char *propName)
 
 //ru Возвращает 1, если свойство помечено на перевод.
 //[deprecated]
-EXPORT int propIsTranslate(int id_element, int id_prop)
+EXPORT qint32 propIsTranslate(qint32 id_element, qint32 id_prop)
 {
     Q_UNUSED(id_element)
     Q_UNUSED(id_prop)
@@ -769,7 +769,7 @@ EXPORT int propIsTranslate(int id_element, int id_prop)
      * Например в строке из INI: FormFastening=Форма для привязки позиции|20|(empty)|ControlManager
      * ControlManager - является той самой информацией передаваемой нам в buf.
      */
-EXPORT int propGetLinkedElementInfo(int id_element, Property *id_prop, char *buf)
+EXPORT qint32 propGetLinkedElementInfo(qint32 id_element, Property *id_prop, char *buf)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -789,7 +789,7 @@ EXPORT int propGetLinkedElementInfo(int id_element, Property *id_prop, char *buf
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент - CI_PolyMulti ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает id_sdk контейнера по его индексу из элемента.
-EXPORT int elGetSDKByIndex(int id_element, int index)
+EXPORT qint32 elGetSDKByIndex(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -799,7 +799,7 @@ EXPORT int elGetSDKByIndex(int id_element, int index)
 }
 
 //ru Возвращает количаство контейнеров полиморфного элемента(CI_PolyMulti).
-EXPORT int elGetSDKCount(int id_element)
+EXPORT qint32 elGetSDKCount(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -809,13 +809,13 @@ EXPORT int elGetSDKCount(int id_element)
 }
 
 //ru Возвращает имя контейнера по индексу.
-EXPORT const char *elGetSDKName(int id_element, int index)
+EXPORT const char *elGetSDKName(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
         return nullptr;
 
-    const Container * c = e->getContainerByIndex(index);
+    const Container *c = e->getContainerByIndex(index);
     if (!c)
         return nullptr;
 
@@ -825,9 +825,9 @@ EXPORT const char *elGetSDKName(int id_element, int index)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ схема ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает элемент родитель для данного SDK.
 //ru Возвращает 0, если контейнер не имеет родителя.
-EXPORT int sdkGetParent(int id_sdk)
+EXPORT qint32 sdkGetParent(qint32 id_sdk)
 {
-    const Container * c = m_model->getContainerById(id_sdk);
+    const Container *c = m_model->getContainerById(id_sdk);
     Q_CHECK_PTR(c);
 
     Element *e = c->getParent();
@@ -840,7 +840,7 @@ EXPORT int sdkGetParent(int id_sdk)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает интерфейсы, предоставляемые элементом.
 //ru Содержимое поля Interfaces= из конфигурации элемента.
-EXPORT const char *elGetInterface(int id_element)
+EXPORT const char *elGetInterface(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -851,7 +851,7 @@ EXPORT const char *elGetInterface(int id_element)
 
 //ru Возвращает список классов, от которых наследуется элемент
 //ru Содержимое поля Inherit= из конфигурации элемента.
-EXPORT const char *elGetInherit(int id_element)
+EXPORT const char *elGetInherit(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -862,14 +862,14 @@ EXPORT const char *elGetInherit(int id_element)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ ресурсы ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает 1, если список ресурсов пуст, и 0 в противном случае.
-EXPORT int resEmpty()
+EXPORT qint32 resEmpty()
 {
     return m_model->resIsEmpty();
 }
 
 //ru Устанавливает префикс для имен ресурсов.
 //[deprecated]
-EXPORT int resSetPref(const char *pref)
+EXPORT qint32 resSetPref(const char *pref)
 {
     Q_UNUSED(pref)
     return 0;
@@ -877,7 +877,7 @@ EXPORT int resSetPref(const char *pref)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ информационные сообщения ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Добавляет информацию в информационную панель
-EXPORT int _Error(int line, int id_element, const char *text)
+EXPORT qint32 _Error(qint32 line, qint32 id_element, const char *text)
 {
     Q_UNUSED(line)
     Q_UNUSED(id_element)
@@ -888,7 +888,7 @@ EXPORT int _Error(int line, int id_element, const char *text)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает ID группы, к которой принадлежит элемент и 0, если группа отсутствует
 //[deprecated]
-EXPORT int elGetGroup(int id_element)
+EXPORT qint32 elGetGroup(qint32 id_element)
 {
     Q_UNUSED(id_element)
     return 0;
@@ -897,7 +897,7 @@ EXPORT int elGetGroup(int id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Сохраняет данные свойства в файл.
 //[deprecated]
-EXPORT int propSaveToFile(Property *id_prop, const char *fileName)
+EXPORT qint32 propSaveToFile(Property *id_prop, const char *fileName)
 {
     Q_UNUSED(id_prop)
     Q_UNUSED(fileName)
@@ -1002,8 +1002,8 @@ void setSceneModel(SceneModel *collector)
 }
 
 //Получаем массив указателей на функции
-PCodeGenTools getCgt()
+TCodeGenTools *getCgt()
 {
-    return reinterpret_cast<PCodeGenTools>(emulateCgt);
+    return reinterpret_cast<TCodeGenTools *>(emulateCgt);
 }
 }

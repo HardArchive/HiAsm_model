@@ -145,26 +145,26 @@ void ConfElement::addInheritableData(PPackage pack)
         return;
 
     ListConfProps props;
-    auto containsProp = [&props](const QString & name) {
+    auto containsProp = [&props](const QString &name) {
         for (const SharedConfProp &prop : props)
             if (prop->name == name)
                 return true;
 
         return false;
     };
-    auto inheritProps = [&props, containsProp](const ListConfProps & inheritProps) {
+    auto inheritProps = [&props, containsProp](const ListConfProps &inheritProps) {
         for (const SharedConfProp &prop : inheritProps)
             if (!containsProp(prop->name))
                 props.append(prop);
     };
 
-    auto containsPoint = [](const ListConfPoints & points, const QString & name) {
+    auto containsPoint = [](const ListConfPoints &points, const QString &name) {
         for (const SharedConfPoint &point : points)
             if (point->name == name)
                 return true;
         return false;
     };
-    auto inheritPoints = [containsPoint](const ListConfPoints & inheritPoints, ListConfPoints & points) {
+    auto inheritPoints = [containsPoint](const ListConfPoints &inheritPoints, ListConfPoints &points) {
         for (const SharedConfPoint &point : inheritPoints)
             if (!containsPoint(points, point->name))
                 points.append(point);
@@ -350,7 +350,6 @@ void ConfElement::parseProperties(const QStringList &list)
 
     //@ makePoint - Позволяет активировать свойство в виде метода с префиксом do*
 
-
     //PropGroup
     QString nameGroup;
 
@@ -447,7 +446,7 @@ void ConfElement::parseProperties(const QStringList &list)
             }
 
             if (countPipe) {
-                if (countPipe == 1)  //Тип
+                if (countPipe == 1) //Тип
                     type += c;
                 else if (countPipe == 2) //Значение
                     value += c;
@@ -527,9 +526,9 @@ void ConfElement::parsePoints(const QStringList &list)
                 continue;
             }
             if (countPipe) {
-                if (countPipe == 1)  //Тип точки
+                if (countPipe == 1) //Тип точки
                     pointType += c;
-                if (countPipe == 2)  //Тип данных
+                if (countPipe == 2) //Тип данных
                     dataType += c;
 
                 continue;

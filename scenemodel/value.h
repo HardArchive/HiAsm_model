@@ -40,7 +40,7 @@ public:
     uchar toByte() const;
 
     //Int
-    int toInt() const;
+    qint32 toInt() const;
 
     //Real
     qreal toReal() const;
@@ -56,7 +56,7 @@ public:
     DataType getDataType() const;
 
     //Array
-    int getArraySize() const;
+    qint32 getArraySize() const;
     Value *getArrayItemByIndex(uint index) const;
     QString getArrayItemName(uint index) const;
 

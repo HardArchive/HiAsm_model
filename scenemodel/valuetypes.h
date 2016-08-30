@@ -11,7 +11,7 @@
 #include <QList>
 
 struct LinkedElementInfo {
-    qintptr id{};
+    qint32 id{};
     QString interface;
 };
 typedef LinkedElementInfo *PLinkedElementInfo;

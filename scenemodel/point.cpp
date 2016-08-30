@@ -9,15 +9,15 @@
 
 //Qt
 
-Point::Point(int id_point, QObject *parent)
+Point::Point(qint32 id_point, QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
+    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id_point);
 }
 
-void Point::collectingData(int id_point)
+void Point::collectingData(qint32 id_point)
 {
     m_type = m_cgt->ptGetType(id_point);
     m_dataType = m_cgt->ptGetDataType(id_point);
@@ -44,7 +44,7 @@ QVariantMap Point::serialize() const
     return data;
 }
 
-Element * Point::getParent() const
+Element *Point::getParent() const
 {
     return qobject_cast<Element *>(parent());
 }
@@ -69,7 +69,7 @@ DataType Point::getDataType() const
     return m_dataType;
 }
 
-int Point::getIndex() const
+qint32 Point::getIndex() const
 {
     return getParent()->getPointIndexOfType(this);
 }
@@ -104,12 +104,12 @@ QString Point::getInfo() const
     return m_info;
 }
 
-Point * Point::getLinkPoint() const
+Point *Point::getLinkPoint() const
 {
     return nullptr; //TODO доработать
 }
 
-Point * Point::getRLinkPoint() const
+Point *Point::getRLinkPoint() const
 {
     if (m_connectPoint.element) {
         auto e = m_model->getElementById(m_connectPoint.element);
@@ -119,12 +119,12 @@ Point * Point::getRLinkPoint() const
     return nullptr;
 }
 
-PCodeGenTools Point::getCgt()
+TCodeGenTools * Point::getCgt()
 {
     return m_cgt;
 }
 
-SceneModel * Point::getModel()
+SceneModel *Point::getModel()
 {
     return m_model;
 }

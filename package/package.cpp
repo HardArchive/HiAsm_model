@@ -27,13 +27,13 @@ Package::Package(const QString &packagePath, QObject *parent)
     m_confPath = m_packagePath + QDir::separator() + PackageInfo::CONF_DIR;
 
     //!!! Загружаем информацию о пакете/элементах !!!
-    
+
     //Если не удалось по каким либо причинам прочитать информацию о пакете
     if (!loadPackageInfo()) {
         setSuccess(false);
         return;
     }
-    
+
     //Если не удалось найти и загрузить информацию об элементах
     if (!loadElements()) {
         setSuccess(false);
@@ -58,16 +58,16 @@ bool Package::loadPackageInfo()
     const QJsonDocument info = QJsonDocument::fromJson(dataPackageInfo);
     if (!info.isNull()) {
         const QJsonObject infoPackage = info.object();
-        
+
         //!ru Получаем информацию о пакете
-        
+
         //ru Название пакета - обязательно заполнять.
         if (infoPackage.contains("name")) {
             m_name = infoPackage["name"].toString();
         } else {
             return false;
         }
-        
+
         //ru Короткое описание пакета - необязательно заполнять.
         if (infoPackage.contains("shortDescription")) {
             m_shortDescription = infoPackage["shortDescription"].toString();
@@ -82,7 +82,7 @@ bool Package::loadPackageInfo()
         //ru По умолчанию - видимый.
         if (infoPackage.contains("visible"))
             m_visible = infoPackage["visible"].toBool();
-            
+
         //ru Является ли пакет базовым - необязательный параметр
         //ru По умолчанию - нет
         if (infoPackage.contains("base"))
@@ -131,20 +131,20 @@ bool Package::loadPackageInfo()
         QJsonArray projects = infoPackage["projects"].toArray();
         for (auto json : projects) {
             QJsonObject object = json.toObject();
-            
+
             //ru Создаём объект проекта и заполняем его.
             SharedProjectInfo project = SharedProjectInfo::create();
 
             //ru Добавляем проект в массив проектов текущего пакета.
             m_projects.append(project);
-            
+
             //ru Название проекта - обязательно заполнять.
             if (object.contains("name")) {
                 project->name = object["name"].toString();
             } else {
                 return false;
             }
-            
+
             //ru Короткое описание проекта - необязательно заполнять
             if (object.contains("shortDescription")) {
                 project->shortDescription = object["shortDescription"].toString();
@@ -158,7 +158,7 @@ bool Package::loadPackageInfo()
             } else {
                 return false;
             }
-            
+
             //ru Название начального элемента - обязательно заполнять
             if (object.contains("entryElement")) {
                 project->entryElement = object["entryElement"].toString();
@@ -179,12 +179,11 @@ bool Package::loadPackageInfo()
             } else {
                 return false;
             }
-            
         }
-        
+
         return true;
     }
-    
+
     return false;
 }
 
@@ -193,18 +192,18 @@ bool Package::loadElements()
     QDir elementsPath(m_confPath);
     elementsPath.setFilter(QDir::Files);
     QFileInfoList listElements = elementsPath.entryInfoList();
-    
+
     if (listElements.empty()) {
         qWarning() << "Элементы отсутствуют!";
         qWarning() << elementsPath.path();
-        
+
         return false;
     }
-    
+
     for (const QFileInfo &element : listElements) {
         m_confElements << SharedConfElement::create(element.filePath());
     }
-    
+
     return true;
 }
 
@@ -227,7 +226,7 @@ void Package::setSuccess(bool success)
 
 SharedConfElement Package::getElementByName(const QString &name)
 {
-    for (const SharedConfElement conf :  m_confElements) {
+    for (const SharedConfElement conf : m_confElements) {
         if (QString::compare(conf->getName(), name, Qt::CaseInsensitive) == 0) {
             return conf;
         }
@@ -235,4 +234,3 @@ SharedConfElement Package::getElementByName(const QString &name)
 
     return SharedConfElement();
 }
-

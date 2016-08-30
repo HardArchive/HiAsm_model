@@ -84,7 +84,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 }
 
 //Экспортируемые функции
-DLLEXPORT int buildPrepareProc(void *params)
+DLLEXPORT qint32 buildPrepareProc(void *params)
 {
     PRINT_FUNC_INFO
 
@@ -92,7 +92,7 @@ DLLEXPORT int buildPrepareProc(void *params)
     return buildPrepareProcLib(params);
 }
 
-DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
+DLLEXPORT qint32 buildProcessProc(TBuildProcessRec &params)
 {
     PRINT_FUNC_INFO
 
@@ -116,17 +116,17 @@ DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
     params.cgt = ProxyCgt::getCgt();
 #endif
 
-    int res = buildProcessProcLib(params);
+    qint32 res = buildProcessProcLib(params);
     PRINT_RESULT(CgResultMap[res]);
 
     return res;
 }
 
-DLLEXPORT int CheckVersionProc(const THiAsmVersion &params)
+DLLEXPORT qint32 CheckVersionProc(const THiAsmVersion &params)
 {
     PRINT_FUNC_INFO
     qInfo().noquote() << QString("Arg1: %1.%2.%3").arg(params.major).arg(params.minor).arg(params.build);
-    int res = checkVersionProcLib(params);
+    qint32 res = checkVersionProcLib(params);
     PRINT_RESULT(CgResultMap[res]);
     return res;
 }
