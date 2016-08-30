@@ -24,7 +24,7 @@ private:
 
     //Package
     PPackage m_package{};
-    PPackageManager m_packageManager{};
+    PackageManager * m_packageManager{};
 
     //Map
     QMap<qintptr, Container *> m_mapContainers;
@@ -58,7 +58,7 @@ private:
     Q_PROPERTY(SceneModel *model READ getModel)
 
 public:
-    explicit SceneModel(PPackageManager package, QObject *parent = 0);
+    explicit SceneModel(PackageManager * package, QObject *parent = 0);
     virtual ~SceneModel();
 
 private:

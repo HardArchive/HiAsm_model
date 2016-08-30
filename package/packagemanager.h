@@ -25,4 +25,3 @@ public:
 public:
     PPackage getPackage(const QString &namePack);
 };
-typedef PackageManager *PPackageManager;

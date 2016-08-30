@@ -14,7 +14,7 @@
 //Qt
 #include <QDebug>
 
-SceneModel::SceneModel(PPackageManager package, QObject *parent)
+SceneModel::SceneModel(PackageManager * package, QObject *parent)
     : QObject(parent)
     , m_packageManager(package)
 {
