@@ -66,7 +66,7 @@ QVariantMap Value::serialize() const
         break;
     }
     case data_element: {
-        const PLinkedElementInfo info = m_value.value<PLinkedElementInfo>();
+        const SharedLinkedElementInfo info = m_value.value<SharedLinkedElementInfo>();
         QVariantMap infoMap;
         infoMap.insert("id", info->id);
         infoMap.insert("interface", info->interface);
@@ -196,10 +196,10 @@ PValueFont Value::toFont() const
     return m_value.value<PValueFont>();
 }
 
-PLinkedElementInfo Value::toLinkedElementInfo() const
+SharedLinkedElementInfo Value::toLinkedElementInfo() const
 {
-    if (!m_value.canConvert<PLinkedElementInfo>())
-        return PLinkedElementInfo();
+    if (!m_value.canConvert<SharedLinkedElementInfo>())
+        return SharedLinkedElementInfo();
 
-    return m_value.value<PLinkedElementInfo>();
+    return m_value.value<SharedLinkedElementInfo>();
 }

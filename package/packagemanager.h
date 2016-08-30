@@ -23,5 +23,5 @@ public:
     explicit PackageManager(QObject *parent = 0);
 
 public:
-    PPackage getPackage(const QString &namePack);
+    Package *getPackage(const QString &namePack);
 };

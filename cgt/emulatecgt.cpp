@@ -747,7 +747,7 @@ EXPORT qint32 propGetLinkedElement(qint32 id_element, const char *propName)
     if (!p)
         return 0;
 
-    const PLinkedElementInfo info = p->toLinkedElementInfo();
+    const SharedLinkedElementInfo info = p->toLinkedElementInfo();
     if (!info)
         return 0;
 
@@ -779,7 +779,7 @@ EXPORT qint32 propGetLinkedElementInfo(qint32 id_element, Property *id_prop, cha
     if (!p)
         return 0;
 
-    const PLinkedElementInfo info = p->toLinkedElementInfo();
+    const SharedLinkedElementInfo info = p->toLinkedElementInfo();
     if (!info)
         return 0;
 

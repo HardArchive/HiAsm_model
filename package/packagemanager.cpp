@@ -15,12 +15,12 @@ PackageManager::PackageManager(QObject *parent)
     m_pathPackages = QDir::currentPath() + QDir::separator() + m_packagesDir;
 }
 
-PPackage PackageManager::getPackage(const QString &namePack)
+Package *PackageManager::getPackage(const QString &namePack)
 {
     if (m_packages.contains(namePack))
         return m_packages[namePack];
 
-    PPackage pack = new Package(m_pathPackages + QDir::separator() + namePack);
+    Package *pack = new Package(m_pathPackages + QDir::separator() + namePack);
     if (pack->getSuccess()) {
         m_packages.insert(namePack, pack);
         return pack;

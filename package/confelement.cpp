@@ -139,7 +139,7 @@ void ConfElement::setEditClass(const QString &editClass)
     m_editClass = editClass;
 }
 
-void ConfElement::addInheritableData(PPackage pack)
+void ConfElement::addInheritableData(Package *pack)
 {
     if (m_isInherited && !pack)
         return;

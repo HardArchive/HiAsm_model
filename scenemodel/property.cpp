@@ -148,7 +148,7 @@ void Property::collectingData(qint32 idProp)
         char buf[PATH_MAX];
         qintptr linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), idProp, buf);
         if (linkedElement) {
-            PLinkedElementInfo elementInfo = new LinkedElementInfo();
+            SharedLinkedElementInfo elementInfo = SharedLinkedElementInfo::create();
             elementInfo->id = linkedElement;
             elementInfo->interface = QString::fromLocal8Bit(buf);
 
@@ -235,7 +235,7 @@ QString Property::toString() const
     return m_value.toString();
 }
 
-PLinkedElementInfo Property::toLinkedElementInfo() const
+SharedLinkedElementInfo Property::toLinkedElementInfo() const
 {
     return m_value.toLinkedElementInfo();
 }

@@ -14,7 +14,7 @@
 //Qt
 #include <QDebug>
 
-SceneModel::SceneModel(PackageManager * package, QObject *parent)
+SceneModel::SceneModel(PackageManager *package, QObject *parent)
     : QObject(parent)
     , m_packageManager(package)
 {
@@ -142,12 +142,12 @@ bool SceneModel::saveModel(const QString &filePath)
     return true;
 }
 
-void SceneModel::setPackage(PPackage package)
+void SceneModel::setPackage(Package *package)
 {
     m_package = package;
 }
 
-PPackage SceneModel::getPackage()
+Package *SceneModel::getPackage()
 {
     return m_package;
 }

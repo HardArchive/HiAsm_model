@@ -14,8 +14,8 @@ struct LinkedElementInfo {
     qint32 id{};
     QString interface;
 };
-typedef LinkedElementInfo *PLinkedElementInfo;
-Q_DECLARE_METATYPE(PLinkedElementInfo)
+typedef QSharedPointer<LinkedElementInfo> SharedLinkedElementInfo;
+Q_DECLARE_METATYPE(SharedLinkedElementInfo)
 
 struct ValueFont { //-V802
     QString name;

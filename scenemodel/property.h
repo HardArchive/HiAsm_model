@@ -33,7 +33,7 @@ private:
 
 private:
     Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools * cgt READ getCgt)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
 
 public:
     explicit Property(qint32 id, QObject *parent);
@@ -69,7 +69,7 @@ public:
     qint32 toInt() const;
     qreal toReal() const;
     QString toString() const;
-    PLinkedElementInfo toLinkedElementInfo() const;
+    SharedLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
     TCodeGenTools *getCgt();

@@ -108,7 +108,7 @@ public:
     void setEditClass(const QString &editClass);
 
     //Inherits
-    void addInheritableData(PPackage pack);
+    void addInheritableData(Package *pack);
 
     ListConfProps getProperties() const;
     ListConfPoints getPoints() const;

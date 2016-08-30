@@ -64,7 +64,7 @@ public:
     PValueFont toFont() const;
 
     //LinkedElementInfo
-    PLinkedElementInfo toLinkedElementInfo() const;
+    SharedLinkedElementInfo toLinkedElementInfo() const;
 };
 
 Q_DECLARE_METATYPE(QVector<Value *>)

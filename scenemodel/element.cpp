@@ -19,7 +19,7 @@ Element::Element(const QString &name, qintptr id_element, qint32 X, qint32 Y, QO
 {
     m_model->addElementToMap(this);
 
-    PPackage package = m_model->getPackage();
+    Package *package = m_model->getPackage();
     const SharedConfElement conf = package->getElementByName(name);
 }
 
@@ -302,7 +302,7 @@ QString Element::getInfSub() const
     return m_infSub;
 }
 
-TCodeGenTools * Element::getCgt()
+TCodeGenTools *Element::getCgt()
 {
     return m_cgt;
 }

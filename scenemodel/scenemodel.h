@@ -23,8 +23,8 @@ private:
     TCodeGenTools *m_cgt{};
 
     //Package
-    PPackage m_package{};
-    PackageManager * m_packageManager{};
+    Package *m_package{};
+    PackageManager *m_packageManager{};
 
     //Map
     QMap<qintptr, Container *> m_mapContainers;
@@ -54,11 +54,11 @@ private:
     QString m_compiler;
 
 private:
-    Q_PROPERTY(TCodeGenTools * cgt READ getCgt)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
     Q_PROPERTY(SceneModel *model READ getModel)
 
 public:
-    explicit SceneModel(PackageManager * package, QObject *parent = 0);
+    explicit SceneModel(PackageManager *package, QObject *parent = 0);
     virtual ~SceneModel();
 
 private:
@@ -77,8 +77,8 @@ public:
     bool saveModel(const QString &filePath);
 
     //Package
-    void setPackage(PPackage package);
-    PPackage getPackage();
+    void setPackage(Package *package);
+    Package *getPackage();
     bool loadPackage(const QString &name);
 
     //Map
