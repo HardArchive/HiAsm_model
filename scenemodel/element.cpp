@@ -10,7 +10,7 @@
 
 //Qt
 
-Element::Element(const QString &name, qintptr id_element, qint32 X, qint32 Y, QObject *parent)
+Element::Element(const QString &name, qint32 id_element, qint32 X, qint32 Y, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
     , m_posX(X)
@@ -59,10 +59,7 @@ void Element::collectingData()
     //ru Получаем информацию о свойствах
     for (qint32 i = 0; i < propCount; ++i) {
         qintptr propId = m_cgt->elGetProperty(m_id, i);
-        bool defProp = m_cgt->elIsDefProp(m_id, i);
-        auto prop = new Property(propId, this);
-        prop->setIsDefProp(defProp);
-        addProperty(prop);
+        addProperty(new Property(propId, this));
     }
 
     if (fcgt::isLink(m_flags))

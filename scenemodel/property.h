@@ -21,7 +21,6 @@ private:
     //Self
     QString m_name;
     DataType m_type{};
-    bool m_isDefProp{};
 
     //CGT
     TCodeGenTools *m_cgt{};
@@ -57,7 +56,6 @@ public:
     void setType(DataType type);
     DataType getType() const;
 
-    void setIsDefProp(bool value);
     bool getIsDefProp() const;
 
     //Value

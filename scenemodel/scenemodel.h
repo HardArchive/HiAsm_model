@@ -14,7 +14,8 @@
 class Container;
 class Element;
 
-class SceneModel : public QObject {
+class SceneModel : public QObject
+{
     Q_OBJECT
     Q_DISABLE_COPY(SceneModel)
 
@@ -27,8 +28,8 @@ private:
     PackageManager *m_packageManager{};
 
     //Map
-    QMap<qintptr, Container *> m_mapContainers;
-    QMap<qintptr, Element *> m_mapElements;
+    QMap<qint32, Container *> m_mapContainers;
+    QMap<qint32, Element *> m_mapElements;
 
     //Container
     Container *m_container{};

@@ -11,7 +11,8 @@
 
 //Qt
 
-namespace EmulateCgt {
+namespace EmulateCgt
+{
 #define EXPORT __stdcall
 
 //ru Храним указатель на модель данных
@@ -21,19 +22,19 @@ static SceneModel *m_model = nullptr;
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ контейнер ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает количество элементов в контейнере.
-EXPORT qint32 sdkGetCount(qint32 id_sdk)
+qint32 EXPORT sdkGetCount(qint32 id_sdk)
 {
     return m_model->getCountElementsInContainer(id_sdk);
 }
 
 //ru Возвращает ID элемента по его Z-положению(индексу) в контейнере.
-EXPORT qint32 sdkGetElement(qint32 id_sdk, qint32 index)
+qint32 EXPORT sdkGetElement(qint32 id_sdk, qint32 index)
 {
     return m_model->getIdElementFromSDKByIndex(id_sdk, index);
 }
 
 //ru Возвращает ID элемента по имени элемента.
-EXPORT qint32 sdkGetElementName(qint32 id_sdk, char *name)
+qint32 EXPORT sdkGetElementName(qint32 id_sdk, char *name)
 {
     const Container *c = m_model->getContainerById(id_sdk);
     if (!c)
@@ -44,7 +45,7 @@ EXPORT qint32 sdkGetElementName(qint32 id_sdk, char *name)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает флаги элемента.
-EXPORT ElementFlags elGetFlag(qint32 id_element)
+ElementFlags EXPORT elGetFlag(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -54,7 +55,7 @@ EXPORT ElementFlags elGetFlag(qint32 id_element)
 }
 
 //ru Возвращает количество свойств элемента.
-EXPORT qint32 elGetPropCount(qint32 id_element)
+qint32 EXPORT elGetPropCount(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -64,7 +65,7 @@ EXPORT qint32 elGetPropCount(qint32 id_element)
 }
 
 //ru Возвращает id свойства элемента по индексу, с порядковым номером из INI.
-EXPORT Property *elGetProperty(qint32 id_element, qint32 index)
+Property EXPORT *elGetProperty(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -74,7 +75,7 @@ EXPORT Property *elGetProperty(qint32 id_element, qint32 index)
 }
 
 //ru Возвращает True, если значение свойства совпадает с заданным в INI файле, иначе False.
-EXPORT bool elIsDefProp(qint32 id_element, qint32 index)
+bool EXPORT elIsDefProp(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -88,7 +89,7 @@ EXPORT bool elIsDefProp(qint32 id_element, qint32 index)
 }
 
 //ru Присваиваем элементу уникальное имя и возвращаем ID этого элемента.
-EXPORT qint32 elSetCodeName(qint32 id_element, const char *name)
+qint32 EXPORT elSetCodeName(qint32 id_element, const char *name)
 {
     Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -99,7 +100,7 @@ EXPORT qint32 elSetCodeName(qint32 id_element, const char *name)
 }
 
 //ru Возвращает уникальное имя элемента
-EXPORT const char *elGetCodeName(qint32 id_element)
+const char *EXPORT elGetCodeName(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -109,7 +110,7 @@ EXPORT const char *elGetCodeName(qint32 id_element)
 }
 
 //ru Возвращает имя класса элемента
-EXPORT const char *elGetClassName(qint32 id_element)
+const char *EXPORT elGetClassName(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -119,7 +120,7 @@ EXPORT const char *elGetClassName(qint32 id_element)
 }
 
 //ru Возвращает водержимое поля Sub из конфигурационного INI-файла элемента.
-EXPORT const char *elGetInfSub(qint32 id_element)
+const char *EXPORT elGetInfSub(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -129,7 +130,7 @@ EXPORT const char *elGetInfSub(qint32 id_element)
 }
 
 //ru Возвращает общее количество видимых точек у элемента.
-EXPORT qint32 elGetPtCount(qint32 id_element)
+qint32 EXPORT elGetPtCount(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -139,7 +140,7 @@ EXPORT qint32 elGetPtCount(qint32 id_element)
 }
 
 //ru Возвращает ID точки по её индексу.
-EXPORT Point *elGetPt(qint32 id_element, qint32 index)
+Point *EXPORT elGetPt(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -149,7 +150,7 @@ EXPORT Point *elGetPt(qint32 id_element, qint32 index)
 }
 
 //ru Возвращает ID точки по её имени.
-EXPORT Point *elGetPtName(qint32 id_element, const char *name)
+Point *EXPORT elGetPtName(qint32 id_element, const char *name)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -159,7 +160,7 @@ EXPORT Point *elGetPtName(qint32 id_element, const char *name)
 }
 
 //ru Возвращает индекс класса элемента.
-EXPORT ElementClass elGetClassIndex(qint32 id_element)
+ElementClass EXPORT elGetClassIndex(qint32 id_element)
 {
     Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -170,7 +171,7 @@ EXPORT ElementClass elGetClassIndex(qint32 id_element)
 
 //ru Получаем ID контейнера из элемента.
 //ru Если элемент не содержит контейнеры, возвращаем ID элемента родителя текущего контейнера.
-EXPORT qint32 elGetSDK(qint32 id_element)
+qint32 EXPORT elGetSDK(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -189,7 +190,7 @@ EXPORT qint32 elGetSDK(qint32 id_element)
 }
 
 //ru Возвращает True, если данный элемент является ссылкой, либо на него ссылаются.
-EXPORT bool elLinkIs(qint32 id_element)
+bool EXPORT elLinkIs(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -199,7 +200,7 @@ EXPORT bool elLinkIs(qint32 id_element)
 }
 
 //ru Возвращает ID главного элемента(тот, на который ссылаются другие).
-EXPORT qint32 elLinkMain(qint32 id_element)
+qint32 EXPORT elLinkMain(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -209,7 +210,7 @@ EXPORT qint32 elLinkMain(qint32 id_element)
 }
 
 //ru Помещает в переменные "X" и "Y", позицию элемента в редакторе схем.
-EXPORT void elGetPos(qint32 id_element, qint32 &X, qint32 &Y)
+void EXPORT elGetPos(qint32 id_element, qint32 &X, qint32 &Y)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -220,7 +221,7 @@ EXPORT void elGetPos(qint32 id_element, qint32 &X, qint32 &Y)
 }
 
 //ru Помещает в переменные "w" и "h", размеры элемента.
-EXPORT void elGetSize(qint32 id_element, qint32 &W, qint32 &H)
+void EXPORT elGetSize(qint32 id_element, qint32 &W, qint32 &H)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -232,7 +233,7 @@ EXPORT void elGetSize(qint32 id_element, qint32 &W, qint32 &H)
 
 //ru Возвращает внутренний ID элемента (отличается от внешнего).
 //[deprecated]
-EXPORT qint32 elGetEID(qint32 id_element)
+qint32 EXPORT elGetEID(qint32 id_element)
 {
     Q_UNUSED(id_element)
     return 0;
@@ -240,8 +241,7 @@ EXPORT qint32 elGetEID(qint32 id_element)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем ID точки с которой соединена указанная.
-//TODO ЧТО ДЕЛАТЬ???
-EXPORT Point *ptGetLinkPoint(Point *id_point)
+Point *EXPORT ptGetLinkPoint(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -251,7 +251,7 @@ EXPORT Point *ptGetLinkPoint(Point *id_point)
 
 //ru Получаем ID точки с которой соединена указанная,
 //ru без учета точек разрыва и хабов.
-EXPORT Point *ptGetRLinkPoint(Point *id_point)
+Point *EXPORT ptGetRLinkPoint(Point *id_point)
 {
     Q_CHECK_PTR(id_point);
 
@@ -259,14 +259,14 @@ EXPORT Point *ptGetRLinkPoint(Point *id_point)
 }
 
 //ru Получаем тип точки.
-EXPORT PointType ptGetType(Point *id_point)
+PointType EXPORT ptGetType(Point *id_point)
 {
     Q_CHECK_PTR(id_point);
     return id_point->getType();
 }
 
 //ru Возвращает имя точки.
-EXPORT const char *ptGetName(Point *id_point)
+const char *EXPORT ptGetName(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -275,7 +275,7 @@ EXPORT const char *ptGetName(Point *id_point)
 }
 
 //ru Получаем ID родителя (элемент) точки.
-EXPORT qint32 ptGetParent(Point *id_point)
+qint32 EXPORT ptGetParent(Point *id_point)
 {
     if (!id_point)
         return 0;
@@ -286,7 +286,7 @@ EXPORT qint32 ptGetParent(Point *id_point)
 }
 
 //ru Получаем индекс точки относительно точек того же типа.
-EXPORT qint32 ptGetIndex(Point *id_point)
+qint32 EXPORT ptGetIndex(Point *id_point)
 {
     if (!id_point)
         return 0;
@@ -295,7 +295,7 @@ EXPORT qint32 ptGetIndex(Point *id_point)
 }
 
 //ru Возвращает базовую часть имени динамической точки(для CI_DPElement).
-EXPORT const char *pt_dpeGetName(Point *id_point)
+const char *EXPORT pt_dpeGetName(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -305,7 +305,7 @@ EXPORT const char *pt_dpeGetName(Point *id_point)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает тип свойства.
-EXPORT DataType propGetType(Property *prop)
+DataType EXPORT propGetType(Property *prop)
 {
     if (!prop)
         return data_null;
@@ -314,7 +314,7 @@ EXPORT DataType propGetType(Property *prop)
 }
 
 //ru Возвращает имя свойства.
-EXPORT const char *propGetName(Property *prop)
+const char *EXPORT propGetName(Property *prop)
 {
     if (!prop)
         return nullptr;
@@ -323,7 +323,7 @@ EXPORT const char *propGetName(Property *prop)
 }
 
 //ru Возвращает значение свойства в виде указателя на данные.
-EXPORT Value *propGetValue(Property *prop)
+Value *EXPORT propGetValue(Property *prop)
 {
     if (!prop)
         return nullptr;
@@ -336,7 +336,7 @@ EXPORT Value *propGetValue(Property *prop)
 }
 
 //ru Возвращает значение свойства в формате uchar.
-EXPORT uchar propToByte(Property *prop)
+uchar EXPORT propToByte(Property *prop)
 {
     if (!prop)
         return 0;
@@ -345,7 +345,7 @@ EXPORT uchar propToByte(Property *prop)
 }
 
 //ru Возвращает значение свойства в формате qint32.
-EXPORT qint32 propToInteger(Property *prop)
+qint32 EXPORT propToInteger(Property *prop)
 {
     if (!prop)
         return 0;
@@ -354,7 +354,7 @@ EXPORT qint32 propToInteger(Property *prop)
 }
 
 //ru Возвращает значение свойства в формате float.
-EXPORT qreal propToReal(Property *prop)
+qreal EXPORT propToReal(Property *prop)
 {
     if (!prop)
         return 0;
@@ -363,7 +363,7 @@ EXPORT qreal propToReal(Property *prop)
 }
 
 //ru Возвращает значение свойства в виде C строки.
-EXPORT const char *propToString(Property *prop)
+const char *EXPORT propToString(Property *prop)
 {
     if (!prop)
         return 0;
@@ -375,21 +375,21 @@ EXPORT const char *propToString(Property *prop)
 
 //ru Добавляет имя файла в список временных файлов
 //ru для последующего удаления файла.
-EXPORT qint32 resAddFile(const char *filePath)
+qint32 EXPORT resAddFile(const char *filePath)
 {
     return m_model->addResList(QString::fromLocal8Bit(filePath));
 }
 
 //ru Добавляет иконку в ресурсы и в список временных файлов,
 //ru и возвращают имя временного файла.
-EXPORT const char *resAddIcon(Property *id_prop)
+const char *EXPORT resAddIcon(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
 
 //ru Добавляет строку в ресурсы и в список временных файлов.
 //ru Возвращают имя временного файла.
-EXPORT const char *resAddStr(const char *string)
+const char *EXPORT resAddStr(const char *string)
 {
     return m_model->addStringRes(QString::fromLocal8Bit(string));
 }
@@ -398,7 +398,7 @@ EXPORT const char *resAddStr(const char *string)
 //ru и возвращает имя временного файла.
 //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
 //ru работы с библиотекой.
-EXPORT const char *resAddStream(Property *id_prop)
+const char *EXPORT resAddStream(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
@@ -407,7 +407,7 @@ EXPORT const char *resAddStream(Property *id_prop)
 //ru и возвращает имя временного файла.
 //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
 //ru работы с библиотекой.
-EXPORT const char *resAddWave(Property *id_prop)
+const char *EXPORT resAddWave(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
@@ -416,14 +416,14 @@ EXPORT const char *resAddWave(Property *id_prop)
 //ru и возвращает имя временного файла.
 //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
 //ru работы с библиотекой.
-EXPORT const char *resAddBitmap(Property *id_prop)
+const char *EXPORT resAddBitmap(Property *id_prop)
 {
     return m_model->addStreamRes(id_prop);
 }
 
 //ru Добавляет меню в ресурсы и в список временных файлов.
 //[deprecated]
-EXPORT const char *resAddMenu(qint32 id_prop)
+const char *EXPORT resAddMenu(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -432,7 +432,7 @@ EXPORT const char *resAddMenu(qint32 id_prop)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ информационные сообщения ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Выводит строку text в окно Отладка цветом color
 //ru Всего возвращает 0.
-EXPORT qint32 _Debug(const char *text, qint32 color)
+qint32 EXPORT _Debug(const char *text, qint32 color)
 {
     Q_UNUSED(color)
 
@@ -442,7 +442,7 @@ EXPORT qint32 _Debug(const char *text, qint32 color)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ среда ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru На основе индекса параметра, записываем данные в память value
-EXPORT qint32 GetParam(CgtParams index, void *value)
+qint32 EXPORT GetParam(CgtParams index, void *value)
 {
     m_model->getCgtParam(index, value);
     return 0;
@@ -450,7 +450,7 @@ EXPORT qint32 GetParam(CgtParams index, void *value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ массив ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Получаем количество элементов в массиве.
-EXPORT qint32 arrCount(Value *id_array)
+qint32 EXPORT arrCount(Value *id_array)
 {
     if (!id_array)
         return 0;
@@ -459,7 +459,7 @@ EXPORT qint32 arrCount(Value *id_array)
 }
 
 //ru Получаем тип элементов в массиве.
-EXPORT DataType arrType(Value *id_array)
+DataType EXPORT arrType(Value *id_array)
 {
     if (!id_array)
         return data_null;
@@ -468,7 +468,7 @@ EXPORT DataType arrType(Value *id_array)
 }
 
 //ru Получаем имя элемента по индексу.
-EXPORT const char *arrItemName(Value *id_array, qint32 index)
+const char *EXPORT arrItemName(Value *id_array, qint32 index)
 {
     if (!id_array)
         return nullptr;
@@ -478,7 +478,7 @@ EXPORT const char *arrItemName(Value *id_array, qint32 index)
 
 //ru Получаем элемент (id_arrayValue) массива  по индексу.
 //[deprecated]
-EXPORT qint32 arrItemData(qint32 id_array, qint32 index)
+qint32 EXPORT arrItemData(qint32 id_array, qint32 index)
 {
     Q_UNUSED(id_array)
     Q_UNUSED(index)
@@ -488,7 +488,7 @@ EXPORT qint32 arrItemData(qint32 id_array, qint32 index)
 //ru Получаем элемент массива в виде свойства (id_prop) Оо,
 //ru для дальнейшей работы с ним cgt::prop* функциями.
 //TODO Утечка
-EXPORT Property *arrGetItem(Value *array, qint32 index)
+Property *EXPORT arrGetItem(Value *array, qint32 index)
 {
     if (!array)
         return nullptr;
@@ -506,7 +506,7 @@ EXPORT Property *arrGetItem(Value *array, qint32 index)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ среда ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращаем >0, если запускаем схемы в режиме отладки,
 //ru иначе 0.
-EXPORT qint32 isDebug(qint32 id_element)
+qint32 EXPORT isDebug(qint32 id_element)
 {
     Q_UNUSED(id_element)
     return m_model->getIsDebug();
@@ -515,7 +515,7 @@ EXPORT qint32 isDebug(qint32 id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ работа с данными ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 //ru Возвращает тип данных.
-EXPORT DataType dtType(Value *id_value)
+DataType EXPORT dtType(Value *id_value)
 {
     if (!id_value)
         return data_null;
@@ -524,7 +524,7 @@ EXPORT DataType dtType(Value *id_value)
 }
 
 //ru Возвращает данные в формате: строка в стиле C.
-EXPORT const char *dtStr(Value *id_value)
+const char *EXPORT dtStr(Value *id_value)
 {
     if (!id_value)
         return nullptr;
@@ -533,7 +533,7 @@ EXPORT const char *dtStr(Value *id_value)
 }
 
 //ru Возвращает данные в формате: целое число.
-EXPORT qint32 dtInt(Value *id_value)
+qint32 EXPORT dtInt(Value *id_value)
 {
     if (!id_value)
         return 0;
@@ -542,7 +542,7 @@ EXPORT qint32 dtInt(Value *id_value)
 }
 
 //ru Возвращает данные в формате: число с плавающей запятой.
-EXPORT qreal dtReal(Value *id_value)
+qreal EXPORT dtReal(Value *id_value)
 {
     if (!id_value)
         return 0.0;
@@ -552,7 +552,7 @@ EXPORT qreal dtReal(Value *id_value)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ шрифт ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает название шрифта.
-EXPORT const char *fntName(Value *id_font)
+const char *EXPORT fntName(Value *id_font)
 {
     if (!id_font)
         return nullptr;
@@ -564,7 +564,7 @@ EXPORT const char *fntName(Value *id_font)
     return fcgt::strToCString(font->name);
 }
 //ru Возвращает размер шрифта.
-EXPORT qint32 fntSize(Value *id_font)
+qint32 EXPORT fntSize(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -576,7 +576,7 @@ EXPORT qint32 fntSize(Value *id_font)
     return font->size;
 }
 //ru Возвращает стиль шрифта.
-EXPORT uchar fntStyle(Value *id_font)
+uchar EXPORT fntStyle(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -588,7 +588,7 @@ EXPORT uchar fntStyle(Value *id_font)
     return font->style;
 }
 //ru Возвращает цвет шрифта.
-EXPORT uint fntColor(Value *id_font)
+uint EXPORT fntColor(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -600,7 +600,7 @@ EXPORT uint fntColor(Value *id_font)
     return font->color;
 }
 //ru Возвращает кодировку шрифта.
-EXPORT uchar fntCharSet(Value *id_font)
+uchar EXPORT fntCharSet(Value *id_font)
 {
     if (!id_font)
         return 0;
@@ -619,7 +619,7 @@ EXPORT uchar fntCharSet(Value *id_font)
 //ru Коммент из hiasm5 - user data used in FTCG codegen.
 //ru Судя по всему, данные могут быть любого типа, ибо хранит указатель..
 //ru Так же, скорее всего используется для хранения ID элемента
-EXPORT qint32 elGetData(qint32 id_element)
+qint32 EXPORT elGetData(qint32 id_element)
 {
     Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -632,7 +632,7 @@ EXPORT qint32 elGetData(qint32 id_element)
 //ru Коммент из hiasm5 - user data used in FTCG codegen.
 //ru Судя по всему, данные могут быть любого типа, ибо хранит указатель.
 //ru Так же, скорее всего используется для хранения ID элемента
-EXPORT void elSetData(qint32 id_element, qint32 data)
+void EXPORT elSetData(qint32 id_element, qint32 data)
 {
     Element *e = m_model->getElementById(id_element);
     if (e)
@@ -641,7 +641,7 @@ EXPORT void elSetData(qint32 id_element, qint32 data)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает тип данных точки.
-EXPORT DataType ptGetDataType(Point *id_point)
+DataType EXPORT ptGetDataType(Point *id_point)
 {
     if (!id_point)
         return data_null;
@@ -651,7 +651,7 @@ EXPORT DataType ptGetDataType(Point *id_point)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает ID родительского контейнера элемента.
-EXPORT qint32 elGetParent(qint32 id_element)
+qint32 EXPORT elGetParent(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -666,7 +666,7 @@ EXPORT qint32 elGetParent(qint32 id_element)
 
 //ru Возвращает количество свойств в списке свойств(из панели свойств).
 //[deprecated]
-EXPORT qint32 elGetPropertyListCount(qint32 id_element)
+qint32 EXPORT elGetPropertyListCount(qint32 id_element)
 {
     Q_UNUSED(id_element)
 
@@ -675,7 +675,7 @@ EXPORT qint32 elGetPropertyListCount(qint32 id_element)
 
 //ru Возвращает свойство из списка свойств (PropertyList).
 //[deprecated]
-EXPORT qint32 elGetPropertyListItem(qint32 id_element, qint32 index)
+qint32 EXPORT elGetPropertyListItem(qint32 id_element, qint32 index)
 {
     Q_UNUSED(id_element)
     Q_UNUSED(index)
@@ -686,7 +686,7 @@ EXPORT qint32 elGetPropertyListItem(qint32 id_element, qint32 index)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ список свойств элемента ~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает имя свойства.
 //[deprecated]
-EXPORT const char *plGetName(qint32 id_prop)
+const char *EXPORT plGetName(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -694,7 +694,7 @@ EXPORT const char *plGetName(qint32 id_prop)
 
 //ru Возвращает описание свойства.
 //[deprecated]
-EXPORT const char *plGetInfo(qint32 id_prop)
+const char *EXPORT plGetInfo(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -702,7 +702,7 @@ EXPORT const char *plGetInfo(qint32 id_prop)
 
 //ru Возвращает группу свойсва.
 //[deprecated]
-EXPORT const char *plGetGroup(qint32 id_prop)
+const char *EXPORT plGetGroup(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return nullptr;
@@ -710,7 +710,7 @@ EXPORT const char *plGetGroup(qint32 id_prop)
 
 //ru Возвращает указатель на данные свойства.
 //[deprecated]
-EXPORT qint32 plGetProperty(qint32 id_prop)
+qint32 EXPORT plGetProperty(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return 0;
@@ -718,7 +718,7 @@ EXPORT qint32 plGetProperty(qint32 id_prop)
 
 //ru Возвращает ID родительского элемента указанного свойства.
 //[deprecated]
-EXPORT qint32 plGetOwner(qint32 id_prop)
+qint32 EXPORT plGetOwner(qint32 id_prop)
 {
     Q_UNUSED(id_prop)
     return 0;
@@ -727,7 +727,7 @@ EXPORT qint32 plGetOwner(qint32 id_prop)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает описание точки.
 //[deprecated]
-EXPORT const char *ptGetInfo(Point *id_point)
+const char *EXPORT ptGetInfo(Point *id_point)
 {
     if (!id_point)
         return nullptr;
@@ -737,7 +737,7 @@ EXPORT const char *ptGetInfo(Point *id_point)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает ID элемента, прилинкованного к указанному свойству.
-EXPORT qint32 propGetLinkedElement(qint32 id_element, const char *propName)
+qint32 EXPORT propGetLinkedElement(qint32 id_element, const char *propName)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -756,7 +756,7 @@ EXPORT qint32 propGetLinkedElement(qint32 id_element, const char *propName)
 
 //ru Возвращает 1, если свойство помечено на перевод.
 //[deprecated]
-EXPORT qint32 propIsTranslate(qint32 id_element, qint32 id_prop)
+qint32 EXPORT propIsTranslate(qint32 id_element, qint32 id_prop)
 {
     Q_UNUSED(id_element)
     Q_UNUSED(id_prop)
@@ -769,7 +769,7 @@ EXPORT qint32 propIsTranslate(qint32 id_element, qint32 id_prop)
      * Например в строке из INI: FormFastening=Форма для привязки позиции|20|(empty)|ControlManager
      * ControlManager - является той самой информацией передаваемой нам в buf.
      */
-EXPORT qint32 propGetLinkedElementInfo(qint32 id_element, Property *id_prop, char *buf)
+qint32 EXPORT propGetLinkedElementInfo(qint32 id_element, Property *id_prop, char *buf)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -789,7 +789,7 @@ EXPORT qint32 propGetLinkedElementInfo(qint32 id_element, Property *id_prop, cha
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент - CI_PolyMulti ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает id_sdk контейнера по его индексу из элемента.
-EXPORT qint32 elGetSDKByIndex(qint32 id_element, qint32 index)
+qint32 EXPORT elGetSDKByIndex(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -799,7 +799,7 @@ EXPORT qint32 elGetSDKByIndex(qint32 id_element, qint32 index)
 }
 
 //ru Возвращает количаство контейнеров полиморфного элемента(CI_PolyMulti).
-EXPORT qint32 elGetSDKCount(qint32 id_element)
+qint32 EXPORT elGetSDKCount(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -809,7 +809,7 @@ EXPORT qint32 elGetSDKCount(qint32 id_element)
 }
 
 //ru Возвращает имя контейнера по индексу.
-EXPORT const char *elGetSDKName(qint32 id_element, qint32 index)
+const char *EXPORT elGetSDKName(qint32 id_element, qint32 index)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -825,7 +825,7 @@ EXPORT const char *elGetSDKName(qint32 id_element, qint32 index)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ схема ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает элемент родитель для данного SDK.
 //ru Возвращает 0, если контейнер не имеет родителя.
-EXPORT qint32 sdkGetParent(qint32 id_sdk)
+qint32 EXPORT sdkGetParent(qint32 id_sdk)
 {
     const Container *c = m_model->getContainerById(id_sdk);
     Q_CHECK_PTR(c);
@@ -840,7 +840,7 @@ EXPORT qint32 sdkGetParent(qint32 id_sdk)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает интерфейсы, предоставляемые элементом.
 //ru Содержимое поля Interfaces= из конфигурации элемента.
-EXPORT const char *elGetInterface(qint32 id_element)
+const char *EXPORT elGetInterface(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -851,7 +851,7 @@ EXPORT const char *elGetInterface(qint32 id_element)
 
 //ru Возвращает список классов, от которых наследуется элемент
 //ru Содержимое поля Inherit= из конфигурации элемента.
-EXPORT const char *elGetInherit(qint32 id_element)
+const char *EXPORT elGetInherit(qint32 id_element)
 {
     const Element *e = m_model->getElementById(id_element);
     if (!e)
@@ -862,14 +862,14 @@ EXPORT const char *elGetInherit(qint32 id_element)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ ресурсы ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает 1, если список ресурсов пуст, и 0 в противном случае.
-EXPORT qint32 resEmpty()
+qint32 EXPORT resEmpty()
 {
     return m_model->resIsEmpty();
 }
 
 //ru Устанавливает префикс для имен ресурсов.
 //[deprecated]
-EXPORT qint32 resSetPref(const char *pref)
+qint32 EXPORT resSetPref(const char *pref)
 {
     Q_UNUSED(pref)
     return 0;
@@ -877,7 +877,7 @@ EXPORT qint32 resSetPref(const char *pref)
 
 //!~~~~~~~~~~~~~~~~~~~~~~~~ информационные сообщения ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Добавляет информацию в информационную панель
-EXPORT qint32 _Error(qint32 line, qint32 id_element, const char *text)
+qint32 EXPORT _Error(qint32 line, qint32 id_element, const char *text)
 {
     Q_UNUSED(line)
     Q_UNUSED(id_element)
@@ -888,7 +888,7 @@ EXPORT qint32 _Error(qint32 line, qint32 id_element, const char *text)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Возвращает ID группы, к которой принадлежит элемент и 0, если группа отсутствует
 //[deprecated]
-EXPORT qint32 elGetGroup(qint32 id_element)
+qint32 EXPORT elGetGroup(qint32 id_element)
 {
     Q_UNUSED(id_element)
     return 0;
@@ -897,7 +897,7 @@ EXPORT qint32 elGetGroup(qint32 id_element)
 //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //ru Сохраняет данные свойства в файл.
 //[deprecated]
-EXPORT qint32 propSaveToFile(Property *id_prop, const char *fileName)
+qint32 EXPORT propSaveToFile(Property *id_prop, const char *fileName)
 {
     Q_UNUSED(id_prop)
     Q_UNUSED(fileName)

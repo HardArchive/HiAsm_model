@@ -166,7 +166,6 @@ QVariantMap Property::serialize() const
     QVariantMap data;
     data.insert("name", m_name);
     data.insert("type", m_type);
-    data.insert("isDefProp", m_isDefProp);
     data.insert("value", m_value.serialize());
 
     return data;
@@ -195,11 +194,6 @@ void Property::setType(DataType type)
 DataType Property::getType() const
 {
     return m_type;
-}
-
-void Property::setIsDefProp(bool value)
-{
-    m_isDefProp = value;
 }
 
 bool Property::getIsDefProp() const

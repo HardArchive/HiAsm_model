@@ -57,7 +57,7 @@ private:
     Q_PROPERTY(TCodeGenTools * cgt READ getCgt)
 
 public:
-    explicit Element(const QString &name, qintptr id_element, qint32 X, qint32 Y, QObject *parent);
+    explicit Element(const QString &name, qint32 id_element, qint32 X, qint32 Y, QObject *parent);
     explicit Element(qintptr id_element, QObject *parent);
 
 private:
