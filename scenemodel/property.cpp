@@ -12,7 +12,7 @@
 #include <QDebug>
 #include <QUuid>
 
-Property::Property(quintptr id_prop, QObject *parent)
+Property::Property(qintptr id_prop, QObject *parent)
     : QObject(parent)
     , m_id(id_prop)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
@@ -29,7 +29,7 @@ Property::Property(const QJsonObject &object, QObject *parent)
     deserialize(object);
 }
 
-Property::Property(quintptr id, DataType type, const QVariant &data, const QString &name)
+Property::Property(qintptr id, DataType type, const QVariant &data, const QString &name)
 {
     m_id = id;
     m_type = type;
@@ -44,7 +44,7 @@ void Property::collectingData()
 {
     m_name = QString::fromLocal8Bit(m_cgt->propGetName(m_id));
     m_type = m_cgt->propGetType(m_id);
-    quintptr id_value = m_cgt->propGetValue(m_id);
+    qintptr id_value = m_cgt->propGetValue(m_id);
 
     switch (m_type) {
     case data_int:
@@ -116,7 +116,7 @@ void Property::collectingData()
         Values arrayItems;
 
         for (int i = 0; i < arrCount; ++i) {
-            const quintptr id_prop = m_cgt->arrGetItem(id_value, i);
+            const qintptr id_prop = m_cgt->arrGetItem(id_value, i);
 
             QString name = QString::fromLocal8Bit(m_cgt->arrItemName(id_value, i));
             QVariant data;
@@ -156,7 +156,7 @@ void Property::collectingData()
             return;
 
         char buf[PATH_MAX];
-        quintptr linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), m_id, buf);
+        qintptr linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), m_id, buf);
         if (linkedElement) {
             SharedLinkedElementInfo elementInfo = SharedLinkedElementInfo::create();
             elementInfo->id = linkedElement;
@@ -184,7 +184,7 @@ QVariantMap Property::serialize()
 
 void Property::deserialize(const QJsonObject &object)
 {
-    m_id = object["id"].toVariant().value<quintptr>();
+    m_id = object["id"].toVariant().value<qintptr>();
     m_model->addPropertyToMap(this);
 
     m_name = object["name"].toString();
@@ -194,7 +194,7 @@ void Property::deserialize(const QJsonObject &object)
     m_model->addValueToMap(&m_value);
 }
 
-quintptr Property::getId() const
+qintptr Property::getId() const
 {
     return m_id;
 }
@@ -229,7 +229,7 @@ bool Property::getIsDefProp() const
     return m_isDefProp;
 }
 
-void Property::setValue(quintptr id, DataType type, const QVariant &data, const QString &name, DataType arrayType)
+void Property::setValue(qintptr id, DataType type, const QVariant &data, const QString &name, DataType arrayType)
 {
     m_value.setId(id);
     m_value.setType(type);

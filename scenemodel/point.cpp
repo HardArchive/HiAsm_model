@@ -10,7 +10,7 @@
 
 //Qt
 
-Point::Point(quintptr id_point, QObject *parent)
+Point::Point(qintptr id_point, QObject *parent)
     : QObject(parent)
     , m_id(id_point)
     , m_cgt(parent->property("cgt").value<PCodeGenTools>())
@@ -57,7 +57,7 @@ QVariantMap Point::serialize()
 
 void Point::deserialize(const QJsonObject &object)
 {
-    m_id = object["id"].toVariant().value<quintptr>();
+    m_id = object["id"].toVariant().value<qintptr>();
     m_model->addPointToMap(this);
 
     m_type = PointType(object["type"].toInt());
@@ -66,11 +66,11 @@ void Point::deserialize(const QJsonObject &object)
     m_name = object["name"].toString();
     m_dpeName = object["dpeName"].toString();
     m_info = object["info"].toString();
-    m_linkPoint = object["linkPoint"].toVariant().value<quintptr>();
-    m_RLinkPoint = object["RLinkPoint"].toVariant().value<quintptr>();
+    m_linkPoint = object["linkPoint"].toVariant().value<qintptr>();
+    m_RLinkPoint = object["RLinkPoint"].toVariant().value<qintptr>();
 }
 
-quintptr Point::getId() const
+qintptr Point::getId() const
 {
     return m_id;
 }
@@ -140,22 +140,22 @@ QString Point::getInfo() const
     return m_info;
 }
 
-void Point::setLinkPoint(quintptr linkPoint)
+void Point::setLinkPoint(qintptr linkPoint)
 {
     m_linkPoint = linkPoint;
 }
 
-quintptr Point::getLinkPoint() const
+qintptr Point::getLinkPoint() const
 {
     return m_linkPoint;
 }
 
-void Point::setRLinkPoint(quintptr RLinkPoint)
+void Point::setRLinkPoint(qintptr RLinkPoint)
 {
     m_RLinkPoint = RLinkPoint;
 }
 
-quintptr Point::getRLinkPoint() const
+qintptr Point::getRLinkPoint() const
 {
     return m_RLinkPoint;
 }

@@ -7,7 +7,7 @@
 //Qt
 
 
-Value::Value(quintptr id_value, DataType type, const QVariant &value, const QString &name, DataType subType):
+Value::Value(qintptr id_value, DataType type, const QVariant &value, const QString &name, DataType subType):
     m_id(id_value),
     m_type(type),
     m_value(value),
@@ -93,7 +93,7 @@ QVariantMap Value::serialize()
 
 void Value::deserialize(const QJsonObject &object)
 {
-    m_id = object["id"].toVariant().value<quintptr>();
+    m_id = object["id"].toVariant().value<qintptr>();
     m_type = DataType(object["type"].toInt());
     m_name = object["name"].toString();
     m_subType = DataType(object["subType"].toInt());
@@ -192,12 +192,12 @@ void Value::deserialize(const QJsonObject &object)
     }
 }
 
-void Value::setId(quintptr id)
+void Value::setId(qintptr id)
 {
     m_id = id;
 }
 
-quintptr Value::getId() const
+qintptr Value::getId() const
 {
     return m_id;
 }

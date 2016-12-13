@@ -14,14 +14,14 @@ class Value
 
 private:
     //Self
-    quintptr m_id;
+    qintptr m_id;
     DataType m_type = data_null;
     QVariant m_value;
     QString m_name;
     DataType m_subType = data_null;
 
 public:
-    explicit Value(quintptr id_value = 0,
+    explicit Value(qintptr id_value = 0,
                    DataType type = data_null,
                    const QVariant &value = QVariant(),
                    const QString &name = QString(),
@@ -36,8 +36,8 @@ public:
     void deserialize(const QJsonObject &object);
 
     //Self
-    void setId(quintptr id);
-    quintptr getId() const;
+    void setId(qintptr id);
+    qintptr getId() const;
     void setType(DataType type);
     DataType getType() const;
     void setName(const QString &name);

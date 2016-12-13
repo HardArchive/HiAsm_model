@@ -22,19 +22,19 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ контейнер ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает количество элементов в контейнере.
-    EXPORT int sdkGetCount(quintptr id_sdk)
+    EXPORT int sdkGetCount(qintptr id_sdk)
     {
         return m_model->getCountElementsInContainer(id_sdk);
     }
 
     //ru Возвращает ID элемента по его Z-положению(индексу) в контейнере.
-    EXPORT quintptr sdkGetElement(quintptr id_sdk, int index)
+    EXPORT qintptr sdkGetElement(qintptr id_sdk, int index)
     {
         return m_model->getIdElementFromSDKByIndex(id_sdk, index);
     }
 
     //ru Возвращает ID элемента по имени элемента.
-    EXPORT quintptr sdkGetElementName(quintptr id_sdk, char *name)
+    EXPORT qintptr sdkGetElementName(qintptr id_sdk, char *name)
     {
         const PContainer c = m_model->getContainerById(id_sdk);
         if (!c)
@@ -45,7 +45,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает флаги элемента.
-    EXPORT ElementFlags elGetFlag(quintptr id_element)
+    EXPORT ElementFlags elGetFlag(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -55,7 +55,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает количество свойств элемента.
-    EXPORT int elGetPropCount(quintptr id_element)
+    EXPORT int elGetPropCount(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -65,7 +65,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает id свойства элемента по индексу, с порядковым номером из INI.
-    EXPORT quintptr elGetProperty(quintptr id_element, int index)
+    EXPORT qintptr elGetProperty(qintptr id_element, int index)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -75,7 +75,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает True, если значение свойства совпадает с заданным в INI файле, иначе False.
-    EXPORT bool elIsDefProp(quintptr id_element, int index)
+    EXPORT bool elIsDefProp(qintptr id_element, int index)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -89,7 +89,7 @@ namespace EmulateCgt
     }
 
     //ru Присваиваем элементу уникальное имя и возвращаем ID этого элемента.
-    EXPORT quintptr elSetCodeName(quintptr id_element, const char *name)
+    EXPORT qintptr elSetCodeName(qintptr id_element, const char *name)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -100,7 +100,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает уникальное имя элемента
-    EXPORT const char *elGetCodeName(quintptr id_element)
+    EXPORT const char *elGetCodeName(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -110,7 +110,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает имя класса элемента
-    EXPORT const char *elGetClassName(quintptr id_element)
+    EXPORT const char *elGetClassName(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -120,7 +120,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает водержимое поля Sub из конфигурационного INI-файла элемента.
-    EXPORT const char *elGetInfSub(quintptr id_element)
+    EXPORT const char *elGetInfSub(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -130,7 +130,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает общее количество видимых точек у элемента.
-    EXPORT int elGetPtCount(quintptr id_element)
+    EXPORT int elGetPtCount(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -140,7 +140,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает ID точки по её индексу.
-    EXPORT quintptr elGetPt(quintptr id_element, int index)
+    EXPORT qintptr elGetPt(qintptr id_element, int index)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -150,7 +150,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает ID точки по её имени.
-    EXPORT quintptr elGetPtName(quintptr id_element, const char *name)
+    EXPORT qintptr elGetPtName(qintptr id_element, const char *name)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -160,7 +160,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает индекс класса элемента.
-    EXPORT ElementClass elGetClassIndex(quintptr id_element)
+    EXPORT ElementClass elGetClassIndex(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -171,7 +171,7 @@ namespace EmulateCgt
 
     //ru Получаем ID контейнера из элемента.
     //ru Если элемент не содержит контейнеры, возвращаем ID элемента родителя текущего контейнера.
-    EXPORT quintptr elGetSDK(quintptr id_element)
+    EXPORT qintptr elGetSDK(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -189,7 +189,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает True, если данный элемент является ссылкой, либо на него ссылаются.
-    EXPORT bool elLinkIs(quintptr id_element)
+    EXPORT bool elLinkIs(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -199,7 +199,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает ID главного элемента(тот, на который ссылаются другие).
-    EXPORT quintptr elLinkMain(quintptr id_element)
+    EXPORT qintptr elLinkMain(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -209,7 +209,7 @@ namespace EmulateCgt
     }
 
     //ru Помещает в переменные "X" и "Y", позицию элемента в редакторе схем.
-    EXPORT void elGetPos(quintptr id_element, int &X, int &Y)
+    EXPORT void elGetPos(qintptr id_element, int &X, int &Y)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -220,7 +220,7 @@ namespace EmulateCgt
     }
 
     //ru Помещает в переменные "w" и "h", размеры элемента.
-    EXPORT void elGetSize(quintptr id_element, int &W, int &H)
+    EXPORT void elGetSize(qintptr id_element, int &W, int &H)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -232,7 +232,7 @@ namespace EmulateCgt
 
     //ru Возвращает внутренний ID элемента (отличается от внешнего).
     //[deprecated]
-    EXPORT int elGetEID(quintptr id_element)
+    EXPORT int elGetEID(qintptr id_element)
     {
         Q_UNUSED(id_element)
         return 0;
@@ -240,7 +240,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Получаем ID точки с которой соединена указанная.
-    EXPORT quintptr ptGetLinkPoint(quintptr id_point)
+    EXPORT qintptr ptGetLinkPoint(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -251,7 +251,7 @@ namespace EmulateCgt
 
     //ru Получаем ID точки с которой соединена указанная,
     //ru без учета точек разрыва и хабов.
-    EXPORT quintptr ptGetRLinkPoint(quintptr id_point)
+    EXPORT qintptr ptGetRLinkPoint(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -261,7 +261,7 @@ namespace EmulateCgt
     }
 
     //ru Получаем тип точки.
-    EXPORT PointType ptGetType(quintptr id_point)
+    EXPORT PointType ptGetType(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -271,7 +271,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает имя точки.
-    EXPORT const char *ptGetName(quintptr id_point)
+    EXPORT const char *ptGetName(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -281,7 +281,7 @@ namespace EmulateCgt
     }
 
     //ru Получаем ID родителя (элемент) точки.
-    EXPORT quintptr ptGetParent(quintptr id_point)
+    EXPORT qintptr ptGetParent(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -292,7 +292,7 @@ namespace EmulateCgt
     }
 
     //ru Получаем индекс точки относительно точек того же типа.
-    EXPORT int ptGetIndex(quintptr id_point)
+    EXPORT int ptGetIndex(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -302,7 +302,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает базовую часть имени динамической точки(для CI_DPElement).
-    EXPORT const char *pt_dpeGetName(quintptr id_point)
+    EXPORT const char *pt_dpeGetName(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -313,7 +313,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает тип свойства.
-    EXPORT DataType propGetType(quintptr id_prop)
+    EXPORT DataType propGetType(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -323,7 +323,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает имя свойства.
-    EXPORT const char *propGetName(quintptr id_prop)
+    EXPORT const char *propGetName(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -333,7 +333,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает значение свойства в виде указателя на данные.
-    EXPORT quintptr propGetValue(quintptr id_prop)
+    EXPORT qintptr propGetValue(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -347,7 +347,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает значение свойства в формате uchar.
-    EXPORT uchar propToByte(quintptr id_prop)
+    EXPORT uchar propToByte(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -357,7 +357,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает значение свойства в формате int.
-    EXPORT int propToInteger(quintptr id_prop)
+    EXPORT int propToInteger(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -367,7 +367,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает значение свойства в формате float.
-    EXPORT qreal propToReal(quintptr id_prop)
+    EXPORT qreal propToReal(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -377,7 +377,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает значение свойства в виде C строки.
-    EXPORT const char *propToString(quintptr id_prop)
+    EXPORT const char *propToString(qintptr id_prop)
     {
         PProperty p = m_model->getPropertyById(id_prop);
         if (!p)
@@ -397,7 +397,7 @@ namespace EmulateCgt
 
     //ru Добавляет иконку в ресурсы и в список временных файлов,
     //ru и возвращают имя временного файла.
-    EXPORT const char *resAddIcon(quintptr id_prop)
+    EXPORT const char *resAddIcon(qintptr id_prop)
     {
         return m_model->addStreamRes(id_prop);
     }
@@ -413,7 +413,7 @@ namespace EmulateCgt
     //ru и возвращает имя временного файла.
     //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
     //ru работы с библиотекой.
-    EXPORT const char *resAddStream(quintptr id_prop)
+    EXPORT const char *resAddStream(qintptr id_prop)
     {
         return m_model->addStreamRes(id_prop);
     }
@@ -422,7 +422,7 @@ namespace EmulateCgt
     //ru и возвращает имя временного файла.
     //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
     //ru работы с библиотекой.
-    EXPORT const char *resAddWave(quintptr id_prop)
+    EXPORT const char *resAddWave(qintptr id_prop)
     {
         return m_model->addStreamRes(id_prop);
     }
@@ -431,14 +431,14 @@ namespace EmulateCgt
     //ru и возвращает имя временного файла.
     //ru Временный файл создаётся в папке %HiAsm%\compiler и существует до конца
     //ru работы с библиотекой.
-    EXPORT const char *resAddBitmap(quintptr id_prop)
+    EXPORT const char *resAddBitmap(qintptr id_prop)
     {
         return m_model->addStreamRes(id_prop);
     }
 
     //ru Добавляет меню в ресурсы и в список временных файлов.
     //[deprecated]
-    EXPORT const char *resAddMenu(quintptr id_prop)
+    EXPORT const char *resAddMenu(qintptr id_prop)
     {
         Q_UNUSED(id_prop)
         return nullptr;
@@ -465,7 +465,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ массив ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Получаем количество элементов в массиве.
-    EXPORT int arrCount(quintptr id_array)
+    EXPORT int arrCount(qintptr id_array)
     {
         const PValue v = m_model->getValueById(id_array);
         if (!v)
@@ -475,7 +475,7 @@ namespace EmulateCgt
     }
 
     //ru Получаем тип элементов в массиве.
-    EXPORT DataType arrType(quintptr id_array)
+    EXPORT DataType arrType(qintptr id_array)
     {
         const PValue v = m_model->getValueById(id_array);
         if (!v)
@@ -485,7 +485,7 @@ namespace EmulateCgt
     }
 
     //ru Получаем имя элемента по индексу.
-    EXPORT const char *arrItemName(quintptr id_array, int index)
+    EXPORT const char *arrItemName(qintptr id_array, int index)
     {
         const PValue v = m_model->getValueById(id_array);
         if (!v)
@@ -496,7 +496,7 @@ namespace EmulateCgt
 
     //ru Получаем элемент (id_arrayValue) массива  по индексу.
     //[deprecated]
-    EXPORT quintptr arrItemData(quintptr id_array, int index)
+    EXPORT qintptr arrItemData(qintptr id_array, int index)
     {
         Q_UNUSED(id_array)
         Q_UNUSED(index)
@@ -505,7 +505,7 @@ namespace EmulateCgt
 
     //ru Получаем элемент массива в виде свойства (id_prop) Оо,
     //ru для дальнейшей работы с ним cgt::prop* функциями.
-    EXPORT quintptr arrGetItem(quintptr id_array, int index)
+    EXPORT qintptr arrGetItem(qintptr id_array, int index)
     {
         const PValue v = m_model->getValueById(id_array);
         if (!v)
@@ -527,7 +527,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ среда ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращаем >0, если запускаем схемы в режиме отладки,
     //ru иначе 0.
-    EXPORT int isDebug(quintptr id_element)
+    EXPORT int isDebug(qintptr id_element)
     {
         Q_UNUSED(id_element)
         return m_model->getIsDebug();
@@ -536,7 +536,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ работа с данными ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //ru Возвращает тип данных.
-    EXPORT DataType dtType(quintptr id_value)
+    EXPORT DataType dtType(qintptr id_value)
     {
         const PValue v = m_model->getValueById(id_value);
         if (!v)
@@ -546,7 +546,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает данные в формате: строка в стиле C.
-    EXPORT const char *dtStr(quintptr id_value)
+    EXPORT const char *dtStr(qintptr id_value)
     {
         const PValue v = m_model->getValueById(id_value);
         if (!v)
@@ -556,7 +556,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает данные в формате: целое число.
-    EXPORT int dtInt(quintptr id_value)
+    EXPORT int dtInt(qintptr id_value)
     {
         const PValue v = m_model->getValueById(id_value);
         if (!v)
@@ -566,7 +566,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает данные в формате: число с плавающей запятой.
-    EXPORT qreal dtReal(quintptr id_value)
+    EXPORT qreal dtReal(qintptr id_value)
     {
         const PValue v = m_model->getValueById(id_value);
         if (!v)
@@ -577,7 +577,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ шрифт ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает название шрифта.
-    EXPORT const char *fntName(quintptr id_font)
+    EXPORT const char *fntName(qintptr id_font)
     {
         PValue v = m_model->getValueById(id_font);
         if (!v)
@@ -590,7 +590,7 @@ namespace EmulateCgt
         return fcgt::strToCString(font->name);
     }
     //ru Возвращает размер шрифта.
-    EXPORT int fntSize(quintptr id_font)
+    EXPORT int fntSize(qintptr id_font)
     {
         PValue v = m_model->getValueById(id_font);
         if (!v)
@@ -603,7 +603,7 @@ namespace EmulateCgt
         return font->size;
     }
     //ru Возвращает стиль шрифта.
-    EXPORT uchar fntStyle(quintptr id_font)
+    EXPORT uchar fntStyle(qintptr id_font)
     {
         PValue v = m_model->getValueById(id_font);
         if (!v)
@@ -616,7 +616,7 @@ namespace EmulateCgt
         return font->style;
     }
     //ru Возвращает цвет шрифта.
-    EXPORT uint fntColor(quintptr id_font)
+    EXPORT uint fntColor(qintptr id_font)
     {
         PValue v = m_model->getValueById(id_font);
         if (!v)
@@ -629,7 +629,7 @@ namespace EmulateCgt
         return font->color;
     }
     //ru Возвращает кодировку шрифта.
-    EXPORT uchar fntCharSet(quintptr id_font)
+    EXPORT uchar fntCharSet(qintptr id_font)
     {
         PValue v = m_model->getValueById(id_font);
         if (!v)
@@ -649,7 +649,7 @@ namespace EmulateCgt
     //ru Коммент из hiasm5 - user data used in FTCG codegen.
     //ru Судя по всему, данные могут быть любого типа, ибо хранит указатель..
     //ru Так же, скорее всего используется для хранения ID элемента
-    EXPORT quintptr elGetData(quintptr id_element)
+    EXPORT qintptr elGetData(qintptr id_element)
     {
         PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -662,7 +662,7 @@ namespace EmulateCgt
     //ru Коммент из hiasm5 - user data used in FTCG codegen.
     //ru Судя по всему, данные могут быть любого типа, ибо хранит указатель.
     //ru Так же, скорее всего используется для хранения ID элемента
-    EXPORT void elSetData(quintptr id_element, quintptr data)
+    EXPORT void elSetData(qintptr id_element, qintptr data)
     {
         PElement e = m_model->getElementById(id_element);
         if (e)
@@ -671,7 +671,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает тип данных точки.
-    EXPORT DataType ptGetDataType(quintptr id_point)
+    EXPORT DataType ptGetDataType(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -682,7 +682,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает ID родительского контейнера элемента.
-    EXPORT quintptr elGetParent(quintptr id_element)
+    EXPORT qintptr elGetParent(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -697,7 +697,7 @@ namespace EmulateCgt
 
     //ru Возвращает количество свойств в списке свойств(из панели свойств).
     //[deprecated]
-    EXPORT int elGetPropertyListCount(quintptr id_element)
+    EXPORT int elGetPropertyListCount(qintptr id_element)
     {
         Q_UNUSED(id_element)
 
@@ -706,7 +706,7 @@ namespace EmulateCgt
 
     //ru Возвращает свойство из списка свойств (PropertyList).
     //[deprecated]
-    EXPORT quintptr elGetPropertyListItem(quintptr id_element, int index)
+    EXPORT qintptr elGetPropertyListItem(qintptr id_element, int index)
     {
         Q_UNUSED(id_element)
         Q_UNUSED(index)
@@ -717,7 +717,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ список свойств элемента ~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает имя свойства.
     //[deprecated]
-    EXPORT const char *plGetName(quintptr id_prop)
+    EXPORT const char *plGetName(qintptr id_prop)
     {
         Q_UNUSED(id_prop)
         return nullptr;
@@ -725,7 +725,7 @@ namespace EmulateCgt
 
     //ru Возвращает описание свойства.
     //[deprecated]
-    EXPORT const char *plGetInfo(quintptr id_prop)
+    EXPORT const char *plGetInfo(qintptr id_prop)
     {
         Q_UNUSED(id_prop)
         return nullptr;
@@ -733,7 +733,7 @@ namespace EmulateCgt
 
     //ru Возвращает группу свойсва.
     //[deprecated]
-    EXPORT const char *plGetGroup(quintptr id_prop)
+    EXPORT const char *plGetGroup(qintptr id_prop)
     {
         Q_UNUSED(id_prop)
         return nullptr;
@@ -741,7 +741,7 @@ namespace EmulateCgt
 
     //ru Возвращает указатель на данные свойства.
     //[deprecated]
-    EXPORT quintptr plGetProperty(quintptr id_prop)
+    EXPORT qintptr plGetProperty(qintptr id_prop)
     {
         Q_UNUSED(id_prop)
         return 0;
@@ -749,7 +749,7 @@ namespace EmulateCgt
 
     //ru Возвращает ID родительского элемента указанного свойства.
     //[deprecated]
-    EXPORT quintptr plGetOwner(quintptr id_prop)
+    EXPORT qintptr plGetOwner(qintptr id_prop)
     {
         Q_UNUSED(id_prop)
         return 0;
@@ -758,7 +758,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ точки элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает описание точки.
     //[deprecated]
-    EXPORT const char *ptGetInfo(quintptr id_point)
+    EXPORT const char *ptGetInfo(qintptr id_point)
     {
         const PPoint p = m_model->getPointById(id_point);
         if (!p)
@@ -769,7 +769,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает ID элемента, прилинкованного к указанному свойству.
-    EXPORT quintptr propGetLinkedElement(quintptr id_element, const char *propName)
+    EXPORT qintptr propGetLinkedElement(qintptr id_element, const char *propName)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -788,7 +788,7 @@ namespace EmulateCgt
 
     //ru Возвращает 1, если свойство помечено на перевод.
     //[deprecated]
-    EXPORT int propIsTranslate(quintptr id_element, quintptr id_prop)
+    EXPORT int propIsTranslate(qintptr id_element, qintptr id_prop)
     {
         Q_UNUSED(id_element)
         Q_UNUSED(id_prop)
@@ -801,7 +801,7 @@ namespace EmulateCgt
      * Например в строке из INI: FormFastening=Форма для привязки позиции|20|(empty)|ControlManager
      * ControlManager - является той самой информацией передаваемой нам в buf.
      */
-    EXPORT quintptr propGetLinkedElementInfo(quintptr id_element, quintptr id_prop, char *buf)
+    EXPORT qintptr propGetLinkedElementInfo(qintptr id_element, qintptr id_prop, char *buf)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -821,7 +821,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент - CI_PolyMulti ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает id_sdk контейнера по его индексу из элемента.
-    EXPORT quintptr elGetSDKByIndex(quintptr id_element, int index)
+    EXPORT qintptr elGetSDKByIndex(qintptr id_element, int index)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -831,7 +831,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает количаство контейнеров полиморфного элемента(CI_PolyMulti).
-    EXPORT int elGetSDKCount(quintptr id_element)
+    EXPORT int elGetSDKCount(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -841,7 +841,7 @@ namespace EmulateCgt
     }
 
     //ru Возвращает имя контейнера по индексу.
-    EXPORT const char *elGetSDKName(quintptr id_element, int index)
+    EXPORT const char *elGetSDKName(qintptr id_element, int index)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -857,7 +857,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ схема ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает элемент родитель для данного SDK.
     //ru Возвращает 0, если контейнер не имеет родителя.
-    EXPORT quintptr sdkGetParent(quintptr id_sdk)
+    EXPORT qintptr sdkGetParent(qintptr id_sdk)
     {
         const PContainer c = m_model->getContainerById(id_sdk);
         if (!c)
@@ -873,7 +873,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает интерфейсы, предоставляемые элементом.
     //ru Содержимое поля Interfaces= из конфигурации элемента.
-    EXPORT const char *elGetInterface(quintptr id_element)
+    EXPORT const char *elGetInterface(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -884,7 +884,7 @@ namespace EmulateCgt
 
     //ru Возвращает список классов, от которых наследуется элемент
     //ru Содержимое поля Inherit= из конфигурации элемента.
-    EXPORT const char *elGetInherit(quintptr id_element)
+    EXPORT const char *elGetInherit(qintptr id_element)
     {
         const PElement e = m_model->getElementById(id_element);
         if (!e)
@@ -910,7 +910,7 @@ namespace EmulateCgt
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ информационные сообщения ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Добавляет информацию в информационную панель
-    EXPORT int _Error(int line, quintptr id_element, const char *text)
+    EXPORT int _Error(int line, qintptr id_element, const char *text)
     {
         Q_UNUSED(line)
         Q_UNUSED(id_element)
@@ -921,7 +921,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ элемент ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Возвращает ID группы, к которой принадлежит элемент и 0, если группа отсутствует
     //[deprecated]
-    EXPORT int elGetGroup(quintptr id_element)
+    EXPORT int elGetGroup(qintptr id_element)
     {
         Q_UNUSED(id_element)
         return 0;
@@ -930,7 +930,7 @@ namespace EmulateCgt
     //!~~~~~~~~~~~~~~~~~~~~~~~~ свойства элемента ~~~~~~~~~~~~~~~~~~~~~~~~~~
     //ru Сохраняет данные свойства в файл.
     //[deprecated]
-    EXPORT int propSaveToFile(quintptr id_prop, const char *fileName)
+    EXPORT int propSaveToFile(qintptr id_prop, const char *fileName)
     {
         Q_UNUSED(id_prop)
         Q_UNUSED(fileName)
@@ -940,91 +940,91 @@ namespace EmulateCgt
 
     //Заполняем массив указателей
     static uintptr_t arrayPointers[] {
-        reinterpret_cast<quintptr>(sdkGetCount),
-        reinterpret_cast<quintptr>(sdkGetElement),
-        reinterpret_cast<quintptr>(sdkGetElementName),
-        reinterpret_cast<quintptr>(elGetFlag),
-        reinterpret_cast<quintptr>(elGetPropCount),
-        reinterpret_cast<quintptr>(elGetProperty),
-        reinterpret_cast<quintptr>(elIsDefProp),
-        reinterpret_cast<quintptr>(elSetCodeName),
-        reinterpret_cast<quintptr>(elGetCodeName),
-        reinterpret_cast<quintptr>(elGetClassName),
-        reinterpret_cast<quintptr>(elGetInfSub),
-        reinterpret_cast<quintptr>(elGetPtCount),
-        reinterpret_cast<quintptr>(elGetPt),
-        reinterpret_cast<quintptr>(elGetPtName),
-        reinterpret_cast<quintptr>(elGetClassIndex),
-        reinterpret_cast<quintptr>(elGetSDK),
-        reinterpret_cast<quintptr>(elLinkIs),
-        reinterpret_cast<quintptr>(elLinkMain),
-        reinterpret_cast<quintptr>(elGetPos),
-        reinterpret_cast<quintptr>(elGetSize),
-        reinterpret_cast<quintptr>(elGetEID),
-        reinterpret_cast<quintptr>(ptGetLinkPoint),
-        reinterpret_cast<quintptr>(ptGetRLinkPoint),
-        reinterpret_cast<quintptr>(ptGetType),
-        reinterpret_cast<quintptr>(ptGetName),
-        reinterpret_cast<quintptr>(ptGetParent),
-        reinterpret_cast<quintptr>(ptGetIndex),
-        reinterpret_cast<quintptr>(pt_dpeGetName),
-        reinterpret_cast<quintptr>(propGetType),
-        reinterpret_cast<quintptr>(propGetName),
-        reinterpret_cast<quintptr>(propGetValue),
-        reinterpret_cast<quintptr>(propToByte),
-        reinterpret_cast<quintptr>(propToInteger),
-        reinterpret_cast<quintptr>(propToReal),
-        reinterpret_cast<quintptr>(propToString),
-        reinterpret_cast<quintptr>(resAddFile),
-        reinterpret_cast<quintptr>(resAddIcon),
-        reinterpret_cast<quintptr>(resAddStr),
-        reinterpret_cast<quintptr>(resAddStream),
-        reinterpret_cast<quintptr>(resAddWave),
-        reinterpret_cast<quintptr>(resAddBitmap),
-        reinterpret_cast<quintptr>(resAddMenu),
-        reinterpret_cast<quintptr>(_Debug),
-        reinterpret_cast<quintptr>(GetParam),
-        reinterpret_cast<quintptr>(arrCount),
-        reinterpret_cast<quintptr>(arrType),
-        reinterpret_cast<quintptr>(arrItemName),
-        reinterpret_cast<quintptr>(arrItemData),
-        reinterpret_cast<quintptr>(arrGetItem),
-        reinterpret_cast<quintptr>(isDebug),
-        reinterpret_cast<quintptr>(dtType),
-        reinterpret_cast<quintptr>(dtStr),
-        reinterpret_cast<quintptr>(dtInt),
-        reinterpret_cast<quintptr>(dtReal),
-        reinterpret_cast<quintptr>(fntName),
-        reinterpret_cast<quintptr>(fntSize),
-        reinterpret_cast<quintptr>(fntStyle),
-        reinterpret_cast<quintptr>(fntColor),
-        reinterpret_cast<quintptr>(fntCharSet),
-        reinterpret_cast<quintptr>(elGetData),
-        reinterpret_cast<quintptr>(elSetData),
-        reinterpret_cast<quintptr>(ptGetDataType),
-        reinterpret_cast<quintptr>(elGetParent),
-        reinterpret_cast<quintptr>(elGetPropertyListCount),
-        reinterpret_cast<quintptr>(elGetPropertyListItem),
-        reinterpret_cast<quintptr>(plGetName),
-        reinterpret_cast<quintptr>(plGetInfo),
-        reinterpret_cast<quintptr>(plGetGroup),
-        reinterpret_cast<quintptr>(plGetProperty),
-        reinterpret_cast<quintptr>(plGetOwner),
-        reinterpret_cast<quintptr>(ptGetInfo),
-        reinterpret_cast<quintptr>(propGetLinkedElement),
-        reinterpret_cast<quintptr>(propIsTranslate),
-        reinterpret_cast<quintptr>(propGetLinkedElementInfo),
-        reinterpret_cast<quintptr>(elGetSDKByIndex),
-        reinterpret_cast<quintptr>(elGetSDKCount),
-        reinterpret_cast<quintptr>(elGetSDKName),
-        reinterpret_cast<quintptr>(sdkGetParent),
-        reinterpret_cast<quintptr>(elGetInterface),
-        reinterpret_cast<quintptr>(elGetInherit),
-        reinterpret_cast<quintptr>(resEmpty),
-        reinterpret_cast<quintptr>(resSetPref),
-        reinterpret_cast<quintptr>(_Error),
-        reinterpret_cast<quintptr>(elGetGroup),
-        reinterpret_cast<quintptr>(propSaveToFile),
+        reinterpret_cast<qintptr>(sdkGetCount),
+        reinterpret_cast<qintptr>(sdkGetElement),
+        reinterpret_cast<qintptr>(sdkGetElementName),
+        reinterpret_cast<qintptr>(elGetFlag),
+        reinterpret_cast<qintptr>(elGetPropCount),
+        reinterpret_cast<qintptr>(elGetProperty),
+        reinterpret_cast<qintptr>(elIsDefProp),
+        reinterpret_cast<qintptr>(elSetCodeName),
+        reinterpret_cast<qintptr>(elGetCodeName),
+        reinterpret_cast<qintptr>(elGetClassName),
+        reinterpret_cast<qintptr>(elGetInfSub),
+        reinterpret_cast<qintptr>(elGetPtCount),
+        reinterpret_cast<qintptr>(elGetPt),
+        reinterpret_cast<qintptr>(elGetPtName),
+        reinterpret_cast<qintptr>(elGetClassIndex),
+        reinterpret_cast<qintptr>(elGetSDK),
+        reinterpret_cast<qintptr>(elLinkIs),
+        reinterpret_cast<qintptr>(elLinkMain),
+        reinterpret_cast<qintptr>(elGetPos),
+        reinterpret_cast<qintptr>(elGetSize),
+        reinterpret_cast<qintptr>(elGetEID),
+        reinterpret_cast<qintptr>(ptGetLinkPoint),
+        reinterpret_cast<qintptr>(ptGetRLinkPoint),
+        reinterpret_cast<qintptr>(ptGetType),
+        reinterpret_cast<qintptr>(ptGetName),
+        reinterpret_cast<qintptr>(ptGetParent),
+        reinterpret_cast<qintptr>(ptGetIndex),
+        reinterpret_cast<qintptr>(pt_dpeGetName),
+        reinterpret_cast<qintptr>(propGetType),
+        reinterpret_cast<qintptr>(propGetName),
+        reinterpret_cast<qintptr>(propGetValue),
+        reinterpret_cast<qintptr>(propToByte),
+        reinterpret_cast<qintptr>(propToInteger),
+        reinterpret_cast<qintptr>(propToReal),
+        reinterpret_cast<qintptr>(propToString),
+        reinterpret_cast<qintptr>(resAddFile),
+        reinterpret_cast<qintptr>(resAddIcon),
+        reinterpret_cast<qintptr>(resAddStr),
+        reinterpret_cast<qintptr>(resAddStream),
+        reinterpret_cast<qintptr>(resAddWave),
+        reinterpret_cast<qintptr>(resAddBitmap),
+        reinterpret_cast<qintptr>(resAddMenu),
+        reinterpret_cast<qintptr>(_Debug),
+        reinterpret_cast<qintptr>(GetParam),
+        reinterpret_cast<qintptr>(arrCount),
+        reinterpret_cast<qintptr>(arrType),
+        reinterpret_cast<qintptr>(arrItemName),
+        reinterpret_cast<qintptr>(arrItemData),
+        reinterpret_cast<qintptr>(arrGetItem),
+        reinterpret_cast<qintptr>(isDebug),
+        reinterpret_cast<qintptr>(dtType),
+        reinterpret_cast<qintptr>(dtStr),
+        reinterpret_cast<qintptr>(dtInt),
+        reinterpret_cast<qintptr>(dtReal),
+        reinterpret_cast<qintptr>(fntName),
+        reinterpret_cast<qintptr>(fntSize),
+        reinterpret_cast<qintptr>(fntStyle),
+        reinterpret_cast<qintptr>(fntColor),
+        reinterpret_cast<qintptr>(fntCharSet),
+        reinterpret_cast<qintptr>(elGetData),
+        reinterpret_cast<qintptr>(elSetData),
+        reinterpret_cast<qintptr>(ptGetDataType),
+        reinterpret_cast<qintptr>(elGetParent),
+        reinterpret_cast<qintptr>(elGetPropertyListCount),
+        reinterpret_cast<qintptr>(elGetPropertyListItem),
+        reinterpret_cast<qintptr>(plGetName),
+        reinterpret_cast<qintptr>(plGetInfo),
+        reinterpret_cast<qintptr>(plGetGroup),
+        reinterpret_cast<qintptr>(plGetProperty),
+        reinterpret_cast<qintptr>(plGetOwner),
+        reinterpret_cast<qintptr>(ptGetInfo),
+        reinterpret_cast<qintptr>(propGetLinkedElement),
+        reinterpret_cast<qintptr>(propIsTranslate),
+        reinterpret_cast<qintptr>(propGetLinkedElementInfo),
+        reinterpret_cast<qintptr>(elGetSDKByIndex),
+        reinterpret_cast<qintptr>(elGetSDKCount),
+        reinterpret_cast<qintptr>(elGetSDKName),
+        reinterpret_cast<qintptr>(sdkGetParent),
+        reinterpret_cast<qintptr>(elGetInterface),
+        reinterpret_cast<qintptr>(elGetInherit),
+        reinterpret_cast<qintptr>(resEmpty),
+        reinterpret_cast<qintptr>(resSetPref),
+        reinterpret_cast<qintptr>(_Error),
+        reinterpret_cast<qintptr>(elGetGroup),
+        reinterpret_cast<qintptr>(propSaveToFile),
     };
 
     /*!  Служебные функции   */

@@ -3,7 +3,6 @@
 #include "cgt/emulatecgt.h"
 #include "cgt/proxycgt.h"
 #include "logger.h"
-#include "package/packagemanager.h"
 #include "scenemodel/element.h"
 #include "scenemodel/scenemodel.h"
 
@@ -97,8 +96,7 @@ DLLEXPORT qint32 buildProcessProc(TBuildProcessRec &params)
     PRINT_FUNC_INFO
 
 #ifdef MODEL
-    PackageManager *manager = new PackageManager();
-    sceneModel = new SceneModel(manager);
+    sceneModel = new SceneModel();
     sceneModel->initFromCgt(params.cgt, params.sdk);
     sceneModel->saveModel("test.json");
     //sceneModel1->clear();

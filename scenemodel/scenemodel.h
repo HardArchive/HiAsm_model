@@ -2,7 +2,6 @@
 
 //Project
 #include "cgt/CGTShare.h"
-#include "package/packagemanager.h"
 #include "types.h"
 #include "value.h"
 
@@ -21,11 +20,7 @@ private:
     PCodeGenTools m_cgt{};
 
     //Model
-    quintptr m_genId = 1;
-
-    //Package
-    PPackage m_package{};
-    PPackageManager m_packageManager{};
+    qintptr m_genId = 1;
 
     //Map
     MapContainers m_mapContainers;
@@ -62,11 +57,11 @@ private:
     Q_PROPERTY(PSceneModel model READ getModel)
 
 public:
-    explicit SceneModel(PPackageManager package, QObject* parent = 0);
+    explicit SceneModel(QObject* parent = 0);
     virtual ~SceneModel();
 
 private:
-    void collectingData(quintptr id_sdk);
+    void collectingData(qintptr id_sdk);
 
 public:
     //Serialize
@@ -77,17 +72,11 @@ public:
     PCodeGenTools getCgt();
 
     //Model
-    quintptr genId();
+    qintptr genId();
     PSceneModel getModel();
-    void initFromCgt(PCodeGenTools cgt, quintptr idMainSDK);
+    void initFromCgt(PCodeGenTools cgt, qintptr idMainSDK);
     bool saveModel(const QString& filePath);
     bool loadModel(const QString& filePath);
-    bool loadFromSha(const QString& filePath);
-
-    //Package
-    void setPackage(PPackage package);
-    PPackage getPackage();
-    bool loadPackage(const QString &name);
 
     //Map
     void addContainerToMap(PContainer id_sdk);
@@ -97,26 +86,26 @@ public:
     void addValueToMap(PValue value);
 
     //Container
-    PContainer getContainerById(quintptr id_sdk) const;
-    int getCountElementsInContainer(quintptr id_sdk) const;
-    quintptr getIdRootContainer() const;
+    PContainer getContainerById(qintptr id_sdk) const;
+    int getCountElementsInContainer(qintptr id_sdk) const;
+    qintptr getIdRootContainer() const;
 
     //Element
-    PElement getElementById(quintptr id_element) const;
-    PElement getElementFromSDKByIndex(quintptr id_sdk, int index) const;
-    quintptr getIdElementFromSDKByIndex(quintptr id_sdk, int index) const;
+    PElement getElementById(qintptr id_element) const;
+    PElement getElementFromSDKByIndex(qintptr id_sdk, int index) const;
+    qintptr getIdElementFromSDKByIndex(qintptr id_sdk, int index) const;
 
     //Property
-    PProperty getPropertyById(quintptr id_prop) const;
+    PProperty getPropertyById(qintptr id_prop) const;
 
     //Point
-    PPoint getPointById(quintptr id_point) const;
+    PPoint getPointById(qintptr id_point) const;
 
     //Value
-    PValue getValueById(quintptr id_value) const;
+    PValue getValueById(qintptr id_value) const;
 
     //Resource
-    const char* addStreamRes(quintptr id_prop);
+    const char* addStreamRes(qintptr id_prop);
     const char* addStringRes(const QString& str);
     void deleteResources();
     void compileResources();
