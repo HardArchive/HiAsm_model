@@ -5,6 +5,7 @@
 #include "cgt/cgt.h"
 #include "cgt/emulatecgt.h"
 #include "cgt/proxycgt.h"
+#include "cgt/globalcgt.h"
 #include "logger.h"
 #include "scenemodel/element.h"
 #include "scenemodel/scenemodel.h"
@@ -25,7 +26,7 @@
 
 //Служебные переменные
 static QLibrary codegen;
-static SceneModel * sceneModel = nullptr;
+static SceneModel *sceneModel = nullptr;
 TBuildGetParamsProc buildGetParamsProc = nullptr;
 TBuildMakePrj buildMakePrj = nullptr;
 TBuildCompliteProc buildCompliteProc = nullptr;
@@ -94,22 +95,23 @@ DLLEXPORT int buildPrepareProc(void *params)
     return buildPrepareProcLib(params);
 }
 
-DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
+DLLEXPORT int buildProcessProc(TBuildProcessRec &bpr)
 {
     PRINT_FUNC_INFO
 
 #ifdef MODEL
+    GlobalCgt::setBPR(bpr);
     sceneModel = new SceneModel();
-    sceneModel->initFromCgt(params.cgt, params.sdk);
+    sceneModel->initFromCgt(bpr.sdk);
     //sceneModel->saveModel("test.json");
 
     EmulateCgt::setSceneModel(sceneModel);
-    params.cgt = EmulateCgt::getCgt();
+    bpr.cgt = EmulateCgt::getCgt();
 #endif
 
 #ifdef PROXY_MODEL
     ProxyCgt::setProxiedCgt(EmulateCgt::getCgt());
-    params.cgt = ProxyCgt::getCgt();
+    bpr.cgt = ProxyCgt::getCgt();
 #endif
 
 #ifdef PROXY_ORIGINAL
@@ -117,7 +119,7 @@ DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
     params.cgt = ProxyCgt::getCgt();
 #endif
 
-    CgResult res = buildProcessProcLib(params);
+    CgResult res = buildProcessProcLib(bpr);
     PRINT_RESULT(CgResultMap[res]);
 
     return res;

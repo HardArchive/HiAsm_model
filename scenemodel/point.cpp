@@ -7,6 +7,7 @@
 #include "element.h"
 #include "scenemodel.h"
 #include "cgt/cgt.h"
+#include "cgt/globalcgt.h"
 
 //STL
 
@@ -14,7 +15,6 @@
 
 Point::Point(qint32 id_point, QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id_point);
@@ -22,16 +22,18 @@ Point::Point(qint32 id_point, QObject *parent)
 
 void Point::collectingData(qint32 id_point)
 {
-    m_type = m_cgt->ptGetType(id_point);
-    m_dataType = m_cgt->ptGetDataType(id_point);
-    m_name = QString::fromLocal8Bit(m_cgt->ptGetName(id_point));
-    m_dpeName = QString::fromLocal8Bit(m_cgt->pt_dpeGetName(id_point));
-    m_info = QString::fromLocal8Bit(m_cgt->ptGetInfo(id_point));
+    PCodeGenTools cgt = GlobalCgt::getCgt();
 
-    auto pId = m_cgt->ptGetRLinkPoint(id_point);
+    m_type = cgt->ptGetType(id_point);
+    m_dataType = cgt->ptGetDataType(id_point);
+    m_name = QString::fromLocal8Bit(cgt->ptGetName(id_point));
+    m_dpeName = QString::fromLocal8Bit(cgt->pt_dpeGetName(id_point));
+    m_info = QString::fromLocal8Bit(cgt->ptGetInfo(id_point));
+
+    auto pId = cgt->ptGetRLinkPoint(id_point);
     if (pId) {
-        m_connectPoint.element = m_cgt->ptGetParent(pId);
-        m_connectPoint.point = QString::fromLocal8Bit(m_cgt->ptGetName(pId));
+        m_connectPoint.element = cgt->ptGetParent(pId);
+        m_connectPoint.point = QString::fromLocal8Bit(cgt->ptGetName(pId));
     }
 }
 
@@ -120,11 +122,6 @@ Point *Point::getRLinkPoint() const
     }
 
     return nullptr;
-}
-
-PCodeGenTools Point::getCgt()
-{
-    return m_cgt;
 }
 
 SceneModel *Point::getModel()

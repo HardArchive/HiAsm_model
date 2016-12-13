@@ -38,9 +38,6 @@ private:
     QString m_inherit;
     QString m_infSub;
 
-    //CGT
-    PCodeGenTools m_cgt{};
-
     //Model
     SceneModel *m_model{};
 
@@ -55,7 +52,6 @@ private:
 
 private:
     Q_PROPERTY(SceneModel * model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Element(const QString &name, qint32 id_element, qint32 X, qint32 Y, QObject *parent);
@@ -116,9 +112,6 @@ public:
 
     void setInfSub(const QString &infSub);
     QString getInfSub() const;
-
-    //CGT
-    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();

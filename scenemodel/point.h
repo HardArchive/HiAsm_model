@@ -29,15 +29,11 @@ private:
         QString point;
     } m_connectPoint;
 
-    //CGT
-    PCodeGenTools m_cgt{};
-
     //Model
     SceneModel *m_model{};
 
 private:
     Q_PROPERTY(SceneModel * model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Point(qint32 id_point, QObject *parent);
@@ -71,9 +67,6 @@ public:
 
     Point *getLinkPoint() const;
     Point *getRLinkPoint() const;
-
-    //CGT
-    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();

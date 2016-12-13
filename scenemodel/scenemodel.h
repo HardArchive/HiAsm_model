@@ -19,9 +19,6 @@ class SceneModel : public QObject
     Q_DISABLE_COPY(SceneModel)
 
 private:
-    //CGT
-    PCodeGenTools m_cgt{};
-
     //Map
     QMap<qint32, Container *> m_mapContainers;
     QMap<qint32, Element *> m_mapElements;
@@ -50,7 +47,6 @@ private:
     QString m_compiler;
 
 private:
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
     Q_PROPERTY(SceneModel *model READ getModel)
 
 public:
@@ -69,12 +65,9 @@ public:
     //Serialization
     QJsonDocument serialize();
 
-    //CGT
-    PCodeGenTools getCgt();
-
     //Model
     SceneModel *getModel();
-    void initFromCgt(PCodeGenTools cgt, qint32 idMainSDK);
+    void initFromCgt(qint32 idMainSDK);
     bool saveModel(const QString &filePath);
 
     //Map

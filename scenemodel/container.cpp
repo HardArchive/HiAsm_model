@@ -6,6 +6,7 @@
 #include "element.h"
 #include "scenemodel.h"
 #include "cgt/cgt.h"
+#include "cgt/globalcgt.h"
 
 //STL
 
@@ -14,7 +15,6 @@
 Container::Container(qint32 id_sdk, QObject *parent)
     : QObject(parent)
     , m_id(id_sdk)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools >())
     , m_model(parent->property("model").value<SceneModel * >())
 {
     m_model->addContainerToMap(this);
@@ -23,7 +23,6 @@ Container::Container(qint32 id_sdk, QObject *parent)
 
 Container::Container(QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools >())
     , m_model(parent->property("model").value<SceneModel * >())
 {
     m_model->addContainerToMap(this);
@@ -31,9 +30,11 @@ Container::Container(QObject *parent)
 
 void Container::collectingData()
 {
-    qint32 countElements = m_cgt->sdkGetCount(m_id);
+    PCodeGenTools cgt = GlobalCgt::getCgt();
+
+    qint32 countElements = cgt->sdkGetCount(m_id);
     for (qint32 i = 0; i < countElements; ++i) {
-        qint32 id_element = m_cgt->sdkGetElement(m_id, i);
+        qint32 id_element = cgt->sdkGetElement(m_id, i);
 
         //ru Добавляем элемент в контейнер
         addElement(new Element(id_element, this));
@@ -73,11 +74,6 @@ Element *Container::getParent() const
 QString Container::getName() const
 {
     return m_name;
-}
-
-PCodeGenTools Container::getCgt()
-{
-    return m_cgt;
 }
 
 SceneModel * Container::getModel() const

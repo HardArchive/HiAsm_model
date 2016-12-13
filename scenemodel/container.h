@@ -21,18 +21,14 @@ private:
     qint32 m_id{};
     QString m_name;
 
-    //CGT
-    PCodeGenTools m_cgt{};
-
     //Model
-    SceneModel * m_model{};
+    SceneModel *m_model{};
 
     //Element
     QVector<Element *> m_elements;
 
 private:
-    Q_PROPERTY(SceneModel * model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(SceneModel *model READ getModel)
 
 public:
     explicit Container(qint32 id_sdk, QObject *parent);
@@ -51,11 +47,8 @@ public:
     void setName(const QString &name);
     QString getName() const;
 
-    //CGT
-    PCodeGenTools getCgt();
-
     //Model
-    SceneModel * getModel() const;
+    SceneModel *getModel() const;
 
     //Element
     qint32 getCountElements() const;

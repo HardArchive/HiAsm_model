@@ -23,9 +23,6 @@ private:
     DataType m_type{};
     bool m_isDefProp{};
 
-    //CGT
-    PCodeGenTools m_cgt{};
-
     //Model
     SceneModel *m_model{};
 
@@ -34,7 +31,6 @@ private:
 
 private:
     Q_PROPERTY(SceneModel * model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Property(qint32 id, QObject *parent);
@@ -71,9 +67,6 @@ public:
     qreal toReal() const;
     QString toString() const;
     SharedLinkedElementInfo toLinkedElementInfo() const;
-
-    //CGT
-    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();

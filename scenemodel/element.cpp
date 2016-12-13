@@ -8,6 +8,7 @@
 #include "property.h"
 #include "scenemodel.h"
 #include "cgt/cgt.h"
+#include "cgt/globalcgt.h"
 
 //STL
 
@@ -16,7 +17,6 @@
 Element::Element(qint32 id_element, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addElementToMap(this);
@@ -25,30 +25,32 @@ Element::Element(qint32 id_element, QObject *parent)
 
 void Element::collectingData()
 {
-    m_classIndex = m_cgt->elGetClassIndex(m_id);
-    m_flags = m_cgt->elGetFlag(m_id);
-    m_group = m_cgt->elGetGroup(m_id);
-    m_linkIs = m_cgt->elLinkIs(m_id);
-    m_linkMain = m_cgt->elLinkMain(m_id);
-    m_cgt->elGetPos(m_id, m_posX, m_posY);
-    m_cgt->elGetSize(m_id, m_sizeW, m_sizeH);
-    m_className = QString::fromLocal8Bit(m_cgt->elGetClassName(m_id));
-    m_codeName = QString::fromLocal8Bit(m_cgt->elGetCodeName(m_id));
-    m_inherit = QString::fromLocal8Bit(m_cgt->elGetInherit(m_id));
-    m_interface = QString::fromLocal8Bit(m_cgt->elGetInterface(m_id));
-    m_infSub = QString::fromLocal8Bit(m_cgt->elGetInfSub(m_id));
-    qint32 ptCount = m_cgt->elGetPtCount(m_id);
-    qint32 propCount = m_cgt->elGetPropCount(m_id);
+    PCodeGenTools cgt = GlobalCgt::getCgt();
+
+    m_classIndex = cgt->elGetClassIndex(m_id);
+    m_flags = cgt->elGetFlag(m_id);
+    m_group = cgt->elGetGroup(m_id);
+    m_linkIs = cgt->elLinkIs(m_id);
+    m_linkMain = cgt->elLinkMain(m_id);
+    cgt->elGetPos(m_id, m_posX, m_posY);
+    cgt->elGetSize(m_id, m_sizeW, m_sizeH);
+    m_className = QString::fromLocal8Bit(cgt->elGetClassName(m_id));
+    m_codeName = QString::fromLocal8Bit(cgt->elGetCodeName(m_id));
+    m_inherit = QString::fromLocal8Bit(cgt->elGetInherit(m_id));
+    m_interface = QString::fromLocal8Bit(cgt->elGetInterface(m_id));
+    m_infSub = QString::fromLocal8Bit(cgt->elGetInfSub(m_id));
+    qint32 ptCount = cgt->elGetPtCount(m_id);
+    qint32 propCount = cgt->elGetPropCount(m_id);
 
     //ru Получаем информацию о точках
     for (qint32 i = 0; i < ptCount; ++i) {
-        qint32 pointId = m_cgt->elGetPt(m_id, i);
+        qint32 pointId = cgt->elGetPt(m_id, i);
         addPoint(new Point(pointId, this));
     }
 
     //ru Получаем информацию о свойствах
     for (qint32 i = 0; i < propCount; ++i) {
-        qint32 propId = m_cgt->elGetProperty(m_id, i);
+        qint32 propId = cgt->elGetProperty(m_id, i);
         addProperty(new Property(propId, this));
     }
 
@@ -60,12 +62,12 @@ void Element::collectingData()
         //ru Элемен содержит полиморфный контейнер
         if (fcgt::isPolyMulti(m_classIndex)) {
             //ru Получаем к-во контейнеров, которое содержит текущий элемент
-            qint32 countContainers = m_cgt->elGetSDKCount(m_id);
+            qint32 countContainers = cgt->elGetSDKCount(m_id);
 
             for (qint32 i = 0; i < countContainers; ++i) {
                 //ru Получаем ID контейнера
-                qint32 id_sdk = m_cgt->elGetSDKByIndex(m_id, i);
-                QString name = QString::fromLocal8Bit(m_cgt->elGetSDKName(id_sdk, i));
+                qint32 id_sdk = cgt->elGetSDKByIndex(m_id, i);
+                QString name = QString::fromLocal8Bit(cgt->elGetSDKName(id_sdk, i));
 
                 //ru Добавляем контейнер в элемент
                 addContainer(new Container(id_sdk, this))->setName(name);
@@ -73,7 +75,7 @@ void Element::collectingData()
         } else { //ru Элемент содержит обычный контейнер
 
             //ru Получаем ID контейнера элемента
-            qint32 id_sdk = m_cgt->elGetSDK(m_id);
+            qint32 id_sdk = cgt->elGetSDK(m_id);
 
             //ru Добавляем контейнер в элемент
             addContainer(new Container(id_sdk, this));
@@ -287,11 +289,6 @@ void Element::setInfSub(const QString &infSub)
 QString Element::getInfSub() const
 {
     return m_infSub;
-}
-
-PCodeGenTools Element::getCgt()
-{
-    return m_cgt;
 }
 
 SceneModel *Element::getModel()

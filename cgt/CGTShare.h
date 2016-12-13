@@ -307,7 +307,7 @@ struct THiAsmVersion {
 struct TCodeGenTools;
 typedef TCodeGenTools *PCodeGenTools;
 struct TBuildProcessRec {
-    TCodeGenTools *cgt{};
+    PCodeGenTools cgt{};
     qint32 sdk{};
     void *result{};
 };

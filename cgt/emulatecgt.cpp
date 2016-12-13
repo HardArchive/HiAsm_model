@@ -17,7 +17,7 @@
 #define EXPORT __stdcall
 
 //ru Храним указатель на модель данных
-static SceneModel * m_model = nullptr;
+static SceneModel *m_model = nullptr;
 
 //~~~~~~~~~~~~~~~~~ Проксированные функции ~~~~~~~~~~~~~~~~~~~
 
@@ -488,17 +488,22 @@ static qint32 EXPORT arrItemData(qint32 id_array, qint32 index)
 
 //ru Получаем элемент массива в виде свойства (id_prop) Оо,
 //ru для дальнейшей работы с ним cgt::prop* функциями.
-//TODO Утечка
+//TODO Проверить
 static Property *EXPORT arrGetItem(Value *array, qint32 index)
 {
+    static Property prop;
     if (!array)
         return nullptr;
 
     const SharedValue arrValue = array->getArrayItemByIndex(index);
     if (arrValue) {
-        Property *prop = new Property(arrValue->getType(), arrValue->getValue(), arrValue->getName());
+        prop.setName(arrValue->getName());
+        prop.setType(arrValue->getType());
+        prop.getValue()->setType(arrValue->getType());
+        prop.getValue()->setValue(arrValue->getValue());
+        prop.getValue()->setName(arrValue->getName());
 
-        return prop;
+        return &prop;
     }
 
     return nullptr;
@@ -997,7 +1002,7 @@ static qintptr emulateCgt[]{
 
 /*!  Служебные функции   */
 //Сохранение указателя для дальнейшей работы с оным
-void EmulateCgt::setSceneModel(SceneModel * model)
+void EmulateCgt::setSceneModel(SceneModel *model)
 {
     m_model = model;
 }
@@ -1005,5 +1010,5 @@ void EmulateCgt::setSceneModel(SceneModel * model)
 //Получаем массив указателей на функции
 PCodeGenTools EmulateCgt::getCgt()
 {
-    return reinterpret_cast<PCodeGenTools >(emulateCgt);
+    return reinterpret_cast<PCodeGenTools>(emulateCgt);
 }

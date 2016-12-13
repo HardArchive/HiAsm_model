@@ -7,6 +7,7 @@
 #include "valuetypes.h"
 #include "scenemodel.h"
 #include "cgt/cgt.h"
+#include "cgt/globalcgt.h"
 
 //STL
 #include <limits>
@@ -18,7 +19,6 @@
 
 Property::Property(qint32 id, QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id);
@@ -35,19 +35,21 @@ Property::Property(DataType type, const QVariant &data, const QString &name)
 
 void Property::collectingData(qint32 idProp)
 {
-    m_name = QString::fromLocal8Bit(m_cgt->propGetName(idProp));
-    m_type = m_cgt->propGetType(idProp);
-    qint32 id_value = m_cgt->propGetValue(idProp);
+    PCodeGenTools cgt = GlobalCgt::getCgt();
+
+    m_name = QString::fromLocal8Bit(cgt->propGetName(idProp));
+    m_type = cgt->propGetType(idProp);
+    qint32 id_value = cgt->propGetValue(idProp);
 
     switch (m_type) {
     case data_int:
     case data_color:
     case data_flags: {
-        setValue(m_type, m_cgt->propToInteger(idProp));
+        setValue(m_type, cgt->propToInteger(idProp));
         break;
     }
     case data_real: {
-        setValue(m_type, m_cgt->propToReal(idProp));
+        setValue(m_type, cgt->propToReal(idProp));
         break;
     }
     case data_str:
@@ -55,20 +57,20 @@ void Property::collectingData(qint32 idProp)
     case data_list:
     case data_script:
     case data_code: {
-        setValue(m_type, QString::fromLocal8Bit(m_cgt->propToString(idProp)));
+        setValue(m_type, QString::fromLocal8Bit(cgt->propToString(idProp)));
         break;
     }
     case data_data: {
-        const DataType dataType = m_cgt->dtType(id_value);
+        const DataType dataType = cgt->dtType(id_value);
         switch (dataType) {
         case data_int:
-            setValue(m_type, m_cgt->dtInt(id_value), QString(), dataType);
+            setValue(m_type, cgt->dtInt(id_value), QString(), dataType);
             break;
         case data_str:
-            setValue(m_type, m_cgt->dtStr(id_value), QString(), dataType);
+            setValue(m_type, cgt->dtStr(id_value), QString(), dataType);
             break;
         case data_real:
-            setValue(m_type, m_cgt->dtReal(id_value), QString(), dataType);
+            setValue(m_type, cgt->dtReal(id_value), QString(), dataType);
             break;
         default:
             setValue(m_type);
@@ -77,11 +79,11 @@ void Property::collectingData(qint32 idProp)
         break;
     }
     case data_combo: {
-        setValue(m_type, m_cgt->propToByte(idProp));
+        setValue(m_type, cgt->propToByte(idProp));
         break;
     }
     case data_icon: {
-        if (!strcmp(m_cgt->resAddIcon(idProp), "ASMA")) {
+        if (!strcmp(cgt->resAddIcon(idProp), "ASMA")) {
             break;
         }
     }
@@ -92,7 +94,7 @@ void Property::collectingData(qint32 idProp)
         static QString nameRandom = QUuid::createUuid().toString() + ".wtf";
         static QString filePath = QDir::toNativeSeparators(QDir::tempPath() + QDir::separator() + nameRandom);
 
-        m_cgt->propSaveToFile(idProp, filePath.toStdString().data());
+        cgt->propSaveToFile(idProp, filePath.toStdString().data());
         QFile file(filePath);
         if (file.size()) {
             file.open(QIODevice::ReadOnly);
@@ -104,24 +106,24 @@ void Property::collectingData(qint32 idProp)
         break;
     }
     case data_array: {
-        qint32 arrCount = m_cgt->arrCount(id_value);
-        DataType arrItemType = m_cgt->arrType(id_value);
+        qint32 arrCount = cgt->arrCount(id_value);
+        DataType arrItemType = cgt->arrType(id_value);
         Values arrayItems;
 
         for (qint32 i = 0; i < arrCount; ++i) {
-            const qint32 id_prop = m_cgt->arrGetItem(id_value, i);
+            const qint32 id_prop = cgt->arrGetItem(id_value, i);
 
-            QString name = QString::fromLocal8Bit(m_cgt->arrItemName(id_value, i));
+            QString name = QString::fromLocal8Bit(cgt->arrItemName(id_value, i));
             QVariant data;
             switch (arrItemType) {
             case data_int:
-                data = m_cgt->propToInteger(id_prop);
+                data = cgt->propToInteger(id_prop);
                 break;
             case data_str:
-                data = QString::fromLocal8Bit(m_cgt->propToString(id_prop));
+                data = QString::fromLocal8Bit(cgt->propToString(id_prop));
                 break;
             case data_real:
-                data = m_cgt->propToReal(id_prop);
+                data = cgt->propToReal(id_prop);
                 break;
             default:
                 break;
@@ -135,11 +137,11 @@ void Property::collectingData(qint32 idProp)
     }
     case data_font: {
         const SharedValueFont font = SharedValueFont::create();
-        font->name = QString::fromLocal8Bit(m_cgt->fntName(id_value));
-        font->size = m_cgt->fntSize(id_value);
-        font->style = m_cgt->fntStyle(id_value);
-        font->color = m_cgt->fntColor(id_value);
-        font->charset = m_cgt->fntCharSet(id_value);
+        font->name = QString::fromLocal8Bit(cgt->fntName(id_value));
+        font->size = cgt->fntSize(id_value);
+        font->style = cgt->fntStyle(id_value);
+        font->color = cgt->fntColor(id_value);
+        font->charset = cgt->fntCharSet(id_value);
 
         setValue(m_type, QVariant::fromValue(font));
         break;
@@ -150,7 +152,7 @@ void Property::collectingData(qint32 idProp)
             return;
 
         char buf[PATH_MAX];
-        qint32 linkedElement = m_cgt->propGetLinkedElementInfo(e->getId(), idProp, buf);
+        qint32 linkedElement = cgt->propGetLinkedElementInfo(e->getId(), idProp, buf);
         if (linkedElement) {
             SharedLinkedElementInfo elementInfo = SharedLinkedElementInfo::create();
             elementInfo->id = linkedElement;
@@ -246,11 +248,6 @@ QString Property::toString() const
 SharedLinkedElementInfo Property::toLinkedElementInfo() const
 {
     return m_value.toLinkedElementInfo();
-}
-
-PCodeGenTools Property::getCgt()
-{
-    return m_cgt;
 }
 
 SceneModel *Property::getModel()
