@@ -1,21 +1,46 @@
 ﻿#pragma once
 //Project
+#include "cgt/CGTShare.h"
 
 //STL
 
 //Qt
 #include <QObject>
 #include <QSharedPointer>
+#include <QVariant>
 
-class Value;
-typedef QSharedPointer<Value> SharedValue;
-Q_DECLARE_METATYPE(SharedValue)
+struct ArrayItem {
+    QString name;
+    QVariant data;
+};
+typedef QSharedPointer<ArrayItem> SharedArrayItem;
+Q_DECLARE_METATYPE(SharedArrayItem)
 
-typedef QVector<SharedValue> Values;
-Q_DECLARE_METATYPE(Values)
+class ArrayValue : public QList<SharedArrayItem>
+{
+private:
+    DataType m_type = data_null;
+
+public:
+    explicit ArrayValue(DataType type)
+        : m_type(type)
+    {
+    }
+
+    DataType getType() const
+    {
+        return m_type;
+    }
+    void setType(DataType type)
+    {
+        m_type = type;
+    }
+};
+typedef QSharedPointer<ArrayValue> SharedArrayValue;
+Q_DECLARE_METATYPE(SharedArrayValue)
 
 struct LinkedElementInfo {
-    qint32 id{};
+    class Element *element{};
     QString interface;
 };
 typedef QSharedPointer<LinkedElementInfo> SharedLinkedElementInfo;

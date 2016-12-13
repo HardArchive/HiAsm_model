@@ -6,16 +6,9 @@
 
 //Qt
 
-Value::Value(DataType type, const QVariant &value, const QString &name, DataType subType)
-    : m_type(type)
-    , m_value(value)
-    , m_name(name)
-    , m_subType(subType)
-{
-}
-
 QVariantMap Value::serialize() const
 {
+    /*
     QVariantMap data;
     data.insert("name", m_name);
     data.insert("type", m_type);
@@ -66,7 +59,7 @@ QVariantMap Value::serialize() const
         break;
     }
     case data_element: {
-        const SharedLinkedElementInfo info = m_value.value<SharedLinkedElementInfo>();
+        const SharedLinkedElementInfo info = value<SharedLinkedElementInfo>();
         QVariantMap infoMap;
         infoMap.insert("id", info->id);
         infoMap.insert("interface", info->interface);
@@ -75,12 +68,16 @@ QVariantMap Value::serialize() const
         break;
     }
     default: {
-        data.insert("value", m_value);
+        //data.insert("value", value);
     }
     }
 
     return data;
+    */
+
+    return QVariantMap();
 }
+
 
 void Value::setType(DataType type)
 {
@@ -92,114 +89,87 @@ DataType Value::getType() const
     return m_type;
 }
 
-void Value::setName(const QString &name)
-{
-    m_name = name;
-}
-
-QString Value::getName() const
-{
-    return m_name;
-}
-
-void Value::setValue(const QVariant &value)
-{
-    m_value = value;
-}
-
-QVariant Value::getValue() const
-{
-    return m_value;
-}
-
 uchar Value::toByte() const
 {
-    if (!m_value.canConvert<uchar>())
+    if (!canConvert<uchar>())
         return uchar();
 
-    return m_value.value<uchar>();
+    return value<uchar>();
 }
 
-qint32 Value::toInt() const
+int Value::toInt() const
 {
-    if (!m_value.canConvert<qint32>())
-        return qint32();
+    if (!canConvert<int>())
+        return int();
 
-    return m_value.value<qint32>();
+    return value<int>();
 }
 
 qreal Value::toReal() const
 {
-    if (!m_value.canConvert<qreal>())
+    if (!canConvert<qreal>())
         return qreal();
 
-    return m_value.value<qreal>();
+    return value<qreal>();
 }
 
 QString Value::toString() const
 {
-    if (!m_value.canConvert<QString>())
+    if (!canConvert<QString>())
         return QString();
 
-    return m_value.value<QString>();
+    return value<QString>();
 }
 
-DataType Value::getDataType() const
+DataType Value::getTypeArrayItem() const
 {
-    return m_subType;
+    if (!canConvert<SharedArrayValue>())
+        return data_null;
+
+    return value<SharedArrayValue>()->getType();
 }
 
-qint32 Value::getArraySize() const
+int Value::getArraySize() const
 {
-    if (!m_value.canConvert<Values>())
-        return 0;
+    if (!canConvert<SharedArrayValue>())
+        return -1;
 
-    return m_value.value<Values>().size();
+    return value<SharedArrayValue>()->size();
 }
 
-void Value::setSubType(DataType type)
+SharedArrayItem Value::getArrayItemByIndex(int index) const
 {
-    m_subType = type;
-}
+    if (!canConvert<SharedArrayValue>())
+        return SharedArrayItem();
 
-DataType Value::getSubType() const
-{
-    return m_subType;
-}
+    const SharedArrayValue &arrayValues = value<SharedArrayValue>();
+    if (index < arrayValues->size())
+        return arrayValues->at(index);
 
-SharedValue Value::getArrayItemByIndex(int index) const
-{
-    if (!m_value.canConvert<Values>())
-        return SharedValue();
-
-    const Values arrayValues = m_value.value<Values>();
-    if (index < arrayValues.size())
-        return arrayValues[index];
-
-    return SharedValue();
+    return SharedArrayItem();
 }
 
 QString Value::getArrayItemName(int index) const
 {
-    const SharedValue arrValue = getArrayItemByIndex(index);
-    if (!arrValue)
+    const SharedArrayItem arrItem = getArrayItemByIndex(index);
+    if (!arrItem)
         return QString();
 
-    return arrValue->getName();
+    return arrItem->name;
 }
 
 SharedValueFont Value::toFont() const
 {
-    if (!m_value.canConvert<SharedValueFont>())
+    if (!canConvert<SharedValueFont>())
         return SharedValueFont();
 
-    return m_value.value<SharedValueFont>();
+    return value<SharedValueFont>();
 }
 
 SharedLinkedElementInfo Value::toLinkedElementInfo() const
 {
-    if (!m_value.canConvert<SharedLinkedElementInfo>())
+    if (!canConvert<SharedLinkedElementInfo>())
         return SharedLinkedElementInfo();
 
-    return m_value.value<SharedLinkedElementInfo>();
+    return value<SharedLinkedElementInfo>();
 }
