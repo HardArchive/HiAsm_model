@@ -1,18 +1,21 @@
 ﻿#pragma once
 //Project
-#include "cgt/CGTShare.h"
-#include "types.h"
 
 //STL
 
 //Qt
 #include <QObject>
-#include <QVariant>
 #include <QSharedPointer>
-#include <QList>
+
+class Value;
+typedef QSharedPointer<Value> SharedValue;
+Q_DECLARE_METATYPE(SharedValue)
+
+typedef QVector<SharedValue> Values;
+Q_DECLARE_METATYPE(Values)
 
 struct LinkedElementInfo {
-    qintptr id{};
+    qint32 id{};
     QString interface;
 };
 typedef QSharedPointer<LinkedElementInfo> SharedLinkedElementInfo;
@@ -20,9 +23,9 @@ Q_DECLARE_METATYPE(SharedLinkedElementInfo)
 
 struct ValueFont { //-V802
     QString name;
-    uint size{};
+    int size{};
+    int color{};
     uchar style{};
-    uint color{};
     uchar charset{};
 };
 typedef QSharedPointer<ValueFont> SharedValueFont;

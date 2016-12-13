@@ -9,35 +9,24 @@
 #include <QObject>
 #include <QVariant>
 
-class Value
-{
+class Value {
 
 private:
     //Self
-    qintptr m_id;
     DataType m_type = data_null;
     QVariant m_value;
     QString m_name;
     DataType m_subType = data_null;
 
 public:
-    explicit Value(qintptr id_value = 0,
-                   DataType type = data_null,
-                   const QVariant &value = QVariant(),
-                   const QString &name = QString(),
-                   DataType subType = data_null);
-
-    explicit Value(const QJsonObject &object);
-
+    explicit Value(DataType type = data_null, const QVariant &value = QVariant(),
+        const QString &name = QString(), DataType subType = data_null);
 
 public:
     //Serialize
-    QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
+    QVariantMap serialize() const;
 
     //Self
-    void setId(qintptr id);
-    qintptr getId() const;
     void setType(DataType type);
     DataType getType() const;
     void setName(const QString &name);
@@ -51,7 +40,7 @@ public:
     uchar toByte() const;
 
     //Int
-    int toInt() const;
+    qint32 toInt() const;
 
     //Real
     qreal toReal() const;
@@ -67,15 +56,13 @@ public:
     DataType getDataType() const;
 
     //Array
-    int getArraySize() const;
-    SharedValue getArrayItemByIndex(uint index) const;
-    QString getArrayItemName(uint index) const;
+    qint32 getArraySize() const;
+    SharedValue getArrayItemByIndex(int index) const;
+    QString getArrayItemName(int index) const;
 
     //Font
     SharedValueFont toFont() const;
 
     //LinkedElementInfo
-    const SharedLinkedElementInfo toLinkedElementInfo() const;
+    SharedLinkedElementInfo toLinkedElementInfo() const;
 };
-
-Q_DECLARE_METATYPE(Values)

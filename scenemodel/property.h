@@ -1,7 +1,6 @@
 #pragma once
 
 //Project
-#include "types.h"
 #include "value.h"
 #include "valuetypes.h"
 #include "cgt/CGTShare.h"
@@ -11,76 +10,70 @@
 //Qt
 #include <QObject>
 
-class Property: public QObject
+class SceneModel;
+class Element;
+
+class Property : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(Property)
 
 private:
     //Self
-    qintptr m_id{};
     QString m_name;
     DataType m_type{};
     bool m_isDefProp{};
 
     //CGT
-    PCodeGenTools m_cgt{};
+    TCodeGenTools *m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel *m_model{};
 
     //Value
     Value m_value;
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(SceneModel *model READ getModel)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
 
 public:
-    explicit Property(qintptr id_prop, QObject *parent);
-    explicit Property(const QJsonObject &object, QObject *parent);
-    explicit Property(qintptr id = 0,
-                      DataType type = data_null,
-                      const QVariant &data = QVariant(),
-                      const QString &name = QString());
+    explicit Property(qint32 id, QObject *parent);
+    Property();
 
 private:
-    void collectingData();
+    void collectingData(qint32 idProp);
 
 public:
     //Serialize
-    QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
+    QVariantMap serialize() const;
 
     //Self
-    qintptr getId() const;
-
     void setName(const QString &name);
     QString getName() const;
+    Element *getParent() const;
+    void setIsDefProp(bool value);
+    bool getIsDefProp() const;
 
     void setType(DataType type);
     DataType getType() const;
 
-    void setIsDefProp(bool value);
-    bool getIsDefProp() const;
-
     //Value
-    void setValue(qintptr id = 0,
-                  DataType type = data_null,
+    void setValue(DataType type = data_null,
                   const QVariant &data = QVariant(),
                   const QString &name = QString(),
                   DataType arrayType = data_null);
 
-    PValue getValue();
+    Value *getValue();
     uchar toByte() const;
-    int toInt() const;
+    qint32 toInt() const;
     qreal toReal() const;
     QString toString() const;
-    const SharedLinkedElementInfo toLinkedElementInfo() const;
+    SharedLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
-    PCodeGenTools getCgt();
+    TCodeGenTools *getCgt();
 
     //Model
-    PSceneModel getModel();
+    SceneModel *getModel();
 };

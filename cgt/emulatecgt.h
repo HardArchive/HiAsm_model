@@ -7,8 +7,12 @@
 
 //Qt
 
-namespace EmulateCgt
+class EmulateCgt : public QObject
 {
-    void setSceneModel(SceneModel *collector);
-    TCodeGenTools *getCgt();
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(EmulateCgt)
+
+public:
+    static void setSceneModel(SceneModel *model);
+    static TCodeGenTools *getCgt();
+};

@@ -298,17 +298,24 @@ typedef qint32 (*TBuildStopProc)(TBuildRunRec &params);
  * Описание интерфейса библиотеки CodeGen.
  *
 */
+struct TCodeGenTools;
+
 struct THiAsmVersion {
     qint32 major{};
     qint32 minor{};
     qint32 build{};
 };
 
-struct TCodeGenTools;
 struct TBuildProcessRec {
     TCodeGenTools *cgt{};
-    qint32 sdk{};
+    qintptr sdk{};
     void *result{};
+
+    explicit TBuildProcessRec(TCodeGenTools *_cgt, qintptr _sdk)
+        : cgt(_cgt)
+        , sdk(_sdk)
+    {
+    }
 };
 
 typedef CgResult (*TBuildPrepareProc)(void *params);
@@ -319,7 +326,6 @@ struct TCodeGenTools {
 #define CALLBACK __stdcall
 
     //!~~~~~~~~~~~~~~~~~~~~~~~~ контейнер ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     //ru Возвращает количество элементов в контейнере.
     CALLBACK qint32 (*sdkGetCount)(qint32 SDK);
     //ru Возвращает ID элемента по его Z-положению(индексу) в контейнере.
@@ -467,7 +473,7 @@ struct TCodeGenTools {
     //ru Возвращает стиль шрифта.
     CALLBACK uchar (*fntStyle)(qint32 f);
     //ru Возвращает цвет шрифта.
-    CALLBACK qint32 (*fntColor)(qint32 f);
+    CALLBACK uint (*fntColor)(qint32 f);
     //ru Возвращает кодировку шрифта.
     CALLBACK uchar (*fntCharSet)(qint32 f);
     //!~~~~~~~~~~~~~~~~элемент | пользовательские данные ~~~~~~~~~~~~~
@@ -552,4 +558,5 @@ struct TCodeGenTools {
     CALLBACK qint32 (*propSaveToFile)(qint32 p, const char *fileName);
 };
 
-Q_DECLARE_METATYPE(TCodeGenTools *)
+typedef TCodeGenTools *PCodeGenTools;
+Q_DECLARE_METATYPE(PCodeGenTools)

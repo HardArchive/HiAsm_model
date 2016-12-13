@@ -8,81 +8,63 @@
 
 //Qt
 
-Container::Container(QObject *parent)
-    : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
-{
-    m_id = m_model->genId();
-    m_model->addContainerToMap(this);
-}
-
-Container::Container(qintptr id_sdk, QObject *parent)
+Container::Container(qint32 id_sdk, QObject *parent)
     : QObject(parent)
     , m_id(id_sdk)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addContainerToMap(this);
     collectingData();
 }
 
-Container::Container(const QJsonObject &object, QObject *parent)
+Container::Container(QObject *parent)
     : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
-    deserialize(object);
+    m_model->addContainerToMap(this);
 }
 
 void Container::collectingData()
 {
-    int countElements = m_cgt->sdkGetCount(m_id);
-    for (int i = 0; i < countElements; ++i) {
-        qintptr id_element = m_cgt->sdkGetElement(m_id, i);
+    qint32 countElements = m_cgt->sdkGetCount(m_id);
+    for (qint32 i = 0; i < countElements; ++i) {
+        qint32 id_element = m_cgt->sdkGetElement(m_id, i);
 
         //ru Добавляем элемент в контейнер
         addElement(new Element(id_element, this));
     }
 }
 
-QVariantMap Container::serialize()
+QVariantMap Container::serialize() const
 {
     QVariantMap data;
     data.insert("id", m_id);
     data.insert("name", m_name);
 
     QVariantList elements;
-    for (const PElement e : m_elements) {
+    for (const Element *e : m_elements) {
         elements.append(e->serialize());
     }
 
     QVariantMap container;
-    container.insert("Data", data);
-    container.insert("Elements", elements);
+    if (!data.isEmpty())
+        container.insert("Data", data);
+    if (!elements.isEmpty())
+        container.insert("Elements", elements);
 
     return container;
 }
 
-void Container::deserialize(const QJsonObject &object)
-{
-    const auto data = object["Data"].toObject();
-    m_id = data["id"].toVariant().value<qintptr>();
-    m_model->addContainerToMap(this);
-    m_name = data["name"].toString();
-
-    const auto elements = object["Elements"].toArray();
-    for (const auto e : elements) {
-        addElement(new Element(e.toObject(), this));
-    }
-}
-
-qintptr Container::getId() const
+qint32 Container::getId() const
 {
     return m_id;
 }
 
-PElement Container::getParent() const
+Element *Container::getParent() const
 {
-    return qobject_cast<PElement>(parent());
+    return qobject_cast<Element *>(parent());
 }
 
 QString Container::getName() const
@@ -90,12 +72,12 @@ QString Container::getName() const
     return m_name;
 }
 
-PCodeGenTools Container::getCgt()
+TCodeGenTools *Container::getCgt()
 {
     return m_cgt;
 }
 
-PSceneModel Container::getModel() const
+SceneModel *Container::getModel() const
 {
     return m_model;
 }
@@ -105,31 +87,31 @@ void Container::setName(const QString &name)
     m_name = name;
 }
 
-int Container::getCountElements() const
+qint32 Container::getCountElements() const
 {
     return m_elements.size();
 }
 
-PElement Container::getElementByIndex(uint index) const
+Element *Container::getElementByIndex(qint32 index) const
 {
-    if (index < uint(m_elements.size()))
+    if (index < m_elements.size())
         return m_elements[index];
 
     return nullptr;
 }
 
-qintptr Container::getIdElementByIndex(uint index) const
+qint32 Container::getIdElementByIndex(qint32 index) const
 {
-    const PElement e = getElementByIndex(index);
+    const Element *e = getElementByIndex(index);
     if (!e)
-        return 0;
+        return -1;
 
     return e->getId();
 }
 
-PElement Container::getElementByName(const QString &name) const
+Element *Container::getElementByName(const QString &name) const
 {
-    for (PElement e : m_elements) {
+    for (Element *e : m_elements) {
         if (QString::compare(e->getClassName(), name, Qt::CaseInsensitive) == 0) {
             return e;
         }
@@ -138,22 +120,22 @@ PElement Container::getElementByName(const QString &name) const
     return 0;
 }
 
-qintptr Container::getIdElementByName(const QString &name) const
+qint32 Container::getIdElementByName(const QString &name) const
 {
-    PElement e = getElementByName(name);
+    Element *e = getElementByName(name);
     if (e)
         return e->getId();
 
-    return 0;
+    return -1;
 }
 
-PElement Container::addElement(PElement element)
+Element *Container::addElement(Element *element)
 {
     m_elements.append(element);
     return element;
 }
 
-void Container::removeElement(uint index)
+void Container::removeElement(qint32 index)
 {
     m_elements.remove(index);
 }
