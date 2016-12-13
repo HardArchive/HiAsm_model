@@ -6,17 +6,26 @@
 
 //Qt
 
-Value::Value(DataType type, const QVariant &value, const QString &name, DataType subType)
-    : m_type(type)
-    , m_value(value)
-    , m_name(name)
-    , m_subType(subType)
+
+Value::Value(quintptr id_value, DataType type, const QVariant &value, const QString &name, DataType subType):
+    m_id(id_value),
+    m_type(type),
+    m_value(value),
+    m_name(name),
+    m_subType(subType)
 {
+
 }
 
-QVariantMap Value::serialize() const
+Value::Value(const QJsonObject &object)
+{
+    deserialize(object);
+}
+
+QVariantMap Value::serialize()
 {
     QVariantMap data;
+    data.insert("id", m_id);
     data.insert("name", m_name);
     data.insert("type", m_type);
     data.insert("subType", m_subType);
@@ -46,7 +55,7 @@ QVariantMap Value::serialize() const
     }
     case data_array: {
         QVariantList array;
-        for (const Value *v : m_value.value<Values>()) {
+        for (const SharedValue &v : m_value.value<Values>()) {
             array.append(v->serialize());
         }
 
@@ -80,6 +89,117 @@ QVariantMap Value::serialize() const
     }
 
     return data;
+}
+
+void Value::deserialize(const QJsonObject &object)
+{
+    m_id = object["id"].toVariant().value<quintptr>();
+    m_type = DataType(object["type"].toInt());
+    m_name = object["name"].toString();
+    m_subType = DataType(object["subType"].toInt());
+
+    switch (m_type) {
+    case data_int:
+    case data_color:
+    case data_flags: {
+        m_value = object["value"].toInt();
+        break;
+    }
+    case data_real: {
+        m_value = object["value"].toVariant().toReal();
+        break;
+    }
+    case data_data: {
+        const QVariant var = object["value"].toVariant();
+        switch (m_subType) {
+        case data_int:
+            m_value = var.toInt();
+            break;
+        case data_str:
+            m_value = var.toString();
+            break;
+        case data_real:
+            m_value = var.toReal();
+            break;
+        default:
+            m_value = var;
+            break;
+        }
+        break;
+    }
+    case data_icon:
+    case data_stream:
+    case data_bitmap:
+    case data_jpeg:
+    case data_wave: {
+        m_value = QByteArray::fromHex(object["value"].toVariant().toByteArray());
+        break;
+    }
+    case data_array: {
+        QJsonArray array = object["ArrayValues"].toArray();
+        Values arrayItem;
+
+        int arrCount = array.size();
+        for (int i = 0; i < arrCount; ++i) {
+            const QJsonObject item = array[i].toObject();
+
+            QString name = item["name"].toString();
+            QVariant data;
+            switch (m_subType) {
+            case data_int:
+                data = item["value"].toInt();
+                break;
+            case data_str:
+                data = item["value"].toString();
+                break;
+            case data_real:
+                data = item["value"].toVariant().toReal();
+                break;
+            default: break;
+            }
+
+            arrayItem.append(SharedValue::create(0, m_subType, data, name));
+        }
+
+        m_value = QVariant::fromValue(arrayItem);
+        break;
+    }
+    case data_font: {
+        QJsonObject value = object["value"].toObject();
+        SharedValueFont font = SharedValueFont::create();
+        font->name = value["name"].toString();
+        font->size = value["size"].toVariant().toUInt();
+        font->style = value["style"].toVariant().value<uchar>();
+        font->color = value["color"].toVariant().toUInt();
+        font->charset = value["charset"].toVariant().value<uchar>();
+
+        m_value = QVariant::fromValue(font);
+        break;
+    }
+    case data_element: {
+        QJsonObject value = object["value"].toObject();
+        SharedLinkedElementInfo elementInfo = SharedLinkedElementInfo::create();
+        elementInfo->id = value["id"].toVariant().toUInt();
+        elementInfo->interface = value["id"].toString();
+
+        m_value = QVariant::fromValue(elementInfo);
+        break;
+    }
+    default: {
+        m_value = object["value"].toVariant();
+    }
+
+    }
+}
+
+void Value::setId(quintptr id)
+{
+    m_id = id;
+}
+
+quintptr Value::getId() const
+{
+    return m_id;
 }
 
 void Value::setType(DataType type)
@@ -120,12 +240,12 @@ uchar Value::toByte() const
     return m_value.value<uchar>();
 }
 
-qint32 Value::toInt() const
+int Value::toInt() const
 {
-    if (!m_value.canConvert<qint32>())
-        return qint32();
+    if (!m_value.canConvert<int>())
+        return int();
 
-    return m_value.value<qint32>();
+    return m_value.value<int>();
 }
 
 qreal Value::toReal() const
@@ -149,7 +269,7 @@ DataType Value::getDataType() const
     return m_subType;
 }
 
-qint32 Value::getArraySize() const
+int Value::getArraySize() const
 {
     if (!m_value.canConvert<Values>())
         return 0;
@@ -167,21 +287,21 @@ DataType Value::getSubType() const
     return m_subType;
 }
 
-Value *Value::getArrayItemByIndex(uint index) const
+SharedValue Value::getArrayItemByIndex(uint index) const
 {
     if (!m_value.canConvert<Values>())
-        return nullptr;
+        return SharedValue();
 
     const Values arrayValues = m_value.value<Values>();
     if (index < uint(arrayValues.size()))
         return arrayValues[index];
 
-    return nullptr;
+    return SharedValue();
 }
 
 QString Value::getArrayItemName(uint index) const
 {
-    const Value *arrValue = getArrayItemByIndex(index);
+    const SharedValue arrValue = getArrayItemByIndex(index);
     if (!arrValue)
         return QString();
 
@@ -196,7 +316,7 @@ SharedValueFont Value::toFont() const
     return m_value.value<SharedValueFont>();
 }
 
-SharedLinkedElementInfo Value::toLinkedElementInfo() const
+const SharedLinkedElementInfo Value::toLinkedElementInfo() const
 {
     if (!m_value.canConvert<SharedLinkedElementInfo>())
         return SharedLinkedElementInfo();

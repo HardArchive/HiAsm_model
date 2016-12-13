@@ -9,24 +9,35 @@
 #include <QObject>
 #include <QVariant>
 
-class Value {
+class Value
+{
 
 private:
     //Self
+    quintptr m_id;
     DataType m_type = data_null;
     QVariant m_value;
     QString m_name;
     DataType m_subType = data_null;
 
 public:
-    explicit Value(DataType type = data_null, const QVariant &value = QVariant(),
-        const QString &name = QString(), DataType subType = data_null);
+    explicit Value(quintptr id_value = 0,
+                   DataType type = data_null,
+                   const QVariant &value = QVariant(),
+                   const QString &name = QString(),
+                   DataType subType = data_null);
+
+    explicit Value(const QJsonObject &object);
+
 
 public:
     //Serialize
-    QVariantMap serialize() const;
+    QVariantMap serialize();
+    void deserialize(const QJsonObject &object);
 
     //Self
+    void setId(quintptr id);
+    quintptr getId() const;
     void setType(DataType type);
     DataType getType() const;
     void setName(const QString &name);
@@ -40,7 +51,7 @@ public:
     uchar toByte() const;
 
     //Int
-    qint32 toInt() const;
+    int toInt() const;
 
     //Real
     qreal toReal() const;
@@ -56,16 +67,15 @@ public:
     DataType getDataType() const;
 
     //Array
-    qint32 getArraySize() const;
-    Value *getArrayItemByIndex(uint index) const;
+    int getArraySize() const;
+    SharedValue getArrayItemByIndex(uint index) const;
     QString getArrayItemName(uint index) const;
 
     //Font
     SharedValueFont toFont() const;
 
     //LinkedElementInfo
-    SharedLinkedElementInfo toLinkedElementInfo() const;
+    const SharedLinkedElementInfo toLinkedElementInfo() const;
 };
 
-typedef QVector<Value *> Values;
 Q_DECLARE_METATYPE(Values)

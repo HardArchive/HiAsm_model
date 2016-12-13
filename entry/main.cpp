@@ -23,15 +23,15 @@
 
 //Служебные переменные
 static QLibrary codegen;
-static SceneModel *sceneModel1 = nullptr;
-TBuildGetParamsProc buildGetParamsProc = nullptr;
-TBuildMakePrj buildMakePrj = nullptr;
-TBuildCompliteProc buildCompliteProc = nullptr;
-TBuildRunProc buildRunProc = nullptr;
-TBuildStopProc buildStopProc = nullptr;
-TBuildPrepareProc buildPrepareProcLib = nullptr;
-TBuildProcessProc buildProcessProcLib = nullptr;
-TCheckVersionProc checkVersionProcLib = nullptr;
+static SceneModel *sceneModel = nullptr;
+static TBuildGetParamsProc buildGetParamsProc = nullptr;
+static TBuildMakePrj buildMakePrj = nullptr;
+static TBuildCompliteProc buildCompliteProc = nullptr;
+static TBuildRunProc buildRunProc = nullptr;
+static TBuildStopProc buildStopProc = nullptr;
+static TBuildPrepareProc buildPrepareProcLib = nullptr;
+static TBuildProcessProc buildProcessProcLib = nullptr;
+static TCheckVersionProc checkVersionProcLib = nullptr;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 {
@@ -74,7 +74,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     case DLL_PROCESS_DETACH: {
         qInfo() << "CODEGEN_PROCESS_DETACH";
 
-        delete sceneModel1;
+        delete sceneModel;
         codegen.unload();
         break;
     }
@@ -98,11 +98,13 @@ DLLEXPORT qint32 buildProcessProc(TBuildProcessRec &params)
 
 #ifdef MODEL
     PackageManager *manager = new PackageManager();
-    sceneModel1 = new SceneModel(manager);
-    sceneModel1->initFromCgt(params.cgt, params.sdk);
-    sceneModel1->saveModel("test.json");
+    sceneModel = new SceneModel(manager);
+    sceneModel->initFromCgt(params.cgt, params.sdk);
+    sceneModel->saveModel("test.json");
+    //sceneModel1->clear();
+    //sceneModel1->loadModel("test.json");
 
-    EmulateCgt::setSceneModel(sceneModel1);
+    EmulateCgt::setSceneModel(sceneModel);
     params.cgt = EmulateCgt::getCgt();
 #endif
 

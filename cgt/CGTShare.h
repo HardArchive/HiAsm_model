@@ -59,11 +59,10 @@ enum PointType {
     pt_Data
 };
 const static QMap<qint32, QString> PointTypeMap{
-    { pt_Work, "pt_Work" },
-    { pt_Event, "pt_Event" },
-    { pt_Var, "pt_Var" },
-    { pt_Data, "pt_Data" }
-};
+    {pt_Work, "pt_Work"},
+    {pt_Event, "pt_Event"},
+    {pt_Var, "pt_Var"},
+    {pt_Data, "pt_Data"}};
 
 //!ru Типы данных
 enum DataType {
@@ -92,30 +91,29 @@ enum DataType {
     data_object
 };
 const static QMap<qint32, QString> DataTypeMap{
-    { data_null, "data_null" },
-    { data_int, "data_int" },
-    { data_str, "data_str" },
-    { data_data, "data_data" },
-    { data_combo, "data_combo" },
-    { data_list, "data_list" },
-    { data_icon, "data_icon" },
-    { data_real, "data_real" },
-    { data_color, "data_color" },
-    { data_script, "data_color" },
-    { data_stream, "data_stream" },
-    { data_bitmap, "data_bitmap" },
-    { data_wave, "data_wave" },
-    { data_array, "data_array" },
-    { data_comboEx, "data_comboEx" },
-    { data_font, "data_font" },
-    { data_matr, "data_matr" },
-    { data_jpeg, "data_jpeg" },
-    { data_menu, "data_menu" },
-    { data_code, "data_code" },
-    { data_element, "data_element" },
-    { data_flags, "data_flags" },
-    { data_object, "data_object" }
-};
+    {data_null, "data_null"},
+    {data_int, "data_int"},
+    {data_str, "data_str"},
+    {data_data, "data_data"},
+    {data_combo, "data_combo"},
+    {data_list, "data_list"},
+    {data_icon, "data_icon"},
+    {data_real, "data_real"},
+    {data_color, "data_color"},
+    {data_script, "data_color"},
+    {data_stream, "data_stream"},
+    {data_bitmap, "data_bitmap"},
+    {data_wave, "data_wave"},
+    {data_array, "data_array"},
+    {data_comboEx, "data_comboEx"},
+    {data_font, "data_font"},
+    {data_matr, "data_matr"},
+    {data_jpeg, "data_jpeg"},
+    {data_menu, "data_menu"},
+    {data_code, "data_code"},
+    {data_element, "data_element"},
+    {data_flags, "data_flags"},
+    {data_object, "data_object"}};
 
 //!ru Классы элементов (elGetClassIndex)
 enum ElementClass {
@@ -169,26 +167,25 @@ enum ElementClass {
     CI_DocumentTemplate
 };
 const static QMap<qint32, QString> ElementClassMap{
-    { CI_Element, "CI_Element" },
-    { CI_DPElement, "CI_DPElement" },
-    { CI_MultiElement, "CI_MultiElement" },
-    { CI_EditMulti, "CI_EditMulti" },
-    { CI_EditMultiEx, "CI_EditMultiEx" },
-    { CI_InlineCode, "CI_InlineCode" },
-    { CI_DrawElement, "CI_DrawElement" },
-    { CI_AS_Special, "CI_AS_Special" },
-    { CI_DPLElement, "CI_DPLElement" },
-    { CI_UseHiDLL, "CI_UseHiDLL" },
-    { CI_WinElement, "CI_WinElement" },
-    { CI_PointHint, "CI_PointHint" },
-    { CI_PointElement, "CI_PointElement" },
-    { CI_LineBreak, "CI_LineBreak" },
-    { CI_LineBreakEx, "CI_LineBreakEx" },
-    { CI_UserElement, "CI_UserElement" },
-    { CI_Translate, "CI_Translate" },
-    { CI_PolyMulti, "CI_PolyMulti" },
-    { CI_DocumentTemplate, "CI_DocumentTemplate" }
-};
+    {CI_Element, "CI_Element"},
+    {CI_DPElement, "CI_DPElement"},
+    {CI_MultiElement, "CI_MultiElement"},
+    {CI_EditMulti, "CI_EditMulti"},
+    {CI_EditMultiEx, "CI_EditMultiEx"},
+    {CI_InlineCode, "CI_InlineCode"},
+    {CI_DrawElement, "CI_DrawElement"},
+    {CI_AS_Special, "CI_AS_Special"},
+    {CI_DPLElement, "CI_DPLElement"},
+    {CI_UseHiDLL, "CI_UseHiDLL"},
+    {CI_WinElement, "CI_WinElement"},
+    {CI_PointHint, "CI_PointHint"},
+    {CI_PointElement, "CI_PointElement"},
+    {CI_LineBreak, "CI_LineBreak"},
+    {CI_LineBreakEx, "CI_LineBreakEx"},
+    {CI_UserElement, "CI_UserElement"},
+    {CI_Translate, "CI_Translate"},
+    {CI_PolyMulti, "CI_PolyMulti"},
+    {CI_DocumentTemplate, "CI_DocumentTemplate"}};
 
 //!ru Индексы параметров среды - GetParam()
 enum CgtParams {
@@ -206,19 +203,18 @@ enum CgtParams {
     PARAM_COMPILER
 };
 const static QMap<qint32, QString> CgtParamsMap{
-    { PARAM_CODE_PATH, "PARAM_CODE_PATH" },
-    { PARAM_DEBUG_MODE, "PARAM_DEBUG_MODE" },
-    { PARAM_DEBUG_SERVER_PORT, "PARAM_DEBUG_SERVER_PORT" },
-    { PARAM_DEBUG_CLIENT_PORT, "PARAM_DEBUG_CLIENT_PORT" },
-    { PARAM_PROJECT_PATH, "PARAM_PROJECT_PATH" },
-    { PARAM_HIASM_VERSION, "PARAM_HIASM_VERSION" },
-    { PARAM_USER_NAME, "PARAM_USER_NAME" },
-    { PARAM_USER_MAIL, "PARAM_USER_MAIL" },
-    { PARAM_PROJECT_NAME, "PARAM_PROJECT_NAME" },
-    { PARAM_SDE_WIDTH, "PARAM_SDE_WIDTH" },
-    { PARAM_SDE_HEIGHT, "PARAM_SDE_HEIGHT" },
-    { PARAM_COMPILER, "PARAM_COMPILER" }
-};
+    {PARAM_CODE_PATH, "PARAM_CODE_PATH"},
+    {PARAM_DEBUG_MODE, "PARAM_DEBUG_MODE"},
+    {PARAM_DEBUG_SERVER_PORT, "PARAM_DEBUG_SERVER_PORT"},
+    {PARAM_DEBUG_CLIENT_PORT, "PARAM_DEBUG_CLIENT_PORT"},
+    {PARAM_PROJECT_PATH, "PARAM_PROJECT_PATH"},
+    {PARAM_HIASM_VERSION, "PARAM_HIASM_VERSION"},
+    {PARAM_USER_NAME, "PARAM_USER_NAME"},
+    {PARAM_USER_MAIL, "PARAM_USER_MAIL"},
+    {PARAM_PROJECT_NAME, "PARAM_PROJECT_NAME"},
+    {PARAM_SDE_WIDTH, "PARAM_SDE_WIDTH"},
+    {PARAM_SDE_HEIGHT, "PARAM_SDE_HEIGHT"},
+    {PARAM_COMPILER, "PARAM_COMPILER"}};
 
 //!ru Ошибки при работе с библиотекой кодогенератора
 enum CgResult {
@@ -241,13 +237,12 @@ enum CgResult {
     CG_APP_NOT_FOUND = 20
 };
 const static QMap<qint32, QString> CgResultMap{
-    { CG_SUCCESS, "CG_SUCCESS" },
-    { CG_NOT_FOUND, "CG_NOT_FOUND" },
-    { CG_INVALID_VERSION, "CG_INVALID_VERSION" },
-    { CG_ENTRY_POINT_NF, "CG_ENTRY_POINT_NF" },
-    { CG_BUILD_FAILED, "CG_BUILD_FAILED" },
-    { CG_APP_NOT_FOUND, "CG_APP_NOT_FOUND" }
-};
+    {CG_SUCCESS, "CG_SUCCESS"},
+    {CG_NOT_FOUND, "CG_NOT_FOUND"},
+    {CG_INVALID_VERSION, "CG_INVALID_VERSION"},
+    {CG_ENTRY_POINT_NF, "CG_ENTRY_POINT_NF"},
+    {CG_BUILD_FAILED, "CG_BUILD_FAILED"},
+    {CG_APP_NOT_FOUND, "CG_APP_NOT_FOUND"}};
 
 //!ru Параметры проекта
 enum ProjectFlags {
@@ -303,7 +298,7 @@ typedef qint32 (*TBuildStopProc)(TBuildRunRec &params);
  * Описание интерфейса библиотеки CodeGen.
  *
 */
-class TCodeGenTools;
+struct TCodeGenTools;
 
 struct THiAsmVersion {
     qint32 major{};
@@ -563,4 +558,5 @@ struct TCodeGenTools {
     CALLBACK qint32 (*propSaveToFile)(qint32 p, const char *fileName);
 };
 
-Q_DECLARE_METATYPE(TCodeGenTools *)
+typedef TCodeGenTools *PCodeGenTools;
+Q_DECLARE_METATYPE(PCodeGenTools)

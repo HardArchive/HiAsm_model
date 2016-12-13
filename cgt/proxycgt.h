@@ -7,7 +7,8 @@
 
 //Qt
 
-namespace ProxyCgt {
-void setProxiedCgt(TCodeGenTools * cgt);
-TCodeGenTools * getCgt();
+namespace ProxyCgt
+{
+    void setProxiedCgt(PCodeGenTools cgt);
+    PCodeGenTools getCgt();
 }

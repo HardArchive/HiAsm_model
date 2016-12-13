@@ -14,7 +14,7 @@
 //Qt
 #include <QDebug>
 
-SceneModel::SceneModel(PackageManager *package, QObject *parent)
+SceneModel::SceneModel(PPackageManager package, QObject* parent)
     : QObject(parent)
     , m_packageManager(package)
 {
@@ -22,19 +22,21 @@ SceneModel::SceneModel(PackageManager *package, QObject *parent)
 
 SceneModel::~SceneModel()
 {
+    compileResources();
+    deleteResources();
 }
 
-void SceneModel::collectingData(qintptr id_sdk)
+void SceneModel::collectingData(quintptr id_sdk)
 {
     m_isDebug = m_cgt->isDebug(id_sdk);
-    qintptr id_element = m_cgt->sdkGetElement(id_sdk, 0);
+    quintptr id_element = m_cgt->sdkGetElement(id_sdk, 0);
 
     //ru Тут мощная магия, однако;D
-    qint32 iBuf{};
+    int iBuf{};
     QByteArray buf("", 512);
 
     buf.fill('\0');
-    reinterpret_cast<qintptr *>(buf.data())[0] = id_element; //-V206
+    reinterpret_cast<quintptr*>(buf.data())[0] = id_element; //-V206
     m_cgt->GetParam(PARAM_CODE_PATH, buf.data());
     m_codePath = QString::fromLocal8Bit(buf);
 
@@ -48,12 +50,12 @@ void SceneModel::collectingData(qintptr id_sdk)
     m_debugClientPort = iBuf;
 
     buf.fill('\0');
-    reinterpret_cast<qintptr *>(buf.data())[0] = id_element; //-V206
+    reinterpret_cast<quintptr*>(buf.data())[0] = id_element; //-V206
     m_cgt->GetParam(PARAM_PROJECT_PATH, buf.data());
     m_projectPath = QString::fromLocal8Bit(buf);
 
     const char f[] = "%mj.%mn.%bl";
-    char *tmpBuf = new char[strlen(f) + 1];
+    char* tmpBuf = new char[strlen(f) + 1];
     strcpy(tmpBuf, f);
     m_cgt->GetParam(PARAM_HIASM_VERSION, tmpBuf);
     m_hiasmVersion = QString::fromLatin1(tmpBuf);
@@ -68,20 +70,20 @@ void SceneModel::collectingData(qintptr id_sdk)
     m_userMail = QString::fromLocal8Bit(buf);
 
     buf.fill('\0');
-    reinterpret_cast<qintptr *>(buf.data())[0] = id_element; //-V206
+    reinterpret_cast<quintptr*>(buf.data())[0] = id_element; //-V206
     m_cgt->GetParam(PARAM_PROJECT_NAME, buf.data());
     m_projectName = QString::fromLocal8Bit(buf);
 
-    qint32 tmpW[1] = { reinterpret_cast<qint32>(id_element) };
+    uint tmpW[1] = { reinterpret_cast<uint>(id_element) };
     m_cgt->GetParam(PARAM_SDE_WIDTH, tmpW);
     m_sdeWidth = tmpW[0];
 
-    qint32 tmpH[1] = { reinterpret_cast<qint32>(id_element) };
+    uint tmpH[1] = { reinterpret_cast<uint>(id_element) };
     m_cgt->GetParam(PARAM_SDE_HEIGHT, tmpH);
     m_sdeHeight = tmpH[0];
 
     buf.fill('\0');
-    reinterpret_cast<qintptr *>(buf.data())[0] = id_element; //-V206
+    reinterpret_cast<quintptr*>(buf.data())[0] = id_element; //-V206
     m_cgt->GetParam(PARAM_COMPILER, buf.data());
     m_compiler = QString::fromLocal8Bit(buf);
 }
@@ -109,17 +111,61 @@ QJsonDocument SceneModel::serialize()
     return QJsonDocument::fromVariant(model);
 }
 
-TCodeGenTools *SceneModel::getCgt()
+PCodeGenTools SceneModel::getCgt()
 {
     return m_cgt;
 }
 
-SceneModel *SceneModel::getModel()
+void SceneModel::deserialize(const QJsonDocument& doc)
+{
+    const QJsonObject model = doc.object();
+
+    const QJsonObject cgtParams = model["CGTParams"].toObject();
+    m_codePath = cgtParams["CODE_PATH"].toString();
+    m_debugMode = cgtParams["DEBUG_MODE"].toInt();
+    m_debugServerPort = cgtParams["DEBUG_SERVER_PORT"].toInt();
+    m_debugClientPort = cgtParams["DEBUG_CLIENT_PORT"].toInt();
+    ;
+    m_projectPath = cgtParams["PROJECT_PATH"].toString();
+    m_hiasmVersion = cgtParams["HIASM_VERSION"].toString();
+    m_userName = cgtParams["USER_NAME"].toString();
+    m_userMail = cgtParams["USER_MAIL"].toString();
+    m_projectName = cgtParams["PROJECT_NAME"].toString();
+    m_sdeWidth = cgtParams["SDE_WIDTH"].toInt();
+    m_sdeHeight = cgtParams["SDE_HEIGHT"].toInt();
+    m_compiler = cgtParams["COMPILER"].toString();
+
+    QJsonObject container = model["Container"].toObject();
+    m_container = new Container(container, this);
+}
+
+quintptr SceneModel::genId()
+{
+    while (true) {
+        ++m_genId;
+        if (m_mapContainers.contains(m_genId))
+            continue;
+        if (m_mapElements.contains(m_genId))
+            continue;
+        if (m_mapProperties.contains(m_genId))
+            continue;
+        if (m_mapPoints.contains(m_genId))
+            continue;
+        if (m_mapValues.contains(m_genId))
+            continue;
+
+        break;
+    }
+
+    return m_genId;
+}
+
+PSceneModel SceneModel::getModel()
 {
     return this;
 }
 
-void SceneModel::initFromCgt(TCodeGenTools *cgt, qintptr idMainSDK)
+void SceneModel::initFromCgt(PCodeGenTools cgt, quintptr idMainSDK)
 {
     m_cgt = cgt;
 
@@ -130,7 +176,7 @@ void SceneModel::initFromCgt(TCodeGenTools *cgt, qintptr idMainSDK)
     m_container = new Container(idMainSDK, this);
 }
 
-bool SceneModel::saveModel(const QString &filePath)
+bool SceneModel::saveModel(const QString& filePath)
 {
     QJsonDocument doc = serialize();
     QFile file(filePath);
@@ -142,17 +188,43 @@ bool SceneModel::saveModel(const QString &filePath)
     return true;
 }
 
-void SceneModel::setPackage(Package *package)
+bool SceneModel::loadModel(const QString& filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+        return false;
+
+    deserialize(QJsonDocument::fromJson(file.readAll()));
+    return true;
+}
+
+bool SceneModel::loadFromSha(const QString& filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+        return false;
+
+    //file.readAll();
+
+    loadPackage("delphi");
+
+    m_container = new Container(this);
+    m_container->addElement(new Element("MainForm", 2953706, 21, 105, m_container));
+
+    return true;
+}
+
+void SceneModel::setPackage(PPackage package)
 {
     m_package = package;
 }
 
-Package *SceneModel::getPackage()
+PPackage SceneModel::getPackage()
 {
     return m_package;
 }
 
-bool SceneModel::loadPackage(const QString &name)
+bool SceneModel::loadPackage(const QString& name)
 {
     m_package = m_packageManager->getPackage(name);
     if (!m_package) {
@@ -163,33 +235,51 @@ bool SceneModel::loadPackage(const QString &name)
     return true;
 }
 
-void SceneModel::addContainerToMap(Container *id_sdk)
+void SceneModel::addContainerToMap(PContainer id_sdk)
 {
     if (id_sdk)
         m_mapContainers.insert(id_sdk->getId(), id_sdk);
 }
 
-void SceneModel::addElementToMap(Element *id_element)
+void SceneModel::addElementToMap(PElement id_element)
 {
     if (id_element)
         m_mapElements.insert(id_element->getId(), id_element);
 }
 
-Container *SceneModel::getContainerById(qintptr id_sdk) const
+void SceneModel::addPropertyToMap(PProperty id_prop)
+{
+    if (id_prop)
+        m_mapProperties.insert(id_prop->getId(), id_prop);
+}
+
+void SceneModel::addPointToMap(PPoint id_point)
+{
+    if (id_point)
+        m_mapPoints.insert(id_point->getId(), id_point);
+}
+
+void SceneModel::addValueToMap(PValue value)
+{
+    if (value)
+        m_mapValues.insert(value->getId(), value);
+}
+
+PContainer SceneModel::getContainerById(quintptr id_sdk) const
 {
     return m_mapContainers[id_sdk];
 }
 
-qint32 SceneModel::getCountElementsInContainer(qintptr id_sdk) const
+int SceneModel::getCountElementsInContainer(quintptr id_sdk) const
 {
-    const Container *c = getContainerById(id_sdk);
+    const PContainer c = getContainerById(id_sdk);
     if (!c)
         return 0;
 
     return c->getCountElements();
 }
 
-qintptr SceneModel::getIdRootContainer() const
+quintptr SceneModel::getIdRootContainer() const
 {
     if (!m_container)
         return 0;
@@ -197,38 +287,53 @@ qintptr SceneModel::getIdRootContainer() const
     return m_container->getId();
 }
 
-Element *SceneModel::getElementById(qintptr id_element) const
+PElement SceneModel::getElementById(quintptr id_element) const
 {
     return m_mapElements[id_element];
 }
 
-Element *SceneModel::getElementFromSDKByIndex(qintptr id_sdk, qint32 index) const
+PElement SceneModel::getElementFromSDKByIndex(quintptr id_sdk, int index) const
 {
-    const Container *c = getContainerById(id_sdk);
+    const PContainer c = getContainerById(id_sdk);
     if (!c)
         return nullptr;
     return c->getElementByIndex(index);
 }
 
-qintptr SceneModel::getIdElementFromSDKByIndex(qintptr id_sdk, qint32 index) const
+quintptr SceneModel::getIdElementFromSDKByIndex(quintptr id_sdk, int index) const
 {
-    const Container *c = getContainerById(id_sdk);
+    const PContainer c = getContainerById(id_sdk);
     if (!c)
         return 0;
     return c->getIdElementByIndex(index);
 }
 
-const char *SceneModel::addStreamRes(Property *id_prop)
+PProperty SceneModel::getPropertyById(quintptr id_prop) const
 {
-    QString ret;
-    if (!id_prop)
+    return m_mapProperties[id_prop];
+}
+
+PPoint SceneModel::getPointById(quintptr id_point) const
+{
+    return m_mapPoints[id_point];
+}
+
+PValue SceneModel::getValueById(quintptr id_value) const
+{
+    return m_mapValues[id_value];
+}
+
+const char* SceneModel::addStreamRes(quintptr id_prop)
+{
+    PProperty p = getPropertyById(id_prop);
+    if (!p)
         return nullptr;
 
     QString nameTypeRes;
     QString fileName;
     QString ext;
-    const Value *v = id_prop->getValue();
-    switch (id_prop->getType()) {
+    const PValue v = p->getValue();
+    switch (p->getType()) {
     case data_icon: {
         if (v->getValue().isNull())
             return fcgt::strToCString("ASMA");
@@ -260,14 +365,14 @@ const char *SceneModel::addStreamRes(Property *id_prop)
         return nullptr;
     }
 
-    QString SEP = QDir::separator();
-    QString CURRENT_PATH = QDir::currentPath();
+    static const QString SEP = QDir::separator();
+    static const QString CURRENT_PATH = QDir::currentPath();
 
-    QByteArray resData = v->getValue().toByteArray();
-    QString suffix = QString::number(m_resourcesForCompile.size());
-    QString fileNameRes = fileName + suffix;
-    QString fullFileNameRes = fileName + suffix + ext;
-    QString filePathRes = CURRENT_PATH + SEP + m_resourcesDir + SEP + fullFileNameRes;
+    const QByteArray resData = v->getValue().toByteArray();
+    const QString suffix = QString::number(m_resourcesForCompile.size());
+    const QString fileNameRes = fileName + suffix;
+    const QString fullFileNameRes = fileName + suffix + ext;
+    const QString filePathRes = CURRENT_PATH + SEP + m_resourcesDir + SEP + fullFileNameRes;
 
     QFile file(filePathRes);
     if (!file.open(QIODevice::WriteOnly))
@@ -281,7 +386,7 @@ const char *SceneModel::addStreamRes(Property *id_prop)
     return fcgt::strToCString(fileNameRes);
 }
 
-const char *SceneModel::addStringRes(const QString &str)
+const char* SceneModel::addStringRes(const QString& str)
 {
     if (str.isEmpty())
         return nullptr;
@@ -307,7 +412,7 @@ const char *SceneModel::addStringRes(const QString &str)
 }
 void SceneModel::deleteResources()
 {
-    for (const auto &filePath : m_resourcesToDelete) {
+    for (const auto& filePath : m_resourcesToDelete) {
         QFile::remove(filePath);
     }
     m_resourcesToDelete.clear();
@@ -329,7 +434,7 @@ void SceneModel::compileResources()
     file.open(QIODevice::WriteOnly);
     QTextStream write(&file);
 
-    for (const auto &filePath : m_resourcesForCompile.keys()) {
+    for (const auto& filePath : m_resourcesForCompile.keys()) {
         QFileInfo file(filePath);
 
         write << QString("%1 %2 %3\r\n").arg(file.baseName()).arg(m_resourcesForCompile[filePath]).arg(filePath);
@@ -345,7 +450,7 @@ void SceneModel::compileResources()
     addResList(resFilePath);
 }
 
-qint32 SceneModel::addResList(const QString &filePath)
+int SceneModel::addResList(const QString& filePath)
 {
     m_resourcesToDelete.insert(filePath);
     return 0;
@@ -356,13 +461,13 @@ bool SceneModel::resIsEmpty() const
     return m_resourcesToDelete.isEmpty();
 }
 
-void SceneModel::getCgtParam(CgtParams index, void *buf) const
+void SceneModel::getCgtParam(CgtParams index, void* buf) const
 {
-    auto writeString = [buf](const QString &str) {
-        strcpy(reinterpret_cast<char *>(buf), str.toStdString().c_str());
+    auto writeString = [buf](const QString& str) {
+        strcpy(reinterpret_cast<char*>(buf), str.toStdString().c_str());
     };
-    auto writeInt = [buf](qint32 value) {
-        *reinterpret_cast<qint32 *>(buf) = value; //-V206
+    auto writeInt = [buf](int value) {
+        *reinterpret_cast<int*>(buf) = value; //-V206
     };
 
     switch (index) {
@@ -415,52 +520,52 @@ void SceneModel::setIsDebug(bool isDebug)
     m_isDebug = isDebug;
 }
 
-qint32 SceneModel::getDebugMode() const
+int SceneModel::getDebugMode() const
 {
     return m_debugMode;
 }
 
-void SceneModel::setDebugMode(qint32 debugMode)
+void SceneModel::setDebugMode(int debugMode)
 {
     m_debugMode = debugMode;
 }
 
-qint32 SceneModel::getDebugServerPort() const
+int SceneModel::getDebugServerPort() const
 {
     return m_debugServerPort;
 }
 
-void SceneModel::setDebugServerPort(qint32 debugServerPort)
+void SceneModel::setDebugServerPort(int debugServerPort)
 {
     m_debugServerPort = debugServerPort;
 }
 
-qint32 SceneModel::getDebugClientPort() const
+int SceneModel::getDebugClientPort() const
 {
     return m_debugClientPort;
 }
 
-void SceneModel::setDebugClientPort(qint32 debugClientPort)
+void SceneModel::setDebugClientPort(int debugClientPort)
 {
     m_debugClientPort = debugClientPort;
 }
 
-qint32 SceneModel::getSdeWidth() const
+int SceneModel::getSdeWidth() const
 {
     return m_sdeWidth;
 }
 
-void SceneModel::setSdeWidth(qint32 sdeWidth)
+void SceneModel::setSdeWidth(int sdeWidth)
 {
     m_sdeWidth = sdeWidth;
 }
 
-qint32 SceneModel::getSdeHeight() const
+int SceneModel::getSdeHeight() const
 {
     return m_sdeHeight;
 }
 
-void SceneModel::setSdeHeight(qint32 sdeHeight)
+void SceneModel::setSdeHeight(int sdeHeight)
 {
     m_sdeHeight = sdeHeight;
 }
@@ -470,7 +575,7 @@ QString SceneModel::getCodePath() const
     return m_codePath;
 }
 
-void SceneModel::setCodePath(const QString &codePath)
+void SceneModel::setCodePath(const QString& codePath)
 {
     m_codePath = codePath;
 }
@@ -480,7 +585,7 @@ QString SceneModel::getProjectPath() const
     return m_projectPath;
 }
 
-void SceneModel::setProjectPath(const QString &projectPath)
+void SceneModel::setProjectPath(const QString& projectPath)
 {
     m_projectPath = projectPath;
 }
@@ -490,7 +595,7 @@ QString SceneModel::getHiasmVersion() const
     return m_hiasmVersion;
 }
 
-void SceneModel::setHiasmVersion(const QString &hiasmVersion)
+void SceneModel::setHiasmVersion(const QString& hiasmVersion)
 {
     m_hiasmVersion = hiasmVersion;
 }
@@ -500,7 +605,7 @@ QString SceneModel::getUserName() const
     return m_userName;
 }
 
-void SceneModel::setUserName(const QString &userName)
+void SceneModel::setUserName(const QString& userName)
 {
     m_userName = userName;
 }
@@ -510,7 +615,7 @@ QString SceneModel::getUserMail() const
     return m_userMail;
 }
 
-void SceneModel::setUserMail(const QString &userMail)
+void SceneModel::setUserMail(const QString& userMail)
 {
     m_userMail = userMail;
 }
@@ -520,7 +625,7 @@ QString SceneModel::getProjectName() const
     return m_projectName;
 }
 
-void SceneModel::setProjectName(const QString &projectName)
+void SceneModel::setProjectName(const QString& projectName)
 {
     m_projectName = projectName;
 }
@@ -530,7 +635,7 @@ QString SceneModel::getCompiler() const
     return m_compiler;
 }
 
-void SceneModel::setCompiler(const QString &compiler)
+void SceneModel::setCompiler(const QString& compiler)
 {
     m_compiler = compiler;
 }

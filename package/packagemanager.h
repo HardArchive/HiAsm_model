@@ -20,8 +20,9 @@ private:
     bool m_sucess = true;
 
 public:
-    explicit PackageManager(QObject *parent = 0);
+    explicit PackageManager(QObject* parent = 0);
 
 public:
-    Package *getPackage(const QString &namePack);
+    PPackage getPackage(const QString& namePack);
 };
+typedef PackageManager* PPackageManager;

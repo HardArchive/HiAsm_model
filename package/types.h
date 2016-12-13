@@ -57,4 +57,5 @@ typedef QSharedPointer<CompilerInfo> SharedCompilerInfo;
 typedef QList<SharedCompilerInfo> ListCompilers;
 
 class Package;
-typedef QMap<QString, Package *> Packages;
+typedef Package *PPackage;
+typedef QMap<QString, PPackage> Packages;

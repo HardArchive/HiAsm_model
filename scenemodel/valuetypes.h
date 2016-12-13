@@ -1,14 +1,18 @@
 ﻿#pragma once
 //Project
+#include "cgt/CGTShare.h"
+#include "types.h"
 
 //STL
 
 //Qt
 #include <QObject>
+#include <QVariant>
 #include <QSharedPointer>
+#include <QList>
 
 struct LinkedElementInfo {
-    qint32 id{};
+    quintptr id{};
     QString interface;
 };
 typedef QSharedPointer<LinkedElementInfo> SharedLinkedElementInfo;

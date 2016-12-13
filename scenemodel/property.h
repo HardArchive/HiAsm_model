@@ -1,6 +1,7 @@
 #pragma once
 
 //Project
+#include "types.h"
 #include "value.h"
 #include "valuetypes.h"
 #include "cgt/CGTShare.h"
@@ -10,49 +11,52 @@
 //Qt
 #include <QObject>
 
-class SceneModel;
-class Element;
-
-class Property : public QObject {
+class Property: public QObject
+{
     Q_OBJECT
     Q_DISABLE_COPY(Property)
 
 private:
     //Self
+    quintptr m_id{};
     QString m_name;
     DataType m_type{};
     bool m_isDefProp{};
 
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Model
-    SceneModel *m_model{};
+    PSceneModel m_model{};
 
     //Value
     Value m_value;
 
 private:
-    Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
+    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Property(qint32 id, QObject *parent);
-    explicit Property(DataType type = data_null,
-        const QVariant &data = QVariant(),
-        const QString &name = QString());
+    explicit Property(quintptr id_prop, QObject *parent);
+    explicit Property(const QJsonObject &object, QObject *parent);
+    explicit Property(quintptr id = 0,
+                      DataType type = data_null,
+                      const QVariant &data = QVariant(),
+                      const QString &name = QString());
 
 private:
-    void collectingData(qint32 idProp);
+    void collectingData();
 
 public:
     //Serialize
-    QVariantMap serialize() const;
+    QVariantMap serialize();
+    void deserialize(const QJsonObject &object);
 
     //Self
+    quintptr getId() const;
+
     void setName(const QString &name);
     QString getName() const;
-    Element *getParent() const;
 
     void setType(DataType type);
     DataType getType() const;
@@ -61,21 +65,22 @@ public:
     bool getIsDefProp() const;
 
     //Value
-    void setValue(DataType type = data_null,
-        const QVariant &data = QVariant(),
-        const QString &name = QString(),
-        DataType arrayType = data_null);
+    void setValue(quintptr id = 0,
+                  DataType type = data_null,
+                  const QVariant &data = QVariant(),
+                  const QString &name = QString(),
+                  DataType arrayType = data_null);
 
-    Value *getValue();
+    PValue getValue();
     uchar toByte() const;
-    qint32 toInt() const;
+    int toInt() const;
     qreal toReal() const;
     QString toString() const;
-    SharedLinkedElementInfo toLinkedElementInfo() const;
+    const SharedLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
-    TCodeGenTools *getCgt();
+    PCodeGenTools getCgt();
 
     //Model
-    SceneModel *getModel();
+    PSceneModel getModel();
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 //Project
+#include "types.h"
 #include "cgt/CGTShare.h"
 
 //STL
@@ -9,28 +10,24 @@
 #include <QObject>
 #include <QString>
 
-class SceneModel;
-class Container;
-class Point;
-class Property;
-
-class Element : public QObject {
+class Element: public QObject
+{
     Q_OBJECT
     Q_DISABLE_COPY(Element)
 
 private:
     //Self
-    qintptr m_id{};
-    qintptr m_userData{};
+    quintptr m_id{};
+    quintptr m_userData{};
     ElementClass m_classIndex{};
     ElementFlgs m_flags{};
-    qint32 m_group{};
+    int m_group{};
     bool m_linkIs{};
-    qintptr m_linkMain{};
-    qint32 m_posX{};
-    qint32 m_posY{};
-    qint32 m_sizeW{};
-    qint32 m_sizeH{};
+    quintptr m_linkMain{};
+    int m_posX{};
+    int m_posY{};
+    int m_sizeW{};
+    int m_sizeH{};
     QString m_className;
     QString m_codeName;
     QString m_interface;
@@ -38,41 +35,43 @@ private:
     QString m_infSub;
 
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Model
-    SceneModel *m_model{};
+    PSceneModel m_model{};
 
     //Container
-    QVector<Container *> m_containers;
+    Containers m_containers;
 
     //Point
-    QVector<Point *> m_points;
+    Points m_points;
 
     //Property
-    QVector<Property *> m_properties;
+    Properties m_properties;
 
 private:
-    Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools * cgt READ getCgt)
+    Q_PROPERTY(PSceneModel model READ getModel)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
-    explicit Element(const QString &name, qintptr id_element, qint32 X, qint32 Y, QObject *parent);
-    explicit Element(qintptr id_element, QObject *parent);
+    explicit Element(const QString &name, quintptr id_element, int X, int Y,  QObject *parent);
+    explicit Element(quintptr id_element, QObject *parent);
+    explicit Element(const QJsonObject &object, QObject *parent);
 
 private:
     void collectingData();
 
 public:
     //Serialize
-    QVariantMap serialize() const;
+    QVariantMap serialize();
+    void deserialize(const QJsonObject &object);
 
     //Self
-    qint32 getId() const;
-    Container *getParent() const;
+    quintptr getId() const;
+    PContainer getParent() const;
 
-    void setUserData(qint32 userData);
-    qintptr getUserData() const;
+    void setUserData(quintptr userData);
+    quintptr getUserData() const;
 
     void setClassIndex(ElementClass classIndex);
     ElementClass getClassIndex();
@@ -80,26 +79,26 @@ public:
     void setFlags(const ElementFlgs &flags);
     ElementFlags getFlags() const;
 
-    void setGroup(qint32 group);
-    qint32 getGroup() const;
+    void setGroup(int group);
+    int getGroup() const;
 
     void setLinkIs(bool linkIs);
     bool getLinkIs() const;
 
-    void setLinkMain(qintptr linkMain);
-    qintptr getLinkMain() const;
+    void setLinkMain(quintptr linkMain);
+    quintptr getLinkMain() const;
 
-    void setPosX(qint32 posX);
-    qint32 getPosX() const;
+    void setPosX(int posX);
+    int getPosX() const;
 
-    void setPosY(qint32 posY);
-    qint32 getPosY() const;
+    void setPosY(int posY);
+    int getPosY() const;
 
-    void setSizeW(qint32 sizeW);
-    qint32 getSizeW() const;
+    void setSizeW(int sizeW);
+    int getSizeW() const;
 
-    void setSizeH(qint32 sizeH);
-    qint32 getSizeH() const;
+    void setSizeH(int sizeH);
+    int getSizeH() const;
 
     void setClassName(const QString &className);
     QString getClassName() const;
@@ -117,37 +116,36 @@ public:
     QString getInfSub() const;
 
     //CGT
-    TCodeGenTools * getCgt();
+    PCodeGenTools getCgt();
 
     //Model
-    SceneModel *getModel();
+    PSceneModel getModel();
 
     //Container
-    qint32 getCountContainers() const;
-    Container *getContainer() const;
-    qint32 getIdContainer() const;
-    Container *getContainerByIndex(qint32 index) const;
-    qint32 getIdContainerByIndex(qint32 index) const;
-    Container *addContainer(Container *container);
-    void removeContainer(qint32 index);
+    int getCountContainers() const;
+    PContainer getContainer() const;
+    quintptr getIdContainer() const;
+    PContainer getContainerByIndex(uint index);
+    quintptr getIdContainerByIndex(uint index);
+    PContainer addContainer(PContainer container);
+    void removeContainer(uint index);
 
     //Point
-    qint32 getCountPoints() const;
-    qint32 getPointIndexOfType(const Point *id_point) const;
-    Point *getPointByIndex(qint32 index) const;
-    Point *getIdPointByIndex(qint32 index) const;
-    Point *getPointByName(const QString &name) const;
-    Point *getIdPointByName(const QString &name) const;
-    Point *addPoint(Point *point);
-    void removePoint(qint32 index);
+    int getCountPoints() const;
+    PPoint getPointByIndex(uint index) const;
+    quintptr getIdPointByIndex(uint index) const;
+    PPoint getPointByName(const QString &name) const;
+    quintptr getIdPointByName(const QString &name) const;
+    PPoint addPoint(PPoint point);
+    void removePoint(uint index);
 
     //Property
-    qint32 getCountProps() const;
-    Property *getPropertyByIndex(qint32 index) const;
-    Property *getIdPropertyByIndex(qint32 index) const;
-    Property *getPropertyById(Property *id_prop) const;
-    Property *getPropertyByName(const QString &name) const;
-    Property *getIdPropertyByName(const QString &name) const;
-    Property *addProperty(Property *property);
-    void removeProperty(qint32 index);
+    int getCountProps() const;
+    PProperty getPropertyByIndex(uint index) const;
+    quintptr getIdPropertyByIndex(uint index) const;
+    PProperty getPropertyById(quintptr id_prop) const;
+    PProperty getPropertyByName(const QString &name) const;
+    quintptr getIdPropertyByName(const QString &name) const;
+    PProperty addProperty(PProperty property);
+    void removeProperty(uint index);
 };
