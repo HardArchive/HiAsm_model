@@ -20,7 +20,7 @@ class SceneModel : public QObject
 
 private:
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Map
     QMap<qint32, Container *> m_mapContainers;
@@ -36,7 +36,7 @@ private:
 
     //Параметры CGT
     bool m_isDebug{};
-    qint32 m_debugMode = false;
+    qint32 m_debugMode = 0;
     qint32 m_debugServerPort = 120;
     qint32 m_debugClientPort = 121;
     qint32 m_sdeWidth = 0;
@@ -50,7 +50,7 @@ private:
     QString m_compiler;
 
 private:
-    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
     Q_PROPERTY(SceneModel *model READ getModel)
 
 public:
@@ -70,11 +70,11 @@ public:
     QJsonDocument serialize();
 
     //CGT
-    TCodeGenTools *getCgt();
+    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();
-    void initFromCgt(TCodeGenTools *cgt, qint32 idMainSDK);
+    void initFromCgt(PCodeGenTools cgt, qint32 idMainSDK);
     bool saveModel(const QString &filePath);
 
     //Map

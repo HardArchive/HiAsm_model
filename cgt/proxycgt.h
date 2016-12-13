@@ -13,6 +13,6 @@ class ProxyCgt : public QObject
     Q_DISABLE_COPY(ProxyCgt)
 
 public:
-    static void setProxiedCgt(TCodeGenTools *cgt);
-    static TCodeGenTools *getCgt();
+    static void setProxiedCgt(PCodeGenTools cgt);
+    static PCodeGenTools getCgt();
 };

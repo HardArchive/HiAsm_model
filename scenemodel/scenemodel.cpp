@@ -1,4 +1,7 @@
-﻿//Project
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+//Project
 #include "scenemodel.h"
 #include "cgt/cgt.h"
 #include "container.h"
@@ -108,7 +111,7 @@ QJsonDocument SceneModel::serialize()
     return QJsonDocument::fromVariant(model);
 }
 
-TCodeGenTools *SceneModel::getCgt()
+PCodeGenTools SceneModel::getCgt()
 {
     return m_cgt;
 }
@@ -118,7 +121,7 @@ SceneModel *SceneModel::getModel()
     return this;
 }
 
-void SceneModel::initFromCgt(TCodeGenTools *cgt, qint32 idMainSDK)
+void SceneModel::initFromCgt(PCodeGenTools cgt, qint32 idMainSDK)
 {
     m_cgt = cgt;
 

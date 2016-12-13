@@ -3,7 +3,6 @@
 //Project
 #include "value.h"
 #include "valuetypes.h"
-#include "cgt/CGTShare.h"
 
 //STL
 
@@ -13,7 +12,8 @@
 class SceneModel;
 class Element;
 
-class Property : public QObject {
+class Property : public QObject
+{
     Q_OBJECT
     Q_DISABLE_COPY(Property)
 
@@ -24,7 +24,7 @@ private:
     bool m_isDefProp{};
 
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Model
     SceneModel *m_model{};
@@ -33,14 +33,14 @@ private:
     Value m_value;
 
 private:
-    Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
+    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Property(qint32 id, QObject *parent);
     explicit Property(DataType type = data_null,
-        const QVariant &data = QVariant(),
-        const QString &name = QString());
+                      const QVariant &data = QVariant(),
+                      const QString &name = QString());
 
 private:
     void collectingData(qint32 idProp);
@@ -61,9 +61,9 @@ public:
 
     //Value
     void setValue(DataType type = data_null,
-        const QVariant &data = QVariant(),
-        const QString &name = QString(),
-        DataType arrayType = data_null);
+                  const QVariant &data = QVariant(),
+                  const QString &name = QString(),
+                  DataType arrayType = data_null);
 
     Value *getValue();
     uchar toByte() const;
@@ -73,7 +73,7 @@ public:
     SharedLinkedElementInfo toLinkedElementInfo() const;
 
     //CGT
-    TCodeGenTools *getCgt();
+    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();

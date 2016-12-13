@@ -2,13 +2,13 @@
 
 //Project
 #include "cgt/CGTShare.h"
+#include "scenemodel.h"
 
 //STL
 
 //Qt
 #include <QObject>
 
-class SceneModel;
 class Element;
 
 class Container : public QObject
@@ -22,17 +22,17 @@ private:
     QString m_name;
 
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Model
-    SceneModel *m_model{};
+    SceneModel * m_model{};
 
     //Element
     QVector<Element *> m_elements;
 
 private:
-    Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
+    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Container(qint32 id_sdk, QObject *parent);
@@ -52,10 +52,10 @@ public:
     QString getName() const;
 
     //CGT
-    TCodeGenTools *getCgt();
+    PCodeGenTools getCgt();
 
     //Model
-    SceneModel *getModel() const;
+    SceneModel * getModel() const;
 
     //Element
     qint32 getCountElements() const;

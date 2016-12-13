@@ -1,4 +1,7 @@
-﻿//Project
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+//Project
 #include "element.h"
 #include "container.h"
 #include "point.h"
@@ -13,7 +16,7 @@
 Element::Element(qint32 id_element, QObject *parent)
     : QObject(parent)
     , m_id(id_element)
-    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
+    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     m_model->addElementToMap(this);
@@ -286,7 +289,7 @@ QString Element::getInfSub() const
     return m_infSub;
 }
 
-TCodeGenTools *Element::getCgt()
+PCodeGenTools Element::getCgt()
 {
     return m_cgt;
 }

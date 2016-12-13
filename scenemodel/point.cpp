@@ -1,4 +1,7 @@
-﻿//Project
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+//Project
 #include "point.h"
 #include "container.h"
 #include "element.h"
@@ -11,7 +14,7 @@
 
 Point::Point(qint32 id_point, QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
+    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id_point);
@@ -119,7 +122,7 @@ Point *Point::getRLinkPoint() const
     return nullptr;
 }
 
-TCodeGenTools * Point::getCgt()
+PCodeGenTools Point::getCgt()
 {
     return m_cgt;
 }

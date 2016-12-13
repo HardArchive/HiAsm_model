@@ -1,4 +1,7 @@
-﻿//Project
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+//Project
 #include "container.h"
 #include "element.h"
 #include "scenemodel.h"
@@ -11,8 +14,8 @@
 Container::Container(qint32 id_sdk, QObject *parent)
     : QObject(parent)
     , m_id(id_sdk)
-    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
-    , m_model(parent->property("model").value<SceneModel *>())
+    , m_cgt(parent->property("cgt").value<PCodeGenTools >())
+    , m_model(parent->property("model").value<SceneModel * >())
 {
     m_model->addContainerToMap(this);
     collectingData();
@@ -20,8 +23,8 @@ Container::Container(qint32 id_sdk, QObject *parent)
 
 Container::Container(QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
-    , m_model(parent->property("model").value<SceneModel *>())
+    , m_cgt(parent->property("cgt").value<PCodeGenTools >())
+    , m_model(parent->property("model").value<SceneModel * >())
 {
     m_model->addContainerToMap(this);
 }
@@ -72,12 +75,12 @@ QString Container::getName() const
     return m_name;
 }
 
-TCodeGenTools *Container::getCgt()
+PCodeGenTools Container::getCgt()
 {
     return m_cgt;
 }
 
-SceneModel *Container::getModel() const
+SceneModel * Container::getModel() const
 {
     return m_model;
 }

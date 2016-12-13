@@ -14,7 +14,8 @@ class Container;
 class Point;
 class Property;
 
-class Element : public QObject {
+class Element : public QObject
+{
     Q_OBJECT
     Q_DISABLE_COPY(Element)
 
@@ -38,7 +39,7 @@ private:
     QString m_infSub;
 
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Model
     SceneModel *m_model{};
@@ -53,8 +54,8 @@ private:
     QVector<Property *> m_properties;
 
 private:
-    Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
+    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Element(const QString &name, qint32 id_element, qint32 X, qint32 Y, QObject *parent);
@@ -117,7 +118,7 @@ public:
     QString getInfSub() const;
 
     //CGT
-    TCodeGenTools *getCgt();
+    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();

@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 //Project
 #include "cgt/cgt.h"
 #include "cgt/emulatecgt.h"
@@ -22,7 +25,7 @@
 
 //Служебные переменные
 static QLibrary codegen;
-static SceneModel *sceneModel = nullptr;
+static SceneModel * sceneModel = nullptr;
 TBuildGetParamsProc buildGetParamsProc = nullptr;
 TBuildMakePrj buildMakePrj = nullptr;
 TBuildCompliteProc buildCompliteProc = nullptr;
@@ -114,7 +117,7 @@ DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
     params.cgt = ProxyCgt::getCgt();
 #endif
 
-    int res = buildProcessProcLib(params);
+    CgResult res = buildProcessProcLib(params);
     PRINT_RESULT(CgResultMap[res]);
 
     return res;
@@ -124,7 +127,7 @@ DLLEXPORT int CheckVersionProc(const THiAsmVersion &params)
 {
     PRINT_FUNC_INFO
     qInfo().noquote() << QString("Arg1: %1.%2.%3").arg(params.major).arg(params.minor).arg(params.build);
-    int res = checkVersionProcLib(params);
+    CgResult res = checkVersionProcLib(params);
     PRINT_RESULT(CgResultMap[res]);
     return res;
 }

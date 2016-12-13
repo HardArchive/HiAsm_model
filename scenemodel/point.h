@@ -12,7 +12,8 @@
 class SceneModel;
 class Element;
 
-class Point : public QObject {
+class Point : public QObject
+{
     Q_OBJECT
     Q_DISABLE_COPY(Point)
 
@@ -29,14 +30,14 @@ private:
     } m_connectPoint;
 
     //CGT
-    TCodeGenTools *m_cgt{};
+    PCodeGenTools m_cgt{};
 
     //Model
     SceneModel *m_model{};
 
 private:
-    Q_PROPERTY(SceneModel *model READ getModel)
-    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
+    Q_PROPERTY(SceneModel * model READ getModel)
+    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
 
 public:
     explicit Point(qint32 id_point, QObject *parent);
@@ -72,7 +73,7 @@ public:
     Point *getRLinkPoint() const;
 
     //CGT
-    TCodeGenTools *getCgt();
+    PCodeGenTools getCgt();
 
     //Model
     SceneModel *getModel();

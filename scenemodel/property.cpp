@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 //Project
 #include "property.h"
 #include "element.h"
@@ -15,7 +18,7 @@
 
 Property::Property(qint32 id, QObject *parent)
     : QObject(parent)
-    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
+    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
     , m_model(parent->property("model").value<SceneModel *>())
 {
     collectingData(id);
@@ -245,7 +248,7 @@ SharedLinkedElementInfo Property::toLinkedElementInfo() const
     return m_value.toLinkedElementInfo();
 }
 
-TCodeGenTools *Property::getCgt()
+PCodeGenTools Property::getCgt()
 {
     return m_cgt;
 }

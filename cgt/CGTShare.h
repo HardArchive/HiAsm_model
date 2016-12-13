@@ -305,6 +305,7 @@ struct THiAsmVersion {
 };
 
 struct TCodeGenTools;
+typedef TCodeGenTools *PCodeGenTools;
 struct TBuildProcessRec {
     TCodeGenTools *cgt{};
     qint32 sdk{};
@@ -552,4 +553,4 @@ struct TCodeGenTools {
     CALLBACK qint32 (*propSaveToFile)(qint32 p, const char *fileName);
 };
 
-Q_DECLARE_METATYPE(TCodeGenTools *)
+Q_DECLARE_METATYPE(PCodeGenTools)

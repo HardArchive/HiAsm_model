@@ -1,4 +1,5 @@
 #pragma once
+
 //Project
 #include "valuetypes.h"
 #include "cgt/CGTShare.h"
