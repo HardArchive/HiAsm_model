@@ -1,7 +1,6 @@
 #pragma once
 
 //Project
-#include "types.h"
 #include "cgt/CGTShare.h"
 
 //STL
@@ -10,48 +9,47 @@
 #include <QObject>
 #include <QDebug>
 
-class Point: public QObject
-{
+class SceneModel;
+class Element;
+
+class Point : public QObject {
     Q_OBJECT
     Q_DISABLE_COPY(Point)
 
 private:
     //Self
-    qintptr m_id{};
     PointType m_type{};
     DataType m_dataType{};
-    uint m_index{};
     QString m_name;
     QString m_dpeName;
     QString m_info;
-    qintptr m_linkPoint{};
-    qintptr m_RLinkPoint{};
+    struct {
+        qint32 element{};
+        QString point;
+    } m_connectPoint;
 
     //CGT
-    PCodeGenTools m_cgt{};
+    TCodeGenTools *m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel *m_model{};
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(SceneModel *model READ getModel)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
 
 public:
-    explicit Point(qintptr id_point, QObject *parent);
-    explicit Point(const QJsonObject &object, QObject *parent);
+    explicit Point(qint32 id_point, QObject *parent);
 
 private:
-    void collectingData();
+    void collectingData(qint32 id_point);
 
 public:
     //Serialize
-    QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
+    QVariantMap serialize() const;
 
     //Self
-    qintptr getId() const;
-    PElement getParent() const;
+    Element *getParent() const;
 
     void setType(PointType type);
     PointType getType() const;
@@ -59,8 +57,7 @@ public:
     void setDataType(DataType dataType);
     DataType getDataType() const;
 
-    void setIndex(uint index);
-    uint getIndex() const;
+    qint32 getIndex() const;
 
     void setName(const QString &name);
     QString getName() const;
@@ -71,15 +68,12 @@ public:
     void setInfo(const QString &info);
     QString getInfo() const;
 
-    void setLinkPoint(qintptr linkPoint);
-    qintptr getLinkPoint() const;
-
-    void setRLinkPoint(qintptr RLinkPoint);
-    qintptr getRLinkPoint() const;
+    Point *getLinkPoint() const;
+    Point *getRLinkPoint() const;
 
     //CGT
-    PCodeGenTools getCgt();
+    TCodeGenTools *getCgt();
 
     //Model
-    PSceneModel getModel();
+    SceneModel *getModel();
 };

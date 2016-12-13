@@ -1,7 +1,6 @@
 #pragma once
 
 //Project
-#include "types.h"
 #include "cgt/CGTShare.h"
 
 //STL
@@ -9,60 +8,61 @@
 //Qt
 #include <QObject>
 
-class Container: public QObject
+class SceneModel;
+class Element;
+
+class Container : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(Container)
 
 private:
     //Self
-    qintptr m_id{};
+    qint32 m_id{};
     QString m_name;
 
     //CGT
-    PCodeGenTools m_cgt{};
+    TCodeGenTools *m_cgt{};
 
     //Model
-    PSceneModel m_model{};
+    SceneModel *m_model{};
 
     //Element
-    Elements m_elements;
+    QVector<Element *> m_elements;
 
 private:
-    Q_PROPERTY(PSceneModel model READ getModel)
-    Q_PROPERTY(PCodeGenTools cgt READ getCgt)
+    Q_PROPERTY(SceneModel *model READ getModel)
+    Q_PROPERTY(TCodeGenTools *cgt READ getCgt)
 
 public:
+    explicit Container(qint32 id_sdk, QObject *parent);
     explicit Container(QObject *parent);
-    explicit Container(qintptr id_sdk, QObject *parent);
-    explicit Container(const QJsonObject &object, QObject *parent);
 
 private:
     void collectingData();
 
 public:
     //Serialize
-    QVariantMap serialize();
-    void deserialize(const QJsonObject &object);
+    QVariantMap serialize() const;
 
     //Self
-    qintptr getId() const;
-    PElement getParent() const;
+    qint32 getId() const;
+    Element *getParent() const;
     void setName(const QString &name);
     QString getName() const;
 
     //CGT
-    PCodeGenTools getCgt();
+    TCodeGenTools *getCgt();
 
     //Model
-    PSceneModel getModel() const;
+    SceneModel *getModel() const;
 
     //Element
-    int getCountElements() const;
-    PElement getElementByIndex(uint index) const;
-    qintptr getIdElementByIndex(uint index) const;
-    PElement getElementByName(const QString &name) const;
-    qintptr getIdElementByName(const QString &name) const;
-    PElement addElement(PElement element);
-    void removeElement(uint index);
+    qint32 getCountElements() const;
+    Element *getElementByIndex(qint32 index) const;
+    qint32 getIdElementByIndex(qint32 index) const;
+    Element *getElementByName(const QString &name) const;
+    qint32 getIdElementByName(const QString &name) const;
+    Element *addElement(Element *element);
+    void removeElement(qint32 index);
 };

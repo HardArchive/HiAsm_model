@@ -98,7 +98,7 @@ DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
 #ifdef MODEL
     sceneModel = new SceneModel();
     sceneModel->initFromCgt(params.cgt, params.sdk);
-    sceneModel->saveModel("test.json");
+    //sceneModel->saveModel("test.json");
 
     EmulateCgt::setSceneModel(sceneModel);
     params.cgt = EmulateCgt::getCgt();

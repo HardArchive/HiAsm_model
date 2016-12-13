@@ -5,79 +5,48 @@
 #include "scenemodel.h"
 #include "cgt/cgt.h"
 
-
 //STL
 
 //Qt
 
-Point::Point(qintptr id_point, QObject *parent)
+Point::Point(qint32 id_point, QObject *parent)
     : QObject(parent)
-    , m_id(id_point)
-    , m_cgt(parent->property("cgt").value<PCodeGenTools>())
-    , m_model(parent->property("model").value<PSceneModel>())
+    , m_cgt(parent->property("cgt").value<TCodeGenTools *>())
+    , m_model(parent->property("model").value<SceneModel *>())
 {
-    m_model->addPointToMap(this);
-    collectingData();
+    collectingData(id_point);
 }
 
-Point::Point(const QJsonObject &object, QObject *parent)
-    : QObject(parent)
-    , m_model(parent->property("model").value<PSceneModel>())
+void Point::collectingData(qint32 id_point)
 {
-    deserialize(object);
+    m_type = m_cgt->ptGetType(id_point);
+    m_dataType = m_cgt->ptGetDataType(id_point);
+    m_name = QString::fromLocal8Bit(m_cgt->ptGetName(id_point));
+    m_dpeName = QString::fromLocal8Bit(m_cgt->pt_dpeGetName(id_point));
+    m_info = QString::fromLocal8Bit(m_cgt->ptGetInfo(id_point));
+
+    auto pId = m_cgt->ptGetRLinkPoint(id_point);
+    if (pId) {
+        m_connectPoint.element = m_cgt->ptGetParent(pId);
+        m_connectPoint.point = QString::fromLocal8Bit(m_cgt->ptGetName(pId));
+    }
 }
 
-void Point::collectingData()
-{
-    m_type = m_cgt->ptGetType(m_id);
-    m_dataType = m_cgt->ptGetDataType(m_id);
-    m_index = m_cgt->ptGetIndex(m_id);
-    m_name = QString::fromLocal8Bit(m_cgt->ptGetName(m_id));
-    m_dpeName = QString::fromLocal8Bit(m_cgt->pt_dpeGetName(m_id));
-    m_info = QString::fromLocal8Bit(m_cgt->ptGetInfo(m_id));
-    m_linkPoint = m_cgt->ptGetLinkPoint(m_id);
-    m_RLinkPoint = m_cgt->ptGetRLinkPoint(m_id);
-}
-
-QVariantMap Point::serialize()
+QVariantMap Point::serialize() const
 {
     QVariantMap data;
-    data.insert("id", m_id);
     data.insert("type", m_type);
     data.insert("dataType", m_dataType);
-    data.insert("index", m_index);
     data.insert("name", m_name);
     data.insert("dpeName", m_dpeName);
     data.insert("info", m_info);
-    data.insert("linkPoint", m_linkPoint);
-    data.insert("RLinkPoint", m_RLinkPoint);
 
     return data;
 }
 
-void Point::deserialize(const QJsonObject &object)
+Element *Point::getParent() const
 {
-    m_id = object["id"].toVariant().value<qintptr>();
-    m_model->addPointToMap(this);
-
-    m_type = PointType(object["type"].toInt());
-    m_dataType = DataType(object["dataType"].toInt());
-    m_index = object["index"].toVariant().toUInt();
-    m_name = object["name"].toString();
-    m_dpeName = object["dpeName"].toString();
-    m_info = object["info"].toString();
-    m_linkPoint = object["linkPoint"].toVariant().value<qintptr>();
-    m_RLinkPoint = object["RLinkPoint"].toVariant().value<qintptr>();
-}
-
-qintptr Point::getId() const
-{
-    return m_id;
-}
-
-PElement Point::getParent() const
-{
-    return qobject_cast<PElement>(parent());
+    return qobject_cast<Element *>(parent());
 }
 
 void Point::setType(PointType type)
@@ -100,14 +69,9 @@ DataType Point::getDataType() const
     return m_dataType;
 }
 
-void Point::setIndex(uint index)
+qint32 Point::getIndex() const
 {
-    m_index = index;
-}
-
-uint Point::getIndex() const
-{
-    return m_index;
+    return getParent()->getPointIndexOfType(this);
 }
 
 void Point::setName(const QString &name)
@@ -140,32 +104,27 @@ QString Point::getInfo() const
     return m_info;
 }
 
-void Point::setLinkPoint(qintptr linkPoint)
+Point *Point::getLinkPoint() const
 {
-    m_linkPoint = linkPoint;
+    return nullptr; //TODO доработать
 }
 
-qintptr Point::getLinkPoint() const
+Point *Point::getRLinkPoint() const
 {
-    return m_linkPoint;
+    if (m_connectPoint.element) {
+        auto e = m_model->getElementById(m_connectPoint.element);
+        return e->getPointByName(m_connectPoint.point);
+    }
+
+    return nullptr;
 }
 
-void Point::setRLinkPoint(qintptr RLinkPoint)
-{
-    m_RLinkPoint = RLinkPoint;
-}
-
-qintptr Point::getRLinkPoint() const
-{
-    return m_RLinkPoint;
-}
-
-PCodeGenTools Point::getCgt()
+TCodeGenTools * Point::getCgt()
 {
     return m_cgt;
 }
 
-PSceneModel Point::getModel()
+SceneModel *Point::getModel()
 {
     return m_model;
 }
