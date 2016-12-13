@@ -10,19 +10,6 @@
 
 //Qt
 
-Element::Element(const QString &name, qintptr id_element, int X, int Y, QObject *parent)
-    : QObject(parent)
-    , m_id(id_element)
-    , m_posX(X)
-    , m_posY(Y)
-    , m_model(parent->property("model").value<PSceneModel>())
-{
-    m_model->addElementToMap(this);
-
-    PPackage package = m_model->getPackage();
-    const SharedConfElement conf = package->getElementByName(name);
-}
-
 Element::Element(qintptr id_element, QObject *parent)
     : QObject(parent)
     , m_id(id_element)

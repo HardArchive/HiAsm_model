@@ -3,7 +3,6 @@
 #include "cgt/emulatecgt.h"
 #include "cgt/proxycgt.h"
 #include "logger.h"
-#include "package/packagemanager.h"
 #include "scenemodel/element.h"
 #include "scenemodel/scenemodel.h"
 
@@ -23,8 +22,7 @@
 
 //Служебные переменные
 static QLibrary codegen;
-static SceneModel *sceneModel1 = nullptr;
-static SceneModel *sceneModel2 = nullptr;
+static SceneModel *sceneModel = nullptr;
 TBuildGetParamsProc buildGetParamsProc = nullptr;
 TBuildMakePrj buildMakePrj = nullptr;
 TBuildCompliteProc buildCompliteProc = nullptr;
@@ -75,8 +73,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     case DLL_PROCESS_DETACH: {
         qInfo() << "CODEGEN_PROCESS_DETACH";
 
-        delete sceneModel1;
-        delete sceneModel2;
+        delete sceneModel;
         codegen.unload();
         break;
     }
@@ -99,15 +96,11 @@ DLLEXPORT int buildProcessProc(TBuildProcessRec &params)
     PRINT_FUNC_INFO
 
 #ifdef MODEL
-    PackageManager *manager = new PackageManager();
-    sceneModel1 = new SceneModel(manager);
-    sceneModel1->initFromCgt(params.cgt, params.sdk);
-    sceneModel1->saveModel("test.json");
+    sceneModel = new SceneModel();
+    sceneModel->initFromCgt(params.cgt, params.sdk);
+    sceneModel->saveModel("test.json");
 
-    sceneModel2 = new SceneModel(manager);
-    sceneModel2->loadModel("test.json");
-
-    EmulateCgt::setSceneModel(sceneModel2);
+    EmulateCgt::setSceneModel(sceneModel);
     params.cgt = EmulateCgt::getCgt();
 #endif
 

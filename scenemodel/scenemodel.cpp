@@ -14,9 +14,8 @@
 //Qt
 #include <QDebug>
 
-SceneModel::SceneModel(PPackageManager package, QObject *parent)
+SceneModel::SceneModel(QObject *parent)
     : QObject(parent)
-    , m_packageManager(package)
 {
 }
 
@@ -191,43 +190,6 @@ bool SceneModel::loadModel(const QString &filePath)
         return false;
 
     deserialize(QJsonDocument::fromJson(file.readAll()));
-    return true;
-}
-
-bool SceneModel::loadFromSha(const QString &filePath)
-{
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly))
-        return false;
-
-    //file.readAll();
-
-    loadPackage("delphi");
-
-    m_container = new Container(this);
-    m_container->addElement(new Element("MainForm", 2953706, 21, 105, m_container));
-
-    return true;
-}
-
-void SceneModel::setPackage(PPackage package)
-{
-    m_package = package;
-}
-
-PPackage SceneModel::getPackage()
-{
-    return m_package;
-}
-
-bool SceneModel::loadPackage(const QString &name)
-{
-    m_package = m_packageManager->getPackage(name);
-    if (!m_package) {
-        qWarning("Failed to load package \"%s\".", qUtf8Printable(name));
-        return false;
-    }
-
     return true;
 }
 

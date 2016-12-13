@@ -2,7 +2,6 @@
 
 //Project
 #include "cgt/CGTShare.h"
-#include "package/packagemanager.h"
 #include "types.h"
 #include "value.h"
 
@@ -22,10 +21,6 @@ private:
 
     //Model
     qintptr m_genId = 1;
-
-    //Package
-    PPackage m_package{};
-    PPackageManager m_packageManager{};
 
     //Map
     MapContainers m_mapContainers;
@@ -62,7 +57,7 @@ private:
     Q_PROPERTY(PSceneModel model READ getModel)
 
 public:
-    explicit SceneModel(PPackageManager package, QObject *parent = 0);
+    explicit SceneModel(QObject *parent = 0);
     virtual ~SceneModel();
 
 private:
@@ -82,12 +77,6 @@ public:
     void initFromCgt(PCodeGenTools cgt, qintptr idMainSDK);
     bool saveModel(const QString &filePath);
     bool loadModel(const QString &filePath);
-    bool loadFromSha(const QString &filePath);
-
-    //Package
-    void setPackage(PPackage package);
-    PPackage getPackage();
-    bool loadPackage(const QString &name);
 
     //Map
     void addContainerToMap(PContainer id_sdk);
