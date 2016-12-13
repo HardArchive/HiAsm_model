@@ -21,6 +21,7 @@ private:
     //Self
     QString m_name;
     DataType m_type{};
+    bool m_isDefProp;
 
     //CGT
     TCodeGenTools *m_cgt{};
